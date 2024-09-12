@@ -14,7 +14,6 @@
 
 
 |    Student Name     |     Student Email      | GitHub Username |
-|=====================|========================|=================|
 |      Shun Usami     |     susami@sfsu.edu    |      usatie     |
 | Adharsh Thiagarajan | athiagarajan1@sfsu.edu |     AdharshT    |
 |     Devon Huang     |    dhuang16@sfsu.edu   |      Novedh     |
