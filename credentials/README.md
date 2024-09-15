@@ -8,15 +8,49 @@
 # Below is a list of items required. Missing items will causes points to be deducted from multiple milestone submissions.
 
 1. Server URL or IP
+
+    ec2-54-67-120-175.us-west-1.compute.amazonaws.com or 54.67.120.175
+
 2. SSH username
+
+    ubuntu
+
 3. SSH password or key.
     <br> If a ssh key is used please upload the key to the credentials folder.
+
+    PENDING
+
 4. Database URL or IP and port used.
     <br><strong> NOTE THIS DOES NOT MEAN YOUR DATABASE NEEDS A PUBLIC FACING PORT.</strong> But knowing the IP and port number will help with SSH tunneling into the database. The default port is more than sufficient for this class.
+
+    127.0.0.1:3306 or localhost:3306
+
 5. Database username
+
+    class-user
+
 6. Database password
+
+    Csc648@team1
+
 7. Database name (basically the name that contains all your tables)
+
+    PENDING
+
 8. Instructions on how to use the above information.
+
+    to ssh into ec2 instance:
+    ssh -i path/to/key.pem ubuntu@ec2-54-67-120-175.us-west-1.compute.amazonaws.com
+
+    to access MySQL:
+    mysql -u class-user -p
+    password:Csc648@team1
+   
+   
+    
+   
+
+
 
 # Most important things to Remember
 ## These values need to kept update to date throughout the semester. <br>
