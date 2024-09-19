@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Team01 (CSC648 848)</title>
+</head>
+<body>
+	<h1>Team01 (CSC648 848) About Page</h1>
+    <ul id="navigation">
+    {% for id, member in members.items() %}
+        <li><a href="/about/{{ id }}">{{ member.name }}</a></li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
