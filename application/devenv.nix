@@ -61,7 +61,7 @@
     echo "Running tests"
 	wait_for_port 8080
 	curl -s localhost:8080 | grep "Hello, world!"
-	curl -s 127.0.0.1:5000 | grep "HELLO, WORLD!"
+	curl -s 127.0.0.1:5050 | grep "HELLO, WORLD!"
   '';
 
   # https://devenv.sh/pre-commit-hooks/
