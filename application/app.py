@@ -71,4 +71,4 @@ def about_member_detail(name):
 
 
 if __name__ == "__main__":
-    app.run(port=5050)
+    app.run(port=5000, debug=True)
