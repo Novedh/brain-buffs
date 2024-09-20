@@ -46,6 +46,7 @@
 
 
     To access our MySQL database, you need to SSH into our server, and then you need to run this command.
+    
     `mysql -u team01 -p`
     Password: `Csc648@team01`
    
