@@ -9,13 +9,58 @@ body {
 header {
     background-color: #333;
     color: white;
-    padding: 1rem 0;
-    text-align: center;
+    padding: 0.5rem 1rem; /* Reduce padding */
+    position: fixed; /* Make the header fixed */
+    width: 100%; /* Ensure the header spans the full width */
+    top: 0; /* Position it at the top */
+    z-index: 1000; /* Ensure it stays above other content */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Add this line */
+}
+
+header .logo {
+    font-size: 1.5rem; /* Reduce font size */
+    text-decoration: none;
+    color: white;
+    margin-right: 2rem; /* Add margin to the right of the logo */
+}
+
+header nav {
+    display: flex;
+    gap: 1rem;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+header nav a:hover {
+    text-decoration: underline;
 }
 
 main {
     padding: 2rem;
+    padding-top: 6rem; /* Adjust padding to avoid content being hidden behind the fixed header */
     padding-bottom: 4rem; /* Add padding to the bottom */
+}
+
+.intro {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.intro h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.intro p {
+    font-size: 1.25rem;
+    color: #666;
 }
 
 .team-members {
@@ -75,10 +120,16 @@ footer {
     background-color: #333;
     color: white;
     text-align: center;
-    padding: 1rem 0;
+    padding: 0.5rem 1rem; /* Reduce padding */
     position: relative; /* Change from fixed to relative */
     width: 100%;
     bottom: 0;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+}
+
+footer p {
+    margin: 0;
+    font-size: 1rem; /* Reduce font size */
 }
 
 /* Profile Page Styles */
