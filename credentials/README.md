@@ -28,7 +28,7 @@
 
 5. Database username
 
-    `Team01`
+    `team01`
 
 6. Database password
 
@@ -42,21 +42,12 @@
 
     To ssh into ec2 instance:
 
-    `ssh -i path/to/key.pem ubuntu@13.57.185.95`
-
-    or if your key is in our ~/.ssh/authorized_keys: 
-
-    `ssh ubuntu@13.57.185.95`
-
-    or if you have multiple keys:
-
-    `ssh -i ~/.ssh/id_rsa ubuntu@13.57.185.95`
+    `ssh -i path/to/your_key ubuntu@{Server URL or IP}`
 
 
-    To access MySQL:
-    
-    `mysql -u class-user -p`
-    Password: `Csc648@team1`
+    To access our MySQL database, you need to SSH into our server, and then you need to run this command.
+    `mysql -u team01 -p`
+    Password: `Csc648@team01`
    
    
     
