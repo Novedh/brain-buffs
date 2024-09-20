@@ -1,14 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Team01 (CSC648 848)</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>About Brain Buffs</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-	<h1>Team01 (CSC648 848) About Page</h1>
-    <ul id="navigation">
-    {% for id, member in members.items() %}
-        <li><a href="/about/{{ id }}">{{ member.name }}</a></li>
-    {% endfor %}
-    </ul>
+	<header>
+		<a href="/" class="logo">Brain Buffs</a>
+		<nav>
+			<a href="/about">About</a>
+		</nav>
+	</header>
+	<main>
+		<section class="team-members">
+			<h2>Meet Our Team</h2>
+			<div class="members">
+				{% for id, member in members.items() %}
+				<div class="member-card">
+					<img src="{{ url_for('static', filename=member.image_url) }}" alt="{{ member.name }}" class="profile-pic">
+					<h3>{{ member.name }}</h3>
+					<p><strong>Role:</strong> {{ member.role }}</p>
+					<p>{{ member.profile }}</p>
+					<a href="/about/{{ id }}" class="profile-link">View Profile</a>
+				</div>
+				{% endfor %}
+			</div>
+		</section>
+	</main>
+	<footer>
+		<p>&copy; 2024 Brain Buffs. All rights reserved.</p>
+	</footer>
 </body>
 </html>
