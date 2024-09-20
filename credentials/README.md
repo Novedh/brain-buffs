@@ -9,42 +9,54 @@
 
 1. Server URL or IP
 
-    ec2-54-67-120-175.us-west-1.compute.amazonaws.com or 54.67.120.175
+    `ec2-13-57-185-95.us-west-1.compute.amazonaws.com` or `13.57.185.95`
 
 2. SSH username
 
-    ubuntu
+    `ubuntu`
 
 3. SSH password or key.
     <br> If a ssh key is used please upload the key to the credentials folder.
 
-    PENDING
+    We have added CTO Anthony's key to our remote server's 
+    ~/.ssh/authorized_keys. Follow instructions to ssh into our server.
 
 4. Database URL or IP and port used.
     <br><strong> NOTE THIS DOES NOT MEAN YOUR DATABASE NEEDS A PUBLIC FACING PORT.</strong> But knowing the IP and port number will help with SSH tunneling into the database. The default port is more than sufficient for this class.
 
-    127.0.0.1:3306 or localhost:3306
+    `127.0.0.1:3306` or `localhost:3306`
 
 5. Database username
 
-    class-user
+    `Team01`
 
 6. Database password
 
-    Csc648@team1
+    `Csc648@team01`
 
 7. Database name (basically the name that contains all your tables)
 
-    PENDING
+    `CSC648`
 
 8. Instructions on how to use the above information.
 
-    to ssh into ec2 instance:
-    ssh -i path/to/key.pem ubuntu@ec2-54-67-120-175.us-west-1.compute.amazonaws.com
+    To ssh into ec2 instance:
 
-    to access MySQL:
-    mysql -u class-user -p
-    password:Csc648@team1
+    `ssh -i path/to/key.pem ubuntu@13.57.185.95`
+
+    or if your key is in our ~/.ssh/authorized_keys: 
+
+    `ssh ubuntu@13.57.185.95`
+
+    or if you have multiple keys:
+
+    `ssh -i ~/.ssh/id_rsa ubuntu@13.57.185.95`
+
+
+    To access MySQL:
+    
+    `mysql -u class-user -p`
+    Password: `Csc648@team1`
    
    
     
