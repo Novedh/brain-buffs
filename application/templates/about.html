@@ -1,14 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Team01 (CSC648 848)</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>About Team01 (CSC648 848)</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-	<h1>Team01 (CSC648 848) About Page</h1>
-    <ul id="navigation">
-    {% for id, member in members.items() %}
-        <li><a href="/about/{{ id }}">{{ member.name }}</a></li>
-    {% endfor %}
-    </ul>
+	<header>
+		<h1>About Team01 (CSC648 848)</h1>
+	</header>
+	<main>
+		<section class="team-members">
+			<h2>Meet Our Team</h2>
+			<div class="members">
+				{% for id, member in members.items() %}
+				<div class="member-card">
+					<img src="{{ url_for('static', filename=member.image_url) }}" alt="{{ member.name }}" class="profile-pic">
+					<h3>{{ member.name }}</h3>
+					<p><strong>Role:</strong> {{ member.role }}</p>
+					<p>{{ member.profile }}</p>
+					<a href="/about/{{ id }}" class="profile-link">View Profile</a>
+				</div>
+				{% endfor %}
+			</div>
+		</section>
+	</main>
+	<footer>
+		<p>&copy; 2024 Team01. All rights reserved.</p>
+	</footer>
 </body>
 </html>

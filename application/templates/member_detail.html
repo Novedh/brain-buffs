@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Team01 (CSC648 848)</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Profile: {{ member.name }}</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-	<h1>{{ member.name }}</h1>
-	<h2>{{ member.role }}</h2>
-	<p>{{ member.profile }}</p>
+	<header>
+		<h1>{{ member.name }}</h1>
+	</header>
+	<main>
+		<section class="profile">
+			<img src="{{ url_for('static', filename=member.image_url) }}" alt="{{ member.name }}" class="profile-pic-large">
+			<div class="profile-details">
+				<h2>{{ member.role }}</h2>
+				<p>{{ member.profile }}</p>
+			</div>
+		</section>
+	</main>
+	<footer>
+		<p>&copy; 2024 Team01. All rights reserved.</p>
+	</footer>
 </body>
 </html>
