@@ -13,7 +13,7 @@ members = {
         "images/usatie.jpg",
     ),
     "AdharshT": Member(
-        "Adharsh Thiagarajan", "Frontend Lead", "Volleyball Star", "images/adharsh.jpg"
+        "Adharsh Thiagarajan", "Frontend Lead", "Make Music", "images/adharsh.jpg"
     ),
     "Novedh": Member(
         "Devon Huang", "Backend Lead", "Pickleball Master", "images/devon.jpg"
