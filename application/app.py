@@ -1,4 +1,4 @@
-from flask import Flask, render_template, abort, url_for
+from flask import Flask, render_template, abort, url_for, redirect
 from collections import namedtuple
 import random
 
@@ -22,7 +22,10 @@ members = {
         "Kim Nguyen", "Github Master", "Yerba Mate Enthusiast", "images/kim.jpg"
     ),
     "thihaaung32": Member(
-        "Thiha Aung", "Software Developer", "Reading + Exploring + Learning", "images/thiha.jpg"
+        "Thiha Aung",
+        "Software Developer",
+        "Reading + Exploring + Learning",
+        "images/thiha.jpg",
     ),
 }
 
@@ -52,8 +55,7 @@ taglines = [
 
 @app.route("/")
 def home():
-    tagline = random.choice(taglines)
-    return render_template("home.html", tagline=tagline)
+    return redirect("/about")
 
 
 @app.route("/about")
