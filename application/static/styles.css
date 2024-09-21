@@ -162,6 +162,10 @@ footer p {
     color: #333;
 }
 
+.team-members h3 {
+    text-align: center;
+}
+
 .profile-details p {
     color: #666;
 }
