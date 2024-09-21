@@ -58,6 +58,8 @@ taglines = [
 
 @app.route("/")
 def home():
+    # tagline = random.choice(taglines)                      (recover this when we can have our home page as )
+    # return render_template("home.html", tagline=tagline)
     return redirect("/about")
 
 
