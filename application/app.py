@@ -16,7 +16,10 @@ members = {
         "Adharsh Thiagarajan", "Frontend Lead", "Make Music", "images/adharsh.jpg"
     ),
     "Novedh": Member(
-        "Devon Huang", "Backend Lead", "Pickleball Master", "images/devon.jpg"
+        "Devon Huang",
+        "Backend Lead",
+        "Hobby enthusiast + Dog dad + Student",
+        "images/devon.jpg",
     ),
     "kimbucha": Member(
         "Kim Nguyen", "Github Master", "Yerba Mate Enthusiast", "images/kim.jpg"
