@@ -22,7 +22,10 @@ members = {
         "Kim Nguyen", "Github Master", "Yerba Mate Enthusiast", "images/kim.jpg"
     ),
     "thihaaung32": Member(
-        "Thiha Aung", "Software Developer", "Reading + Exploring + Learning", "images/thiha.jpg"
+        "Thiha Aung",
+        "Software Developer",
+        "Reading + Exploring + Learning",
+        "images/thiha.jpg",
     ),
 }
 
