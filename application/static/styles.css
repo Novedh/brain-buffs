@@ -17,7 +17,6 @@ header {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Add this line */
 }
 
 header .logo {
