@@ -60,28 +60,4 @@ jobs:
         run: |
           mysql -h 127.0.0.1 -u root -prootpassword -e "SHOW DATABASES;"
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/main'
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: '3.10'
-
-      - name: Install dependencies
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install -r requirements.txt
-
-      - name: Deploy Application
-        run: |
-          source venv/bin/activate
-          # Replace with your deployment command
-          echo "Deploying application..."
+  
