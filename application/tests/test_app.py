@@ -1,7 +1,16 @@
-# content of test_sample.py
-def func(x):
-    return x + 2
+# test_app.py
+
+import pytest
+from ..app import app
 
 
-def test_answer():
-    assert func(3) == 5
+@pytest.fixture
+def client():
+    with app.test_client() as client:
+        yield client
+
+
+def test_about_page(client):
+    """Test that the about page loads successfully."""
+    response = client.get("/about")
+    assert response.status_code == 200
