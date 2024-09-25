@@ -70,6 +70,7 @@
     shellcheck.enable = true;
 	# format Python code
 	black.enable = true;
+  prettier.enable = true;
   };
 
   # See full reference at https://devenv.sh/reference/options/
