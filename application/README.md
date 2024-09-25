@@ -63,3 +63,23 @@ How to deploy:
     `python app.py &`
 
 
+# What is devenv
+
+`devenv` is the development environment for a setup with the necessary tools and configurations. In a Nix-based devenv, the tools, libraries, and dependencies required for a project are defined in a nix expression file (devenv.nix).
+
+# What is wsl
+
+wsl is Windows Subsystem for Linux to run a full Linux distribution on a Window machine without the overhead of a traditional virtual machine. We need WSL2 on the window machine to install nix and devenx.
+
+# What is `devenv shell` command
+
+The `devenv shell` is the command that intialize our developer environment `devenv`. The developer environment is the nix-based development environment which is isolated from the global system. 
+
+# What is `devenv up` command
+
+The `devenv up` starts processes required for development. It could start up a full development stack such as databases, web servers, backend services on the isolated environment NixOS, where all the required software and libraries installed.
+
+# What is nix 
+
+Nix is part of the Nix package manager to create isolated development environments. Anyone using the same configuration of nix will have the same setup across different machines. 
+The `devenv` is just a intuitive interface to use nix conveniently to set up the isolated development environment. We use `devenv shell` here because nix is tightly controlled and difficult to use.
