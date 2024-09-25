@@ -1,1 +1,2 @@
-flask
+black==22.3.0
+Flask==3.0.3
