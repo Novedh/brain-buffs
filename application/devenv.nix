@@ -9,7 +9,10 @@
     python = {
 	  enable = true;
 	  venv.enable = true;
-	  venv.requirements = "flask";
+	  venv.requirements = ''
+      flask
+      pytest
+    '';
 	};
   };
 
