@@ -1,36 +1,20 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile: {{ member.name }} - Brain Buffs</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles.css') }}"
-    />
-  </head>
-  <body>
-    <header>
-      <a href="/" class="logo">Brain Buffs</a>
-      <nav>
-        <a href="/about">About</a>
-      </nav>
-    </header>
-    <main>
-      <section class="profile">
-        <img
-          src="{{ url_for('static', filename=member.image_url) }}"
-          alt="{{ member.name }}"
-          class="profile-pic-large"
-        />
-        <div class="profile-details">
-          <h2>{{ member.role }}</h2>
-          <p>{{ member.profile }}</p>
-        </div>
-      </section>
-    </main>
-    <footer>
-      <p>&copy; 2024 Brain Buffs. All rights reserved.</p>
-    </footer>
-  </body>
-</html>
+{% extends "base.html" %}
+{% block title %}{{ member.name }} - Brain Buffs{% endblock %}
+
+{% block content %}
+<main>
+    <div class="container text-center">
+      <img
+        src="{{ url_for('static', filename=member.image_url) }}"
+        alt="{{ member.name }}"
+        class="rounded-circle object-fit-cover m-5"
+        style="width: 12rem; height: 12rem"
+      />
+      <div class="profile-details">
+        <h2>{{ member.name }}</h2>
+        <p>{{ member.role }}</p>
+        <p>{{ member.profile }}</p>
+      </div>
+    </div>
+  </main>
+{% endblock %}

@@ -1,47 +1,35 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About Brain Buffs</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles.css') }}"
-    />
-  </head>
-  <body>
-    <header>
-      <a href="/" class="logo">Brain Buffs</a>
-      <nav>
-        <a href="/about">About</a>
-      </nav>
-    </header>
-    <main>
-      <section class="team-members">
-        <h2>Meet Our Team</h2>
-        <h3>Software Engineering class SFSU</h3>
-        <h3>Fall, 2024</h3>
-        <h3>Section 3</h3>
-        <h3>Team 01</h3>
-        <div class="members">
-          {% for id, member in members.items() %}
-          <div class="member-card">
-            <img
-              src="{{ url_for('static', filename=member.image_url) }}"
-              alt="{{ member.name }}"
-              class="profile-pic"
-            />
-            <h3>{{ member.name }}</h3>
-            <p><strong>Role:</strong> {{ member.role }}</p>
-            <p>{{ member.profile }}</p>
-            <a href="/about/{{ id }}" class="profile-link">View Profile</a>
-          </div>
-          {% endfor %}
+{% extends "base.html" %}
+{% block title %}About Brain Buffs{% endblock %}
+
+{% block content %}
+<main>
+  <section class="container text-center">
+    <div class="p-3 pb-md-4 mx-auto text-center w-75">
+      <h1 class="display-4 fw-normal text-body-emphasis">About Us</h1>
+      <p class="fs-5 text-body-secondary">
+        We are Team 01 from the Software Engineering Project (CSC 648/848)
+        for Fall 2024. Brain Buff is a tutoring service created by SFSU
+        students, for SFSU students.
+      </p>
+    </div>
+    <div class="d-flex flex-wrap justify-content-evenly gap-3">
+      {% for id, member in members.items() %}
+      <div class="card" style="width: 18rem">
+        <img
+          src="{{ url_for('static', filename=member.image_url) }}"
+          alt="{{ member.name }}"
+          class="object-fit-cover"
+          style="height: 16rem"
+        />
+        <div class="card-header">{{ member.role }}</div>
+        <div class="card-body">
+          <h5 class="card-title">{{ member.name }}</h5>
+          <p class="card-text">{{ member.profile }}</p>
+          <a href="/about/{{ id }}" class="card-link">View Profile</a>
         </div>
-      </section>
-    </main>
-    <footer>
-      <p>&copy; 2024 Brain Buffs. All rights reserved.</p>
-    </footer>
-  </body>
-</html>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+</main>
+{% endblock %}
