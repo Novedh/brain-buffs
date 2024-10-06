@@ -22,3 +22,10 @@ def test_about_member_detail(client):
     member = "thihaaung32"
     response = client.get(f"/about/{member}")
     assert response.status_code == 200
+
+
+def test_root_redirect(client):
+    """Test that the root URL '/' redirects to '/about'."""
+    response = client.get("/", follow_redirects=False)
+    assert response.status_code == 302
+    assert response.headers["Location"] == "/about"
