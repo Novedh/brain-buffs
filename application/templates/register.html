@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Register - Brain Buffs{% endblock %}
+
+
+{% block content %}
+<main>
+  <section class="container text-center my-5">
+    <div class="p-4 pb-md-5 mx-auto text-center w-50">
+      <h1 class="display-4 fw-normal text-body-emphasis mb-4">Create an Account</h1>
+     
+      <form action="/register" method="post">
+        <div class="mb-3">
+          <input type="text" class="form-control" placeholder="Full Name" name="full_name" required>
+        </div>
+        <div class="mb-3">
+          <input type="email" class="form-control" placeholder="SFSU Email" name="email" required pattern=".+@sfsu\.edu" title="Please enter a valid SFSU email address">
+        </div>
+        <div class="mb-3">
+          <input type="password" class="form-control" placeholder="Password" name="password" required>
+        </div>
+
+
+        <p class="fs-5 text-body-secondary mb-5">
+            Have an account? <a href="/login">Login</a>
+        </p>
+
+
+        <div class="form-check mb-4 d-flex justify-content-center align-items-center">
+          <label class="form-check-label me-2" for="terms">Accept the Terms and Conditions</label>
+          <input type="checkbox" class="form-check-input ms-2" id="terms" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </section>
+</main>
+{% endblock %}
