@@ -1,0 +1,75 @@
+{% extends "base.html" %} {% block title %}Search Results{% endblock %} {% block
+content %}
+<main>
+  <section class="container mt-4">
+    <div class="p-3 pb-md-4 mx-auto text-center w-75">
+      <h1 class="display-4 fw-normal text-body-emphasis">Search Results</h1>
+    </div>
+
+    <!-- Results count -->
+    <div class="mb-3">
+      <p>{{ results_count }} tutor(s) found</p>
+    </div>
+
+    <!-- Display tutor postings -->
+    <div class="row">
+      {% for tutor in tutor_postings %}
+      <div class="mb-3">
+        <div
+          class="card d-flex flex-row align-items-center"
+          style="width: 100%"
+        >
+          {% if tutor.profile_picture_url %}
+          <img
+            src="{{ tutor.profile_picture_url }}"
+            alt="{{ tutor.tutor_name }}'s Profile Picture"
+            style="width: 300px; height: 300px; object-fit: cover"
+            class="card-img-left"
+          />
+          {% else %}
+          <p>No profile picture available.</p>
+          {% endif %}
+
+          <div class="card-body d-flex flex-column" style="flex: 1">
+            <h4 class="card-title" style="font-size: 1.75rem">
+              {{ tutor.tutor_name }}
+            </h4>
+            <div class="row">
+              <div class="col-md-3">
+                <strong>Subject:</strong> <br />
+                {{ tutor.name }} <br />
+                <strong>Class Number:</strong> <br />
+                {{ tutor.class_number }} <br />
+                <strong>Pay Rate:</strong> <br />
+                ${{ tutor.pay_rate }} per hour <br />
+                <strong>Link to CV:</strong> <br />
+                <a
+                  href="{{ url_for('serve_cv', filename=tutor.cv_url) }}"
+                  target="_blank"
+                  >View CV</a
+                >
+                <br />
+              </div>
+              <div class="col-md-5">
+                <strong>Description:</strong><br />
+                {{ tutor.description }}
+              </div>
+              <div
+                class="col-md-4 d-flex justify-content-center align-items-center h-100"
+              >
+                <a
+                  href=""
+                  class="btn btn-success"
+                  style="padding: 15px 30px; font-size: 1.25rem"
+                  >Book</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+</main>
+{% endblock %}
