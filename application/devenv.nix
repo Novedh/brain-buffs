@@ -12,6 +12,8 @@
 	  venv.requirements = ''
       flask
       pytest
+      mysql-connector-python
+      python-dotenv
     '';
 	};
   };
