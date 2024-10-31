@@ -10,7 +10,7 @@
      
       <form action="/register" method="post">
         <div class="mb-3">
-          <label for="email" class="form-label">Enter Full Name</label>
+          <label for="text" class="form-label">Enter Full Name</label>
           <input type="text" class="form-control" placeholder="Full Name" name="full_name" required>
         </div>
         <div class="mb-3">
@@ -18,10 +18,9 @@
           <input type="email" class="form-control" placeholder="SFSU Email" name="email" required pattern=".+@sfsu\.edu" title="Please enter a valid SFSU email address">
         </div>
         <div class="mb-3">
-          <label for="email" class="form-label">Create Password</label>
+          <label for="password" class="form-label">Create Password</label>
           <input type="password" class="form-control" placeholder="Password" name="password" required>
         </div>
-
 
         <p class="fs-5 text-center text-body-secondary mb-5">
             Have an account? <a href="/login">Login</a>
