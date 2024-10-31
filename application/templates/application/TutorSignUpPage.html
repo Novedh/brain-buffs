@@ -56,9 +56,9 @@ endblock %} {% block content %}
           />
         </div>
         <div class="mb-3">
-          <label for="profile_picture" class="form-label"
-            >Upload Profile Picture</label
-          >
+          <label for="profile_picture" class="form-label">
+            Upload Profile Picture
+          </label>
           <input
             type="file"
             class="form-control"
@@ -67,20 +67,10 @@ endblock %} {% block content %}
             accept="image/*"
           />
         </div>
-        <div
-          class="form-check mb-4 d-flex justify-content-center align-items-center"
-        >
-          <input
-            type="checkbox"
-            class="form-check-input me-2"
-            id="approval"
-            required
-          />
-          <label class="form-check-label" for="approval"
-            >I understand that applications may take up to 24 hours to
-            approve.</label
-          >
-        </div>
+        <p class="text-muted">
+          By submitting, I understand that applications may take up to 24 hours
+          to approve.
+        </p>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
