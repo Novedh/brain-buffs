@@ -54,6 +54,12 @@
 	  ];
     };
   };
+  env.DB_HOST = "team01";
+  env.DB_USER_NAME = "team01";
+  env.DB_PASSWORD = "team01";
+  env.DB_DATABASE = "team01";
+
+
 
   enterShell = ''
 	echo "CSC648 Team 01 Shell"
