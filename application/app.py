@@ -9,12 +9,12 @@ from flask import (
 )
 from collections import namedtuple
 import os
-from src.models.tutor_postings import (
+from application.src.models.tutor_postings import (
     search_tutor_postings,
     is_valid_subject,
     get_tutor_count,
 )
-from src.config import get_db_connection
+from application.src.config import get_db_connection
 from dotenv import load_dotenv
 import mysql.connector
 

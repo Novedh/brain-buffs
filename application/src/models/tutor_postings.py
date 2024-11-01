@@ -1,4 +1,4 @@
-from src.config import get_db_connection
+from application.src.config import get_db_connection
 
 
 def search_tutor_postings(selected_subject, search_text):
