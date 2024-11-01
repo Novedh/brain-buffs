@@ -13,16 +13,10 @@ from application.src.models.tutor_postings import (
     search_tutor_postings,
     is_valid_subject,
     get_tutor_count,
+    get_subjects,
 )
-from application.src.config import get_db_connection
-from dotenv import load_dotenv
-import mysql.connector
-
-import random
 
 app = Flask(__name__)
-
-load_dotenv()
 
 
 Member = namedtuple("Member", ["name", "role", "profile", "image_url"])
@@ -66,12 +60,8 @@ def about():
 
 @app.route("/search", methods=["GET"])
 def search():
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT id, name FROM subject")
-    subjects = cursor.fetchall()
-    cursor.close()
-    conn.close()
+    # Use the get_subjects function to fetch subjects
+    subjects = get_subjects()
 
     selected_subject = request.args.get("subject", "All")
     search_text = request.args.get("search_text", "").strip()
