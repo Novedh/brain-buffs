@@ -9,7 +9,8 @@ from flask import (
 )
 from collections import namedtuple
 import os
-
+from src.models.tutor_postings import search_tutor_postings, is_valid_subject
+from src.config import get_db_connection
 from dotenv import load_dotenv
 import mysql.connector
 
@@ -18,39 +19,6 @@ import random
 app = Flask(__name__)
 
 load_dotenv()
-
-
-def get_db_connection():
-    try:
-        return mysql.connector.connect(
-            host=os.getenv("DB_HOST"),
-            user=os.getenv("DB_USER_NAME"),
-            password=os.getenv("DB_PASSWORD"),
-            database=os.getenv("DB_DATABASE"),
-        )
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-
-
-def search_tutor_postings(selected_subject, search_text):
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-
-    query = """
-    SELECT t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, s.name, u.name AS tutor_name
-    FROM tutor_posting t
-    JOIN subject s ON t.subject_id = s.id
-    JOIN user u ON t.user_id = u.id
-    WHERE (%s = 'All' OR s.name = %s)
-    AND CONCAT(t.description, ' ', t.class_number, ' ', u.name) LIKE %s
-    """
-    params = (selected_subject, selected_subject, f"%{search_text}%")
-    cursor.execute(query, params)
-    tutor_postings = cursor.fetchall()
-    cursor.close()
-    conn.close()
-
-    return tutor_postings
 
 
 Member = namedtuple("Member", ["name", "role", "profile", "image_url"])
@@ -104,11 +72,11 @@ def search():
     selected_subject = request.args.get("subject", "All")
     search_text = request.args.get("search_text", "").strip()
 
-    valid_subjects = [subject["name"] for subject in subjects]
-    if selected_subject != "All" and selected_subject not in valid_subjects:
+    # is_valid_subject() is a function that is in src/models/tutorpostings
+    if not is_valid_subject(selected_subject, subjects):
         abort(404)
 
-    search_text = request.args.get("search_text", "").strip()
+    # search_tutor_postings() is a function that is in src/models/tutorpostings
     tutor_postings = search_tutor_postings(selected_subject, search_text)
 
     return render_template(
