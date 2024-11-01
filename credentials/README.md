@@ -55,9 +55,8 @@
 
     a. create a file named `.env` in the applications folder and copy the contents of `.env.example` into it.
 
-    b.Then enter the DB credentials
-
-        Here’s an example of what your .env file should include:
+    b. Then enter the DB credentials
+    Here’s an example of what your .env file should include:
 
         DBMS = 'mysql'
         DB_HOST = 'database IP'
