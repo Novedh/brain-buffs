@@ -9,7 +9,11 @@ from flask import (
 )
 from collections import namedtuple
 import os
-from src.models.tutor_postings import search_tutor_postings, is_valid_subject
+from src.models.tutor_postings import (
+    search_tutor_postings,
+    is_valid_subject,
+    get_tutor_count,
+)
 from src.config import get_db_connection
 from dotenv import load_dotenv
 import mysql.connector
@@ -72,12 +76,13 @@ def search():
     selected_subject = request.args.get("subject", "All")
     search_text = request.args.get("search_text", "").strip()
 
-    # is_valid_subject() is a function that is in src/models/tutorpostings
+    # Validate the selected subject (from models/tutor_postings)
     if not is_valid_subject(selected_subject, subjects):
         abort(404)
 
-    # search_tutor_postings() is a function that is in src/models/tutorpostings
+    # Get tutor postings and count (from models/tutor_postings)
     tutor_postings = search_tutor_postings(selected_subject, search_text)
+    results_count = get_tutor_count(selected_subject, search_text)
 
     return render_template(
         "search_results.html",
@@ -85,7 +90,7 @@ def search():
         tutor_postings=tutor_postings,
         selected_subject=selected_subject,
         search_text=search_text,
-        results_count=len(tutor_postings),
+        results_count=results_count,
     )
 
 
