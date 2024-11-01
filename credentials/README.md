@@ -51,12 +51,11 @@
 
 9.  To access the Database on the localized version of this applciation you will need to create a personal .env File
 
-    to make setting up easier we have provided a `.env.example` file in the repository
+    To make setting up easier we have provided a `.env.example` file in the repository
 
-    a. create a file named `.env` in the applications folder and copy the contents of `.env.example` into it.
+    a. Create a file named `.env` in the applications folder and copy the contents of `.env.example` into it.
 
-    b. Then enter the DB credentials
-    Here’s an example of what your .env file should include:
+    b. Then enter the DB credentials. Here’s an example of what your .env file should include:
 
         DBMS = 'mysql'
         DB_HOST = 'database IP'
