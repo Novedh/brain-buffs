@@ -7,66 +7,104 @@ endblock %} {% block content %}
         Wanna be a tutor?
       </h1>
       <form action="/tutor_signup" method="post" enctype="multipart/form-data">
-        <div class="mb-3">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Subject"
-            name="subject"
-            required
-          />
+        <!-- Subject Field -->
+        <div class="mb-3 row">
+          <label for="subject" class="col-form-label text-start">Subject</label>
+          <div class="col">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter a Subject"
+              id="subject"
+              name="subject"
+              required
+            />
+          </div>
         </div>
-        <div class="mb-3">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Course#"
-            name="course_number"
-            required
-          />
+
+        <!-- Course# Field -->
+        <div class="mb-3 row">
+          <label for="course_number" class="col-form-label text-start"
+            >Course#</label
+          >
+          <div class="col">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Course #"
+              id="course_number"
+              name="course_number"
+              required
+            />
+          </div>
         </div>
-        <div class="mb-3">
-          <textarea
-            class="form-control"
-            placeholder="Description"
-            name="description"
-            rows="3"
-            required
-          ></textarea>
+
+        <!-- Description Field -->
+        <div class="mb-3 row">
+          <label for="description" class="col-form-label text-start"
+            >Description</label
+          >
+          <div class="col">
+            <textarea
+              class="form-control"
+              id="description"
+              placeholder="Enter a Description"
+              name="description"
+              rows="3"
+              required
+            ></textarea>
+          </div>
         </div>
-        <div class="mb-3 input-group">
-          <span class="input-group-text">$</span>
-          <input
-            type="number"
-            class="form-control"
-            placeholder="Pay Rate"
-            name="pay_rate"
-            required
-          />
-          <span class="input-group-text">/hr</span>
+
+        <!-- Pay Rate Field -->
+        <div class="mb-3 row">
+          <label for="pay_rate" class="col-form-label text-start"
+            >Pay Rate</label
+          >
+          <div class="col input-group">
+            <span class="input-group-text">$</span>
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Enter Pay Rate"
+              id="pay_rate"
+              name="pay_rate"
+              required
+            />
+            <span class="input-group-text">/hr</span>
+          </div>
         </div>
-        <div class="mb-3">
-          <label for="cv" class="form-label">Attach CV</label>
-          <input
-            type="file"
-            class="form-control"
-            id="cv"
-            name="cv"
-            accept=".pdf,.doc,.docx"
-          />
+
+        <!-- Attach CV Field -->
+        <div class="mb-3 row">
+          <label for="cv" class="col-form-label text-start">Attach CV</label>
+          <div class="col">
+            <input
+              type="file"
+              class="form-control"
+              id="cv"
+              name="cv"
+              accept=".pdf,.doc,.docx"
+            />
+          </div>
         </div>
-        <div class="mb-3">
-          <label for="profile_picture" class="form-label">
-            Upload Profile Picture
-          </label>
-          <input
-            type="file"
-            class="form-control"
-            id="profile_picture"
-            name="profile_picture"
-            accept="image/*"
-          />
+
+        <!-- Upload Profile Picture Field -->
+        <div class="mb-3 row">
+          <label for="profile_picture" class="col-form-label text-start"
+            >Upload Profile Picture</label
+          >
+          <div class="col">
+            <input
+              type="file"
+              class="form-control"
+              id="profile_picture"
+              name="profile_picture"
+              accept="image/*"
+            />
+          </div>
         </div>
+
         <p class="text-muted">
           By submitting, I understand that applications may take up to 24 hours
           to approve.
