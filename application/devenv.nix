@@ -20,7 +20,7 @@
 
   # https://devenv.sh/processes/
   processes.runserver = {
-	exec = "python app.py";
+	exec = "python src/app.py";
   };
 
   # https://devenv.sh/services/
