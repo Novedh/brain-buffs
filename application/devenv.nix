@@ -81,8 +81,11 @@
     shellcheck.enable = true;
     # format Python code
     black.enable = true;
-    # format HTML/CSS/Javascript code
-    prettier.enable = true;
+    # format HTML/CSS/Javascript/YAML files
+    prettier = {
+      enable = true;
+      files = "\\.(html|css|js|yml|yaml)$";
+    };
     # format .nix files
     nixpkgs-fmt.enable = true;
   };
