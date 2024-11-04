@@ -8,8 +8,11 @@ on:
       - main
 
 jobs:
-  build:
+  unittest:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: application
 
     steps:
       - name: Checkout code
@@ -22,7 +25,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r application/requirements.txt
+          pip install -r requirements.txt
 
       - name: Run tests
         run: |
