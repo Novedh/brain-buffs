@@ -9,7 +9,7 @@ from flask import (
 )
 from collections import namedtuple
 import os
-from application.src.models.tutor_postings import (
+from models.tutor_postings import (
     search_tutor_postings,
     is_valid_subject,
     get_tutor_count,
