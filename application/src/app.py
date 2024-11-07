@@ -73,7 +73,7 @@ def search():
 
     # Validate the selected subject (from models/tutor_postings)
     if not is_valid_subject(selected_subject, g.subjects):
-        abort(404)
+        abort(400)
 
     # Get tutor postings and count (from models/tutor_postings)
     tutor_postings = search_tutor_postings(selected_subject, search_text)

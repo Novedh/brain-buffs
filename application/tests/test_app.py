@@ -64,6 +64,6 @@ def test_search_tutor_postings_specific_match(client):
 
 
 def test_search_tutor_postings_invalid_category(client):
-    """Test that search_tutor_postings returns a 404 status code for an invalid category."""
+    """Test that search_tutor_postings returns a 400 Bad request status code for an invalid category."""
     response = client.get("/search?subject=Invalid Category&search_text=some keyword")
-    assert response.status_code == 404
+    assert response.status_code == 400
