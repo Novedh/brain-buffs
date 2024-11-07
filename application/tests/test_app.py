@@ -29,3 +29,9 @@ def test_root_redirect(client):
     response = client.get("/", follow_redirects=False)
     assert response.status_code == 302
     assert response.headers["Location"] == "/about"
+
+
+def test_tutor_signup_page(client):
+    """Test that the tutor signup page loads successfully."""
+    response = client.get("/tutor_signup")
+    assert response.status_code == 200
