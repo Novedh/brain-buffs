@@ -43,6 +43,23 @@ def about():
     return render_template("about.html", members=members)
 
 
+@app.route("/tutor_signup", methods=["GET", "POST"])
+def tutor_signup():
+    if request.method == "POST":
+        # Process the form data here
+        subject = request.form.get("subject")
+        course_number = request.form.get("course_number")
+        description = request.form.get("description")
+        pay_rate = request.form.get("pay_rate")
+        profile_picture = request.files.get("profile_picture")
+
+        # Here, you would usually store the data in a database or carry out further processing
+
+        return redirect(url_for("home_page"))
+
+    return render_template("TutorSignUpPage.html")  # Updated to the correct file name
+
+
 @app.route("/about/<name>")
 def about_member_detail(name):
     member = members.get(name)
