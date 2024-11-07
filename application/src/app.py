@@ -62,7 +62,7 @@ def home():
 
 @app.route("/about")
 def about():
-    return render_template("about.html", members=members, subjects=g.subjects)
+    return render_template("about.html", members=members)
 
 
 @app.route("/search", methods=["GET"])
