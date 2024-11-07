@@ -18,7 +18,6 @@ from models.tutor_postings import (
 
 app = Flask(__name__)
 
-
 Member = namedtuple("Member", ["name", "role", "profile", "image_url"])
 members = {
     "usatie": Member(
@@ -55,7 +54,8 @@ def home():
 
 @app.route("/about")
 def about():
-    return render_template("about.html", members=members)
+    subjects = get_subjects()
+    return render_template("about.html", members=members, subjects=subjects)
 
 
 @app.route("/search", methods=["GET"])
