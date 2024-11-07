@@ -98,5 +98,10 @@ def about_member_detail(name):
         abort(404)
 
 
+@app.route("/tutor_dashboard")
+def tutor_dashboard():
+    return render_template("tutor_dashboard.html")
+
+
 if __name__ == "__main__":
     app.run(port=5050)
