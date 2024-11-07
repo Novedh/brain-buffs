@@ -6,6 +6,7 @@ from flask import (
     redirect,
     request,
     send_from_directory,
+    g,
 )
 from collections import namedtuple
 import os
@@ -17,6 +18,13 @@ from models.tutor_postings import (
 )
 
 app = Flask(__name__)
+
+
+@app.before_request
+def load_subjects():
+    # Get subjects for use in templates
+    g.subjects = get_subjects()
+
 
 Member = namedtuple("Member", ["name", "role", "profile", "image_url"])
 members = {
@@ -54,20 +62,17 @@ def home():
 
 @app.route("/about")
 def about():
-    subjects = get_subjects()
-    return render_template("about.html", members=members, subjects=subjects)
+    return render_template("about.html", members=members, subjects=g.subjects)
 
 
 @app.route("/search", methods=["GET"])
 def search():
-    # Use the get_subjects function to fetch subjects
-    subjects = get_subjects()
 
     selected_subject = request.args.get("subject", "All")
     search_text = request.args.get("search_text", "").strip()
 
     # Validate the selected subject (from models/tutor_postings)
-    if not is_valid_subject(selected_subject, subjects):
+    if not is_valid_subject(selected_subject, g.subjects):
         abort(404)
 
     # Get tutor postings and count (from models/tutor_postings)
@@ -76,7 +81,7 @@ def search():
 
     return render_template(
         "search_results.html",
-        subjects=subjects,
+        subjects=g.subjects,
         tutor_postings=tutor_postings,
         selected_subject=selected_subject,
         search_text=search_text,

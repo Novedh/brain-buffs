@@ -63,7 +63,7 @@
 
               <select name="subject" class="form-select">
                 <option value="All">All Subjects</option>
-                {% for subject in subjects %}
+                {% for subject in g.subjects %}
                 <!-- prettier-ignore -->
                 <option value="{{ subject.name }}" {% if selected_subject == subject.name %} selected {% endif %}>
                     {{ subject.name }}
