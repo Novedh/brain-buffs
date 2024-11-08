@@ -93,11 +93,6 @@ def search():
     )
 
 
-@frontend.route("/cv/<path:filename>", methods=["GET"])
-def serve_cv(filename):
-    return send_from_directory("", filename)
-
-
 @frontend.route("/about/<name>")
 def about_member_detail(name):
     member = members.get(name)

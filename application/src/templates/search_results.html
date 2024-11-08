@@ -43,11 +43,7 @@ content %}
                 <strong>Pay Rate:</strong><br />
                 ${{ tutor.pay_rate }} per hour<br />
                 <strong>Link to CV:</strong><br />
-                <a
-                  href="{{ url_for('serve_cv', filename=tutor.cv_url) }}"
-                  target="_blank"
-                  >View CV</a
-                ><br />
+                <a href="{{ tutor.cv_url }}" target="_blank">View CV</a><br />
               </div>
               <div class="col-md-5">
                 <strong>Description:</strong><br />
