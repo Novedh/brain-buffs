@@ -20,7 +20,7 @@
 
   # https://devenv.sh/processes/
   processes.runserver = {
-    exec = "python src/app.py";
+    exec = "flask run";
   };
 
   # https://devenv.sh/services/
@@ -56,11 +56,16 @@
   };
 
   env = {
+    # MySQL
     DB_USER_NAME = "team01";
     DB_PASSWORD = "team01";
     DB_DATABASE = "team01";
     DB_HOST = "localhost";
     DB_PORT = "3306";
+    # Flask
+    FLASK_APP = "src/app.py";
+    FLASK_DEBUG = "1";
+    FLASK_RUN_PORT = "5050";
   };
 
   enterShell = ''
