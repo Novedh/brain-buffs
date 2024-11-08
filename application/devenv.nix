@@ -44,7 +44,7 @@
     };
     mysql = {
       enable = true;
-      initialDatabases = [{ name = "team01"; }];
+      initialDatabases = [{ name = "team01"; schema = ./src/database/dump.sql; }];
       ensureUsers = [
         {
           name = "team01";
@@ -55,6 +55,13 @@
     };
   };
 
+  env = {
+    DB_USER_NAME = "team01";
+    DB_PASSWORD = "team01";
+    DB_DATABASE = "team01";
+    DB_HOST = "localhost";
+    DB_PORT = "3306";
+  };
 
   enterShell = ''
     	echo "CSC648 Team 01 Shell"
@@ -86,4 +93,15 @@
   };
 
   # See full reference at https://devenv.sh/reference/options/
+  scripts.connect_db.exec = ''
+    	mysql -u $DB_USER_NAME -h $DB_HOST -P $DB_PORT --password=$DB_PASSWORD --database=$DB_DATABASE
+  '';
+  scripts.connect_db_prod.exec = ''
+    	source .env
+      	mysql -u $DB_USER_NAME -h $DB_HOST -P $DB_PORT --password=$DB_PASSWORD --database=$DB_DATABASE
+  '';
+  scripts.dump_db_prod.exec = ''
+      	source .env
+    	mysqldump -u $DB_USER_NAME -h $DB_HOST -P $DB_PORT --password=$DB_PASSWORD $DB_DATABASE | sed 's/utf8mb4_0900_ai_ci/utf8mb4_unicode_520_ci/g'
+  '';
 }
