@@ -1,4 +1,6 @@
 from flask import (
+    current_app,
+    Blueprint,
     Flask,
     render_template,
     abort,
@@ -16,7 +18,14 @@ from models.tutor_postings import (
     get_subjects,
 )
 
-app = Flask(__name__)
+frontend = Blueprint("frontend", __name__)
+
+
+def create_app(config=None):
+    app = Flask(__name__)
+    app.config.from_object(config)
+    app.register_blueprint(frontend)
+    return app
 
 
 Member = namedtuple("Member", ["name", "role", "profile", "image_url"])
@@ -48,17 +57,17 @@ members = {
 }
 
 
-@app.route("/")
+@frontend.route("/")
 def home():
     return redirect("/about")
 
 
-@app.route("/about")
+@frontend.route("/about")
 def about():
     return render_template("about.html", members=members)
 
 
-@app.route("/search", methods=["GET"])
+@frontend.route("/search", methods=["GET"])
 def search():
     # Use the get_subjects function to fetch subjects
     subjects = get_subjects()
@@ -84,19 +93,15 @@ def search():
     )
 
 
-@app.route("/cv/<path:filename>", methods=["GET"])
+@frontend.route("/cv/<path:filename>", methods=["GET"])
 def serve_cv(filename):
     return send_from_directory("", filename)
 
 
-@app.route("/about/<name>")
+@frontend.route("/about/<name>")
 def about_member_detail(name):
     member = members.get(name)
     if member:
         return render_template("member_detail.html", member=member)
     else:
         abort(404)
-
-
-if __name__ == "__main__":
-    app.run(port=5050)
