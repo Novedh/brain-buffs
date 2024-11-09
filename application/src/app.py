@@ -1,5 +1,4 @@
 from flask import (
-    current_app,
     Blueprint,
     Flask,
     render_template,
@@ -7,7 +6,6 @@ from flask import (
     url_for,
     redirect,
     request,
-    send_from_directory,
 )
 from collections import namedtuple
 import os
