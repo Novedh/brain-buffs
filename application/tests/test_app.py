@@ -42,6 +42,12 @@ def test_root_redirect(client):
     assert response.headers["Location"] == "/about"
 
 
+def test_tutor_signup_page(client):
+    """Test that the tutor signup page loads successfully."""
+    response = client.get("/tutor_signup")
+    assert response.status_code == 200
+
+
 def test_search_tutor_postings_all_empty(client):
     """Test that search_tutor_postings returns all postings when selected_subject is 'All' and search_text is empty."""
     result = search_tutor_postings("All", "")
