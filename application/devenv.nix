@@ -71,17 +71,17 @@
 
   # https://devenv.sh/tests/
   enterTest = ''
-                echo "Running tests"
-            	wait_for_port 3306
-    			# Poll if MySQL is running every 1 second
-    			while true; do
-    			  if ! mysqladmin ping -h $DB_HOST -u $DB_USER_NAME -P $DB_PORT --password=$DB_PASSWORD; then
-    				sleep 1
-    			  else
-    				break
-    			  fi
-    			done
-        		pytest
+    		echo "Running tests"
+    		wait_for_port 3306
+    		# Poll if MySQL is running every 1 second
+    		while true; do
+    		  if ! mysqladmin ping -h $DB_HOST -u $DB_USER_NAME -P $DB_PORT --password=$DB_PASSWORD; then
+    			sleep 1
+    		  else
+    			break
+    		  fi
+    		done
+    		pytest
   '';
 
   # https://devenv.sh/pre-commit-hooks/
