@@ -98,6 +98,5 @@ def about_member_detail(name):
         abort(404)
 
 
-
 if __name__ == "__main__":
     app.run(port=5050)
