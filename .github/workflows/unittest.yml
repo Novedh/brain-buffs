@@ -15,14 +15,11 @@ jobs:
         working-directory: application
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: cachix/install-nix-action@v26
+      - uses: cachix/cachix-action@v14
         with:
-          python-version: "3.10"
-          cache: "pip"
-      - run: pip install -r requirements.txt
-
-      - name: Create .env file
-        run: echo "${{ secrets.DB_ENV_FILE }}" > .env
-
-      - name: Run unit tests with pytest
-        run: pytest
+          name: devenv
+      - name: Install devenv.sh
+        run: nix profile install nixpkgs#devenv
+      - name: Build the devenv shell and run any git hooks
+        run: devenv test
