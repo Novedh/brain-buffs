@@ -24,4 +24,7 @@ jobs:
       - name: Setup DB/nginx
         run: devenv up -d
       - name: Run tests
-        run: devenv shell pytest
+        shell: devenv shell bash -- -e {0}
+        run: |
+          pip list
+          pytest
