@@ -8,10 +8,7 @@ You are free to organize the contents of the folder as you see fit. But remember
 ## Please use the rest of the README.md to store important information for your team's application.
 
 ## How to run the application locally
-```
-$ devenv up
-```
-
+### Install devenv.sh
 In order to run this command, you need `nix` and `devenv` installed.
 
 If you are using Apple Scillicon machine:
@@ -29,7 +26,37 @@ nix-env -iA devenv -f https://github.com/NixOS/nixpkgs/tarball/nixpkgs-unstable
 The instruction on how to install these tools is documented here:
 https://devenv.sh/getting-started
 
-How to deploy:
+### Clone the repository
+```
+$ git clone git@github.com:CSC-648-SFSU/csc648-fa24-03-team01.git
+$ cd csc648-fa24-03-team01/application
+```
+
+### Local DB/nginx setup
+> This sets up the peripheral services for the project (mysql, nginx). We're not containerizing the app itself.
+```
+$ devenv up -d
+```
+
+### Run the application
+```
+$ devenv shell
+$ flask run
+```
+
+### Shutdown DB/nginx
+```
+$ devenv down
+```
+
+## How to test
+In order to run unit tests, you need to have local DB/nginx setup.
+```
+$ devenv shell
+$ pytest
+```
+
+## How to deploy:
 
 
 1. SSH into server
@@ -60,7 +87,7 @@ How to deploy:
 
 7. Run the server in background 
 
-    `python app.py &`
+    `flask run &`
 
 
 # What is devenv
