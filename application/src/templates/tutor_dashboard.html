@@ -1,0 +1,192 @@
+{% extends "base.html" %} {% block title %}Dashboard - Brain Buffs{% endblock %}
+{% block content %}
+<main class="bg-light">
+  <section class="container py-5">
+    <div class="text-center mb-5">
+      <h1 class="display-4 fw-normal text-body-emphasis">Dashboard</h1>
+      <p class="lead text-muted">Manage your tutoring requests and posts</p>
+    </div>
+
+    <!-- Enhanced card with shadow and rounded corners -->
+    <div class="card shadow-sm rounded-3 border-0">
+      <div class="card-header p-0 border-0">
+        <nav>
+          <div class="nav nav-tabs border-0" id="nav-tab" role="tablist">
+            <button
+              class="nav-link active px-4 py-3 rounded-top-4 rounded-bottom-0 me-2 border border-bottom-0"
+              id="booking-requests-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#booking-requests"
+              type="button"
+              role="tab"
+              aria-controls="booking-requests"
+              aria-selected="true"
+            >
+              <i class="bi bi-calendar-check me-2"></i>
+              Booking Requests
+            </button>
+            <button
+              class="nav-link px-4 py-3 rounded-top-4 rounded-bottom-0 me-2 border border-bottom-0"
+              id="tutor-posts-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#tutor-posts"
+              type="button"
+              role="tab"
+              aria-controls="tutor-posts"
+              aria-selected="false"
+            >
+              <i class="bi bi-file-text me-2"></i>
+              Tutor Posts
+            </button>
+          </div>
+        </nav>
+      </div>
+
+      <div class="card-body p-4 bg-white">
+        <div class="tab-content" id="nav-tabContent">
+          <!-- Booking Requests Tab -->
+          <div
+            class="tab-pane fade show active"
+            id="booking-requests"
+            role="tabpanel"
+            aria-labelledby="booking-requests-tab"
+          >
+            <div class="list-group">
+              <!-- First booking request -->
+              <div class="list-group-item border rounded-3 mb-3">
+                <div class="d-flex align-items-start p-2">
+                  <div
+                    class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center flex-shrink-0"
+                    style="width: 48px; height: 48px; min-width: 48px"
+                  >
+                    <span class="fw-bold">S.U</span>
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <div
+                      class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-2"
+                    >
+                      <span class="badge bg-primary mb-2 mb-sm-0"
+                        >CSC 648 - SWE</span
+                      >
+                      <small class="text-muted">2024-03-06 19:30:00</small>
+                    </div>
+                    <div class="mb-2">
+                      <div class="fw-medium">Shane Umami</div>
+                      <small class="text-muted">shane.umami@sfsu.edu</small>
+                    </div>
+                    <p class="mb-0 border-top pt-2">
+                      Message: Can we schedule a session for CSC 648? This is a
+                      very long message that might wrap to multiple lines but
+                      shouldn't affect the avatar's shape.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Second booking request -->
+              <div class="list-group-item border rounded-3 mb-3">
+                <div class="d-flex align-items-start p-2">
+                  <div
+                    class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center flex-shrink-0"
+                    style="width: 48px; height: 48px; min-width: 48px"
+                  >
+                    <span class="fw-bold">A.T</span>
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <div
+                      class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-2"
+                    >
+                      <span class="badge bg-primary mb-2 mb-sm-0"
+                        >CSC 850 AI Ethics</span
+                      >
+                      <small class="text-muted">2024-03-06 14:15:00</small>
+                    </div>
+                    <div class="mb-2">
+                      <div class="fw-medium">Addeline Tran</div>
+                      <small class="text-muted">addeline.tran@sfsu.edu</small>
+                    </div>
+                    <p class="mb-0 border-top pt-2">
+                      Message: Available for tutoring next week? I'm looking to
+                      study for the final exam which is on Thursday 11/14.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tutor Posts Tab -->
+          <div
+            class="tab-pane fade"
+            id="tutor-posts"
+            role="tabpanel"
+            aria-labelledby="tutor-posts-tab"
+          >
+            <div class="mb-4">
+              <!-- Header with Create Post button -->
+              <div
+                class="d-flex justify-content-between align-items-center mb-4"
+              >
+                <h5 class="mb-0 fw-bold">Computer Science</h5>
+                <button class="btn btn-primary">
+                  <i class="bi bi-plus-circle me-2"></i>Create Post
+                </button>
+              </div>
+
+              <div class="list-group">
+                <!-- CSC 648 Post -->
+                <div class="list-group-item border rounded-3 mb-3">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                      <h6 class="mb-2 fw-bold">CSC 648 SWE</h6>
+                      <p class="mb-2 text-muted">
+                        Description: Software Engineering principles and best
+                        practices.
+                      </p>
+                      <div class="d-flex align-items-center">
+                        <span class="badge bg-light text-dark">
+                          <i class="bi bi-currency-dollar me-1"></i>42.00/hr
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      class="btn btn-outline-danger ms-3"
+                      title="Delete this post"
+                    >
+                      <i class="bi bi-trash me-2"></i>Delete Post
+                    </button>
+                  </div>
+                </div>
+
+                <!-- CSC 850 Post -->
+                <div class="list-group-item border rounded-3 mb-3">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                      <h6 class="mb-2 fw-bold">CSC 850 AI Ethics</h6>
+                      <p class="mb-2 text-muted">
+                        Description: Ethical considerations in AI development
+                        and deployment.
+                      </p>
+                      <div class="d-flex align-items-center">
+                        <span class="badge bg-light text-dark">
+                          <i class="bi bi-currency-dollar me-1"></i>42.00/hr
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      class="btn btn-outline-danger ms-3"
+                      title="Delete this post"
+                    >
+                      <i class="bi bi-trash me-2"></i>Delete Post
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

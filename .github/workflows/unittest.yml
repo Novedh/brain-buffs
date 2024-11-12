@@ -21,5 +21,8 @@ jobs:
           cache: "pip"
       - run: pip install -r requirements.txt
 
+      - name: Create .env file
+        run: echo "${{ secrets.DB_ENV_FILE }}" > .env
+
       - name: Run unit tests with pytest
         run: pytest

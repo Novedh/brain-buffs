@@ -1,5 +1,6 @@
 from flask import (
     Blueprint,
+    current_app,
     Flask,
     render_template,
     abort,
@@ -23,6 +24,7 @@ def create_app(config=None):
     app = Flask(__name__)
     app.config.from_object(config)
     app.register_blueprint(frontend)
+    app.subjects = get_subjects()
     return app
 
 
@@ -62,20 +64,18 @@ def home():
 
 @frontend.route("/about")
 def about():
-    return render_template("about.html", members=members)
+    return render_template("about.html", members=members, subjects=current_app.subjects)
 
 
 @frontend.route("/search", methods=["GET"])
 def search():
-    # Use the get_subjects function to fetch subjects
-    subjects = get_subjects()
 
     selected_subject = request.args.get("subject", "All")
     search_text = request.args.get("search_text", "").strip()
 
     # Validate the selected subject (from models/tutor_postings)
-    if not is_valid_subject(selected_subject, subjects):
-        abort(404)
+    if not is_valid_subject(selected_subject, current_app.subjects):
+        abort(400)
 
     # Get tutor postings and count (from models/tutor_postings)
     tutor_postings = search_tutor_postings(selected_subject, search_text)
@@ -83,7 +83,7 @@ def search():
 
     return render_template(
         "search_results.html",
-        subjects=subjects,
+        subjects=current_app.subjects,
         tutor_postings=tutor_postings,
         selected_subject=selected_subject,
         search_text=search_text,
@@ -95,6 +95,25 @@ def search():
 def about_member_detail(name):
     member = members.get(name)
     if member:
-        return render_template("member_detail.html", member=member)
+        return render_template(
+            "member_detail.html", member=member, subjects=current_app.subjects
+        )
     else:
         abort(404)
+
+
+@frontend.route("/tutor_signup", methods=["GET", "POST"])
+def tutor_signup():
+    if request.method == "POST":
+        # Process the form data here
+        subject = request.form.get("subject")
+        course_number = request.form.get("course_number")
+        description = request.form.get("description")
+        pay_rate = request.form.get("pay_rate")
+        profile_picture = request.files.get("profile_picture")
+
+        # Here, you would usually store the data in a database or carry out further processing
+
+        return redirect(url_for("home_page"))
+
+    return render_template("TutorSignUpPage.html")  # Updated to the correct file name
