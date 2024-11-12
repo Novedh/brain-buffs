@@ -18,13 +18,20 @@
     };
   };
 
-  # https://devenv.sh/processes/
-  processes.runserver = {
-    exec = "flask run";
-  };
-
   # https://devenv.sh/services/
   services = {
+    mysql = {
+      enable = true;
+      initialDatabases = [{ name = "team01"; schema = ./src/database/dump.sql; }];
+      ensureUsers = [
+        {
+          name = "team01";
+          password = "team01";
+          ensurePermissions = { "team01.*" = "ALL PRIVILEGES"; };
+        }
+      ];
+    };
+  } // lib.optionalAttrs (!config.devenv.isTesting) {
     nginx = {
       enable = true;
       httpConfig = ''
@@ -41,17 +48,6 @@
                 }
         	  }
       '';
-    };
-    mysql = {
-      enable = true;
-      initialDatabases = [{ name = "team01"; schema = ./src/database/dump.sql; }];
-      ensureUsers = [
-        {
-          name = "team01";
-          password = "team01";
-          ensurePermissions = { "team01.*" = "ALL PRIVILEGES"; };
-        }
-      ];
     };
   };
 
@@ -71,15 +67,21 @@
   enterShell = ''
     	echo "CSC648 Team 01 Shell"
     	python --version
-    	pip list
   '';
 
   # https://devenv.sh/tests/
   enterTest = ''
-        echo "Running tests"
-    	wait_for_port 8080
-    	curl -s localhost:8080 | grep "Hello, world!"
-    	curl -s 127.0.0.1:5050 | grep "HELLO, WORLD!"
+                echo "Running tests"
+            	wait_for_port 3306
+    			# Poll if MySQL is running every 1 second
+    			while true; do
+    			  if ! mysqladmin ping -h $DB_HOST -u $DB_USER_NAME -P $DB_PORT --password=$DB_PASSWORD; then
+    				sleep 1
+    			  else
+    				break
+    			  fi
+    			done
+        		pytest
   '';
 
   # https://devenv.sh/pre-commit-hooks/
@@ -109,4 +111,6 @@
       	source .env
     	mysqldump -u $DB_USER_NAME -h $DB_HOST -P $DB_PORT --password=$DB_PASSWORD $DB_DATABASE | sed 's/utf8mb4_0900_ai_ci/utf8mb4_unicode_520_ci/g'
   '';
+
+  dotenv.disableHint = true;
 }
