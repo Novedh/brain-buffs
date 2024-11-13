@@ -1,6 +1,5 @@
-{% extends "base.html" %}
-{% block title %}Search Results{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %}Search Results{% endblock %} {% block
+content %}
 <main>
   <section class="container mt-4">
     <div class="text-center mb-4">
@@ -36,7 +35,9 @@
 
               <!-- Tutor Information -->
               <div class="col-md-9">
-                <div class="d-flex justify-content-between align-items-start mb-3">
+                <div
+                  class="d-flex justify-content-between align-items-start mb-3"
+                >
                   <div>
                     <h4 class="card-title mb-1">{{ tutor.tutor_name }}</h4>
                     <p class="text-primary fw-medium mb-0">
@@ -63,7 +64,9 @@
                     </p>
                     <p class="mb-2">
                       <span class="text-muted">Rate:</span><br />
-                      <span class="fw-medium">${{ tutor.pay_rate }} per hour</span>
+                      <span class="fw-medium"
+                        >${{ tutor.pay_rate }} per hour</span
+                      >
                     </p>
                     <a
                       href="{{ tutor.cv_url }}"
@@ -174,9 +177,7 @@ Please let me know your available time slots for this week. Thank you!"
       const tutorName = button.getAttribute("data-tutor-name");
 
       document.getElementById("tutorName").textContent = tutorName;
-      document.getElementById(
-        "messageContent"
-      ).placeholder = `Hi ${tutorName},
+      document.getElementById("messageContent").placeholder = `Hi ${tutorName},
 
 My name is [User Name] and I would like to schedule a tutoring booking for [Class Number]. I want to prepare for my upcoming exam/assignment. My email is [user@email.com].
 
