@@ -25,7 +25,13 @@ def create_app(config=None):
     app = Flask(__name__)
     app.config.from_object(config)
     app.register_blueprint(frontend)
+    app.register_blueprint(backend)
     app.subjects = get_subjects()
+
+    @app.context_processor
+    def inject_subjects():
+        return dict(subjects=app.subjects)
+
     return app
 
 
@@ -60,7 +66,7 @@ members = {
 
 @frontend.route("/")
 def home_page():
-    return render_template("home.html", subjects=current_app.subjects)
+    return render_template("home.html")
 
 
 @frontend.route("/about")
@@ -68,7 +74,6 @@ def about():
     return render_template(
         "about.html",
         members=members,
-        subjects=current_app.subjects,
     )
 
 
@@ -88,7 +93,6 @@ def search():
 
     return render_template(
         "search_results.html",
-        subjects=current_app.subjects,
         tutor_postings=tutor_postings,
         selected_subject=selected_subject,
         search_text=search_text,
@@ -103,7 +107,6 @@ def about_member_detail(name):
         return render_template(
             "member_detail.html",
             member=member,
-            subjects=current_app.subjects,
         )
     else:
         abort(404)
@@ -111,25 +114,22 @@ def about_member_detail(name):
 
 @frontend.route("/tutor_signup", methods=["GET"])
 def tutor_signup_form():
-    return render_template("tutor_sign_up.html", subjects=current_app.subjects)
+    return render_template("tutor_sign_up.html")
 
 
 @frontend.route("/login", methods=["GET"])
 def login_form():
-    return render_template("login.html", subjects=current_app.subjects)
+    return render_template("login.html")
 
 
 @frontend.route("/register", methods=["GET"])
 def register_form():
-    return render_template("register.html", subjects=current_app.subjects)
+    return render_template("register.html")
 
 
 @frontend.route("/dashboard")
 def dashboard():
-    return render_template(
-        "tutor_dashboard.html",
-        subjects=current_app.subjects,
-    )
+    return render_template("tutor_dashboard.html")
 
 
 @backend.route("/tutor_signup", methods=["POST"])
