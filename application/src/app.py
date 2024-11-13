@@ -149,11 +149,11 @@ def login():
 def register():
     if request.method == "POST":
 
-        full_name = request.form.get("full_name")
+        name = request.form.get("full_name")
         email = request.form.get("email")
         password = request.form.get("password")
 
-        # TODO check duplicate emails
+        # TODO check duplicate emails , check password length and reqirements?
 
         # TODO bcrypt password, save info into DB
 
