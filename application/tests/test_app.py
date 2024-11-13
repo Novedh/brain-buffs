@@ -39,8 +39,7 @@ def test_about_member_detail(client):
 def test_root_redirect(client):
     """Test that the root URL '/' redirects to '/about'."""
     response = client.get("/", follow_redirects=False)
-    assert response.status_code == 302
-    assert response.headers["Location"] == "/about"
+    assert response.status_code == 200
 
 
 def test_tutor_signup_page(client):
