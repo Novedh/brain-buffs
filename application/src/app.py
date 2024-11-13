@@ -58,8 +58,8 @@ members = {
 
 
 @frontend.route("/")
-def home():
-    return redirect("/about")
+def home_page():
+    return render_template("Home.html")
 
 
 @frontend.route("/about")
