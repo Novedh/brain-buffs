@@ -99,8 +99,13 @@
             <a href="/tutor_signup" class="nav-item nav-link me-3"
               >Start Tutoring</a
             >
+            {% if request.args.get("isAuth") == "True" %}
+            <a href="/dashboard" class="nav-item nav-link">Dashboard</a>
+            <a href="/logout" class="nav-item nav-link">Logout</a>
+            {% else %}
             <a href="/login" class="nav-item nav-link">Login</a>
             <a href="/register" class="nav-item nav-link">Register</a>
+            {% endif %}
           </div>
         </div>
       </nav>
