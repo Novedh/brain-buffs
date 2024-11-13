@@ -59,7 +59,7 @@ members = {
 
 @frontend.route("/")
 def home_page():
-    return render_template("Home.html")
+    return render_template("home.html")
 
 
 @frontend.route("/about")
@@ -123,7 +123,7 @@ def tutor_signup():
         return redirect(url_for("home_page"))
 
     return render_template(
-        "TutorSignUpPage.html",
+        "tutor_sign_up.html",
         subjects=current_app.subjects,
     )
 
