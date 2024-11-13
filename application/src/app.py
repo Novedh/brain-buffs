@@ -64,7 +64,11 @@ def home():
 
 @frontend.route("/about")
 def about():
-    return render_template("about.html", members=members, subjects=current_app.subjects)
+    return render_template(
+        "about.html",
+        members=members,
+        subjects=current_app.subjects,
+    )
 
 
 @frontend.route("/search", methods=["GET"])
@@ -96,7 +100,9 @@ def about_member_detail(name):
     member = members.get(name)
     if member:
         return render_template(
-            "member_detail.html", member=member, subjects=current_app.subjects
+            "member_detail.html",
+            member=member,
+            subjects=current_app.subjects,
         )
     else:
         abort(404)
@@ -112,8 +118,56 @@ def tutor_signup():
         pay_rate = request.form.get("pay_rate")
         profile_picture = request.files.get("profile_picture")
 
-        # Here, you would usually store the data in a database or carry out further processing
+        # TODO store the data in a database or carry out further processing
 
         return redirect(url_for("home_page"))
 
-    return render_template("TutorSignUpPage.html")  # Updated to the correct file name
+    return render_template(
+        "TutorSignUpPage.html",
+        subjects=current_app.subjects,
+    )
+
+
+@frontend.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        # TODO: verify email and password with database
+
+        return redirect(url_for("frontend.dashboard"))
+
+    return render_template(
+        "login.html",
+        subjects=current_app.subjects,
+    )
+
+
+@frontend.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+
+        full_name = request.form.get("full_name")
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        # TODO check duplicate emails
+
+        # TODO bcrypt password, save info into DB
+
+        return redirect(url_for("frontend.login"))
+
+    return render_template(
+        "register.html",
+        subjects=current_app.subjects,
+    )
+
+
+@frontend.route("/dashboard")
+def dashboard():
+    return render_template(
+        "tutor_dashboard.html",
+        subjects=current_app.subjects,
+    )
