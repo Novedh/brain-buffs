@@ -18,13 +18,20 @@ from models.tutor_postings import (
 )
 
 frontend = Blueprint("frontend", __name__)
+backend = Blueprint("backend", __name__)
 
 
 def create_app(config=None):
     app = Flask(__name__)
     app.config.from_object(config)
     app.register_blueprint(frontend)
+    app.register_blueprint(backend)
     app.subjects = get_subjects()
+
+    @app.context_processor
+    def inject_subjects():
+        return dict(subjects=app.subjects)
+
     return app
 
 
@@ -67,7 +74,6 @@ def about():
     return render_template(
         "about.html",
         members=members,
-        subjects=current_app.subjects,
     )
 
 
@@ -87,7 +93,6 @@ def search():
 
     return render_template(
         "search_results.html",
-        subjects=current_app.subjects,
         tutor_postings=tutor_postings,
         selected_subject=selected_subject,
         search_text=search_text,
@@ -102,72 +107,60 @@ def about_member_detail(name):
         return render_template(
             "member_detail.html",
             member=member,
-            subjects=current_app.subjects,
         )
     else:
         abort(404)
 
 
-@frontend.route("/tutor_signup", methods=["GET", "POST"])
-def tutor_signup():
-    if request.method == "POST":
-        # Process the form data here
-        subject = request.form.get("subject")
-        course_number = request.form.get("course_number")
-        description = request.form.get("description")
-        pay_rate = request.form.get("pay_rate")
-        profile_picture = request.files.get("profile_picture")
-
-        # TODO store the data in a database or carry out further processing
-
-        return redirect(url_for("home_page"))
-
-    return render_template(
-        "tutor_sign_up.html",
-        subjects=current_app.subjects,
-    )
+@frontend.route("/tutor_signup", methods=["GET"])
+def tutor_signup_form():
+    return render_template("tutor_sign_up.html")
 
 
-@frontend.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-
-        email = request.form.get("email")
-        password = request.form.get("password")
-
-        # TODO: verify email and password with database
-
-        return redirect(url_for("frontend.dashboard"))
-
-    return render_template(
-        "login.html",
-        subjects=current_app.subjects,
-    )
+@frontend.route("/login", methods=["GET"])
+def login_form():
+    return render_template("login.html")
 
 
-@frontend.route("/register", methods=["GET", "POST"])
-def register():
-    if request.method == "POST":
-
-        name = request.form.get("full_name")
-        email = request.form.get("email")
-        password = request.form.get("password")
-
-        # TODO check duplicate emails , check password length and reqirements?
-
-        # TODO bcrypt password, save info into DB
-
-        return redirect(url_for("frontend.login"))
-
-    return render_template(
-        "register.html",
-        subjects=current_app.subjects,
-    )
+@frontend.route("/register", methods=["GET"])
+def register_form():
+    return render_template("register.html")
 
 
 @frontend.route("/dashboard")
 def dashboard():
-    return render_template(
-        "tutor_dashboard.html",
-        subjects=current_app.subjects,
-    )
+    return render_template("tutor_dashboard.html")
+
+
+@backend.route("/tutor_signup", methods=["POST"])
+def tutor_signup():
+    subject = request.form.get("subject")
+    course_number = request.form.get("course_number")
+    description = request.form.get("description")
+    pay_rate = request.form.get("pay_rate")
+    profile_picture = request.files.get("profile_picture")
+
+    # TODO: Process and save data to the database
+
+    return redirect(url_for("frontend.dashboard"))
+
+
+@backend.route("/login", methods=["POST"])
+def login():
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    # TODO: Verify email and password with database
+    # Redirect to the dashboard if login is successful
+    return redirect(url_for("frontend.dashboard"))
+
+
+@backend.route("/register", methods=["POST"])
+def register():
+    name = request.form.get("full_name")
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    # TODO: Check for duplicate emails, validate password, dbcrpyt, and save to DB
+
+    return redirect(url_for("frontend.login_form"))
