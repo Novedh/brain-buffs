@@ -1,5 +1,5 @@
-{% extends "base.html" %} 
-{% block title %}Search Results{% endblock %} 
+{% extends "base.html" %}
+{% block title %}Search Results{% endblock %}
 {% block content %}
 <main>
   <section class="container mt-4">
@@ -22,10 +22,13 @@
                   src="{{ tutor.profile_picture_url }}"
                   alt="{{ tutor.tutor_name }}"
                   class="img-fluid rounded"
-                  style="width: 180px; height: 180px; object-fit: cover;"
+                  style="width: 180px; height: 180px; object-fit: cover"
                 />
                 {% else %}
-                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 180px; height: 180px;">
+                <div
+                  class="bg-light rounded d-flex align-items-center justify-content-center"
+                  style="width: 180px; height: 180px"
+                >
                   <p class="text-muted m-0">No profile picture</p>
                 </div>
                 {% endif %}
@@ -36,12 +39,14 @@
                 <div class="d-flex justify-content-between align-items-start mb-3">
                   <div>
                     <h4 class="card-title mb-1">{{ tutor.tutor_name }}</h4>
-                    <p class="text-primary fw-medium mb-0">{{ tutor.subject_name }}</p>
+                    <p class="text-primary fw-medium mb-0">
+                      {{ tutor.subject_name }}
+                    </p>
                   </div>
-                  <a 
-                    href="#" 
+                  <a
+                    href="#"
                     class="btn btn-primary px-4"
-                    data-bs-toggle="modal" 
+                    data-bs-toggle="modal"
                     data-bs-target="#bookingRequestModal"
                     data-tutor-name="{{ tutor.tutor_name }}"
                   >
@@ -53,22 +58,26 @@
                   <!-- Left Column Info -->
                   <div class="col-md-4">
                     <p class="mb-2">
-                      <span class="text-muted">Class Number:</span><br>
+                      <span class="text-muted">Class Number:</span><br />
                       <span class="fw-medium">{{ tutor.class_number }}</span>
                     </p>
                     <p class="mb-2">
-                      <span class="text-muted">Rate:</span><br>
+                      <span class="text-muted">Rate:</span><br />
                       <span class="fw-medium">${{ tutor.pay_rate }} per hour</span>
                     </p>
-                    <a href="{{ tutor.cv_url }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                    <a
+                      href="{{ tutor.cv_url }}"
+                      target="_blank"
+                      class="btn btn-outline-primary btn-sm"
+                    >
                       View CV
                     </a>
                   </div>
-                  
+
                   <!-- Right Column - Description -->
                   <div class="col-md-8">
                     <p class="mb-2">
-                      <span class="text-muted">About:</span><br>
+                      <span class="text-muted">About:</span><br />
                       <span>{{ tutor.description }}</span>
                     </p>
                   </div>
@@ -83,12 +92,25 @@
   </section>
 
   <!-- Booking Request Modal -->
-  <div class="modal fade" id="bookingRequestModal" tabindex="-1" aria-labelledby="bookingRequestModalLabel" aria-hidden="true">
+  <div
+    class="modal fade"
+    id="bookingRequestModal"
+    tabindex="-1"
+    aria-labelledby="bookingRequestModalLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="bookingRequestModalLabel">Message to <span id="tutorName"></span></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h5 class="modal-title" id="bookingRequestModalLabel">
+            Message to <span id="tutorName"></span>
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
         </div>
         <div class="modal-body">
           <form id="bookingRequestForm" action="#" method="POST">
@@ -97,12 +119,14 @@
             </div>
 
             <div class="form-group">
-              <label for="messageContent" class="form-label visually-hidden">Message Content</label>
-              <textarea 
-                class="form-control" 
-                id="messageContent" 
-                name="message" 
-                rows="6" 
+              <label for="messageContent" class="form-label visually-hidden">
+                Message Content
+              </label>
+              <textarea
+                class="form-control"
+                id="messageContent"
+                name="message"
+                rows="6"
                 placeholder="Hi [Tutor Name],
 
 My name is [User Name] and I would like to schedule a tutoring booking for [Class Number]. I want to prepare for my upcoming exam/assignment. My email is [user@email.com].
@@ -115,7 +139,9 @@ Please let me know your available time slots for this week. Thank you!"
             </div>
 
             <div class="text-center mt-3">
-              <button type="submit" class="btn btn-primary px-4">Submit Request</button>
+              <button type="submit" class="btn btn-primary px-4">
+                Submit Request
+              </button>
             </div>
           </form>
         </div>
@@ -125,31 +151,32 @@ Please let me know your available time slots for this week. Thank you!"
 </main>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const textarea = document.getElementById('messageContent');
-    const charCount = document.getElementById('charCount');
+  document.addEventListener("DOMContentLoaded", function () {
+    const textarea = document.getElementById("messageContent");
+    const charCount = document.getElementById("charCount");
     const maxLength = 500;
 
     // Character counter
-    textarea.addEventListener('input', function() {
-        const currentLength = this.value.length;
-        charCount.textContent = currentLength;
+    textarea.addEventListener("input", function () {
+      const currentLength = this.value.length;
+      charCount.textContent = currentLength;
 
-        if (currentLength > maxLength) {
-            this.value = this.value.substring(0, maxLength);
-            charCount.textContent = maxLength;
-        }
+      if (currentLength > maxLength) {
+        this.value = this.value.substring(0, maxLength);
+        charCount.textContent = maxLength;
+      }
     });
 
     // Update modal with tutor information
-    const bookingModal = document.getElementById('bookingRequestModal');
-    bookingModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        const tutorName = button.getAttribute('data-tutor-name');
-        
-        document.getElementById('tutorName').textContent = tutorName;
-        document.getElementById('messageContent').placeholder = 
-`Hi ${tutorName},
+    const bookingModal = document.getElementById("bookingRequestModal");
+    bookingModal.addEventListener("show.bs.modal", function (event) {
+      const button = event.relatedTarget;
+      const tutorName = button.getAttribute("data-tutor-name");
+
+      document.getElementById("tutorName").textContent = tutorName;
+      document.getElementById(
+        "messageContent"
+      ).placeholder = `Hi ${tutorName},
 
 My name is [User Name] and I would like to schedule a tutoring booking for [Class Number]. I want to prepare for my upcoming exam/assignment. My email is [user@email.com].
 
@@ -157,12 +184,14 @@ Please let me know your available time slots for this week. Thank you!`;
     });
 
     // Prevent form submission for now
-    document.getElementById('bookingRequestForm').addEventListener('submit', function(e) {
+    document
+      .getElementById("bookingRequestForm")
+      .addEventListener("submit", function (e) {
         e.preventDefault();
-        alert('Booking request submitted! (Demo only)');
+        alert("Booking request submitted! (Demo only)");
         var modal = bootstrap.Modal.getInstance(bookingModal);
         modal.hide();
-    });
-});
+      });
+  });
 </script>
 {% endblock %}
