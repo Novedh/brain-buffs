@@ -4,9 +4,8 @@ endblock %} {% block content %}
   <section class="container text-center my-5">
     <div class="p-4 pb-md-5 mx-auto text-center w-50">
       <h1 class="display-4 fw-normal text-body-emphasis mb-4">
-        Wanna be a tutor?
+        Become a Tutor
       </h1>
-      <p class="text-muted">* sign means field is required</p>
       <form action="/tutor_signup" method="post" enctype="multipart/form-data">
         <!-- Subject Field -->
         <div class="mb-3 row">
@@ -14,14 +13,15 @@ endblock %} {% block content %}
             Subject <span style="color: red">*</span>
           </label>
           <div class="col">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Enter a Subject"
-              id="subject"
-              name="subject"
-              required
-            />
+            <select name="subject" class="form-select">
+              <option disabled selected value>-- Select a Subject --</option>
+              {% for subject in subjects %}
+              <!-- prettier-ignore -->
+              <option value="{{ subject.name }}" {% if selected_subject == subject.name %} selected {% endif %}>
+                  {{ subject.name }}
+                </option>
+              {% endfor %}
+            </select>
           </div>
         </div>
 
@@ -34,9 +34,26 @@ endblock %} {% block content %}
             <input
               type="text"
               class="form-control"
-              placeholder="Enter Course #"
+              placeholder="Enter Course # (e.g. 648)"
               id="course_number"
               name="course_number"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Title Field -->
+        <div class="mb-3 row">
+          <label for="title" class="col-form-label text-start">
+            Title <span style="color: red">*</span>
+          </label>
+          <div class="col">
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              placeholder="Enter a Title"
+              name="title"
               required
             />
           </div>
@@ -109,7 +126,9 @@ endblock %} {% block content %}
             />
           </div>
         </div>
-
+        <p class="text-muted">
+          <span style="color: red">*</span> field is required.
+        </p>
         <p class="text-muted">
           By submitting, I understand that applications may take up to 24 hours
           to approve.

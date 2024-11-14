@@ -41,13 +41,14 @@
       <!-- Navbar setup with Bootstrap classes for consistent layout and responsiveness -->
       <nav
         id="navbar"
-        class="navbar navbar-expand-lg bg-body-tertiary sticky-top"
+        class="navbar navbar-expand-lg sticky-top bg-dark"
+        data-bs-theme="dark"
       >
         <div
           class="container-fluid d-flex justify-content-between align-items-center"
         >
           <!-- Brand logo linking back to the homepage -->
-          <a href="/" class="navbar-brand fw-bold text-dark">Brain Buffs</a>
+          <a href="/" class="navbar-brand fw-bold">Brain Buffs</a>
 
           <!-- Conditional rendering for the search form (only displayed if not on the homepage) -->
           {% if request.path != '/home' %}
@@ -76,13 +77,13 @@
                 type="text"
                 class="form-control"
                 name="search_text"
-                placeholder="{{ placeholder }}"
+                placeholder="Search"
                 aria-label="Search field"
                 value="{{ search_text }}"
               />
 
               <!-- Search button with an image icon -->
-              <button class="btn btn-outline-primary" type="submit">
+              <button class="btn btn-outline-primary bg-primary" type="submit">
                 <img
                   src="{{ url_for('static', filename='images/Search.png') }}"
                   alt="Search"
@@ -97,7 +98,7 @@
           <!-- Navbar links for navigation, like signing up as a tutor, login, and registration -->
           <div class="navbar-nav">
             <a href="/tutor_signup" class="nav-item nav-link me-3"
-              >Start Tutoring</a
+              >Become a Tutor</a
             >
             {% if request.args.get("isAuth") == "True" %}
             <a href="/dashboard" class="nav-item nav-link">Dashboard</a>
@@ -106,6 +107,7 @@
             <a href="/login" class="nav-item nav-link">Login</a>
             <a href="/register" class="nav-item nav-link">Register</a>
             {% endif %}
+            <a href="/about" class="nav-item nav-link">About</a>
           </div>
         </div>
       </nav>
@@ -132,7 +134,7 @@
             <ul class="list-unstyled">
               <li><a href="/home" class="text-white">Home</a></li>
               <li>
-                <a href="/tutor_signup" class="text-white">Start Tutoring</a>
+                <a href="/tutor_signup" class="text-white">Become a Tutor</a>
               </li>
               <li><a href="/login" class="text-white">Login</a></li>
               <li><a href="/register" class="text-white">Register</a></li>
