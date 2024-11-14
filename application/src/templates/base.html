@@ -77,13 +77,13 @@
                 type="text"
                 class="form-control"
                 name="search_text"
-                placeholder="{{ placeholder }}"
+                placeholder="Search"
                 aria-label="Search field"
                 value="{{ search_text }}"
               />
 
               <!-- Search button with an image icon -->
-              <button class="btn btn-outline-primary" type="submit">
+              <button class="btn btn-outline-primary bg-primary" type="submit">
                 <img
                   src="{{ url_for('static', filename='images/Search.png') }}"
                   alt="Search"
@@ -107,7 +107,7 @@
             <a href="/login" class="nav-item nav-link">Login</a>
             <a href="/register" class="nav-item nav-link">Register</a>
             {% endif %}
-            <a href="/about" class="nav-item nav-link me-3">About</a>
+            <a href="/about" class="nav-item nav-link">About</a>
           </div>
         </div>
       </nav>
