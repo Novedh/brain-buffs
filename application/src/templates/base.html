@@ -41,13 +41,14 @@
       <!-- Navbar setup with Bootstrap classes for consistent layout and responsiveness -->
       <nav
         id="navbar"
-        class="navbar navbar-expand-lg bg-body-tertiary sticky-top"
+        class="navbar navbar-expand-lg sticky-top bg-dark"
+        data-bs-theme="dark"
       >
         <div
           class="container-fluid d-flex justify-content-between align-items-center"
         >
           <!-- Brand logo linking back to the homepage -->
-          <a href="/" class="navbar-brand fw-bold text-dark">Brain Buffs</a>
+          <a href="/" class="navbar-brand fw-bold">Brain Buffs</a>
 
           <!-- Conditional rendering for the search form (only displayed if not on the homepage) -->
           {% if request.path != '/home' %}
