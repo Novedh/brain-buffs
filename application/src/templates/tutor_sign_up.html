@@ -42,6 +42,23 @@ endblock %} {% block content %}
           </div>
         </div>
 
+        <!-- Title Field -->
+        <div class="mb-3 row">
+          <label for="title" class="col-form-label text-start">
+            Title <span style="color: red">*</span>
+          </label>
+          <div class="col">
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              placeholder="Enter a Title"
+              name="title"
+              required
+            />
+          </div>
+        </div>
+
         <!-- Description Field -->
         <div class="mb-3 row">
           <label for="description" class="col-form-label text-start">
