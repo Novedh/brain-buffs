@@ -1,3 +1,8 @@
+# Class: CSC-648-848 Fall 2024
+# Filename: test_tutor_postings.py
+# Author(s): Devon Huang
+# Created: 2024-11-14
+# Description: This tests the search functionalities.
 # test tutor_postings.py
 
 import pytest
