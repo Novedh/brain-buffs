@@ -1,3 +1,9 @@
+# Class: CSC-648-848 Fall 2024
+# Filename: tutor_postings.py
+# Author(s): Devon Huang
+# Created: 2024-11-14
+# Description: This file contains all the backend functions for tutor posting.
+
 from config import get_db_connection
 
 

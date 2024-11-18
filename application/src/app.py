@@ -1,3 +1,9 @@
+# Class: CSC-648-848 Fall 2024
+# Filename: app.py
+# Author(s): Shun Usami, Adharsh Thiagarajan, Devon Huang, Thiha Aung, Kim Nguyen
+# Created: 2024-11-14
+# Description: This file is the main application that contains all the routes for the website.
+
 from flask import (
     Blueprint,
     current_app,
