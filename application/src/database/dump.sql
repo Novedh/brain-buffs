@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.11.6-MariaDB, for osx10.18 (arm64)
+-- MariaDB dump 10.19  Distrib 10.11.6-MariaDB, for Linux (x86_64)
 --
 -- Host: 13.57.185.95    Database: CSC648
 -- ------------------------------------------------------
--- Server version	8.0.39-0ubuntu0.24.04.2
+-- Server version	8.0.40-0ubuntu0.24.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -90,6 +90,7 @@ CREATE TABLE `tutor_posting` (
   `profile_picture_url` varchar(255) DEFAULT NULL,
   `cv_url` varchar(255) DEFAULT NULL,
   `class_number` int NOT NULL,
+  `title` varchar(45) NOT NULL,
   `pay_rate` decimal(6,2) NOT NULL,
   `description` text NOT NULL,
   `approved` tinyint(1) NOT NULL DEFAULT '0',
@@ -110,18 +111,18 @@ CREATE TABLE `tutor_posting` (
 LOCK TABLES `tutor_posting` WRITE;
 /*!40000 ALTER TABLE `tutor_posting` DISABLE KEYS */;
 INSERT INTO `tutor_posting` VALUES
-(1,1,1,'static/images/user/user1.jpeg','static/file/CV.pdf',648,35.50,'new tutor',1,'2024-10-18 08:16:40','2024-10-25 06:59:58'),
-(2,1,2,'static/images/user/user1.jpeg','static/file/CV.pdf',210,25.50,'enjoy',1,'2024-10-18 08:36:56','2024-10-25 06:54:46'),
-(3,2,1,'static/images/user/user2.jpg','static/file/CV.pdf',675,40.50,'data structures/ MYSQL',1,'2024-10-18 08:43:47','2024-10-25 06:54:46'),
-(4,3,3,'static/images/user/user1.jpeg','static/file/CV.pdf',208,24.00,'Grammar for Writing--Multilingual',1,'2024-10-18 09:37:55','2024-10-25 06:54:46'),
-(5,4,1,'static/images/user/user1.jpeg','static/file/CV.pdf',510,50.00,'Analysis of Algorithms I',1,'2024-10-18 09:38:59','2024-10-25 06:11:43'),
-(6,5,1,'static/images/user/user1.jpeg','static/file/CV.pdf',615,75.00,'UNIX Programming',1,'2024-10-18 09:40:02','2024-10-25 06:11:44'),
-(7,3,2,'static/images/user/user1.jpeg','static/file/CV.pdf',226,34.50,'Calculus I ',1,'2024-10-18 09:42:29','2024-10-25 06:11:44'),
-(8,2,4,'static/images/user/user2.jpg','static/file/CV.pdf',230,32.00,'Introductory Biology I ',1,'2024-10-18 09:43:59','2024-10-25 06:11:44'),
-(9,5,5,'static/images/user/user1.jpeg','static/file/CV.pdf',350,45.00,'Introduction to Entrepreneurship ',1,'2024-10-18 09:44:57','2024-10-25 06:11:44'),
-(10,6,3,'static/images/user/user1.jpeg','static/file/CV.pdf',200,10.00,'Elementary Alphabets',1,'2024-10-23 23:03:40','2024-10-25 06:11:44'),
-(11,7,4,'static/images/user/user1.jpeg','static/file/CV.pdf',210,1.11,'best bio teacher',1,'2024-10-25 06:13:31','2024-10-25 06:13:31'),
-(12,7,5,'static/images/user/user1.jpeg','static/file/CV.pdf',111,100.00,'greatest business course',1,'2024-10-25 06:14:22','2024-10-30 01:10:01');
+(1,1,1,'static/images/user/user1.jpeg','static/file/CV.pdf',648,'',35.50,'new tutor',1,'2024-10-18 08:16:40','2024-10-25 06:59:58'),
+(2,1,2,'static/images/user/user1.jpeg','static/file/CV.pdf',210,'',25.50,'enjoy',1,'2024-10-18 08:36:56','2024-10-25 06:54:46'),
+(3,2,1,'static/images/user/user2.jpg','static/file/CV.pdf',675,'',40.50,'data structures/ MYSQL',1,'2024-10-18 08:43:47','2024-10-25 06:54:46'),
+(4,3,3,'static/images/user/user1.jpeg','static/file/CV.pdf',208,'',24.00,'Grammar for Writing--Multilingual',1,'2024-10-18 09:37:55','2024-10-25 06:54:46'),
+(5,4,1,'static/images/user/user1.jpeg','static/file/CV.pdf',510,'',50.00,'Analysis of Algorithms I',1,'2024-10-18 09:38:59','2024-10-25 06:11:43'),
+(6,5,1,'static/images/user/user1.jpeg','static/file/CV.pdf',615,'',75.00,'UNIX Programming',1,'2024-10-18 09:40:02','2024-10-25 06:11:44'),
+(7,3,2,'static/images/user/user1.jpeg','static/file/CV.pdf',226,'',34.50,'Calculus I ',1,'2024-10-18 09:42:29','2024-10-25 06:11:44'),
+(8,2,4,'static/images/user/user2.jpg','static/file/CV.pdf',230,'',32.00,'Introductory Biology I ',1,'2024-10-18 09:43:59','2024-10-25 06:11:44'),
+(9,5,5,'static/images/user/user1.jpeg','static/file/CV.pdf',350,'',45.00,'Introduction to Entrepreneurship ',1,'2024-10-18 09:44:57','2024-10-25 06:11:44'),
+(10,6,3,'static/images/user/user1.jpeg','static/file/CV.pdf',200,'',10.00,'Elementary Alphabets',1,'2024-10-23 23:03:40','2024-10-25 06:11:44'),
+(11,7,4,'static/images/user/user1.jpeg','static/file/CV.pdf',210,'',1.11,'best bio teacher',1,'2024-10-25 06:13:31','2024-10-25 06:13:31'),
+(12,7,5,'static/images/user/user1.jpeg','static/file/CV.pdf',111,'',100.00,'greatest business course',1,'2024-10-25 06:14:22','2024-10-30 01:10:01');
 /*!40000 ALTER TABLE `tutor_posting` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +143,7 @@ CREATE TABLE `user` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -158,7 +159,8 @@ INSERT INTO `user` VALUES
 (4,'prussel@sfsu.edu','12345','Paul Russel',0,'2024-10-18 09:33:34','2024-10-18 09:33:34'),
 (5,'tma@sfsu.edu','12345','Tony Ma',0,'2024-10-18 09:34:01','2024-10-18 09:34:01'),
 (6,'sjobless@sfsu.edu','12345','Steve Jobless',0,'2024-10-23 23:01:34','2024-10-23 23:01:34'),
-(7,'asouza@sfsu.edu','12345','Ant Souza',0,'2024-10-25 06:12:33','2024-10-25 06:12:33');
+(7,'asouza@sfsu.edu','12345','Ant Souza',0,'2024-10-25 06:12:33','2024-10-25 06:12:33'),
+(23,'test@test.com','password','Test User',0,'2024-11-08 06:51:27','2024-11-08 06:51:27');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -171,4 +173,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-07 21:51:25
+-- Dump completed on 2024-11-14 15:01:46

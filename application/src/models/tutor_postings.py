@@ -11,6 +11,7 @@ class TutorPosting:
         cv_url,
         subject_name,
         tutor_name,
+        title,
     ):
         self.class_number = class_number
         self.pay_rate = pay_rate
@@ -19,6 +20,7 @@ class TutorPosting:
         self.cv_url = cv_url
         self.subject_name = subject_name
         self.tutor_name = tutor_name
+        self.title = title
 
 
 def get_subjects():
@@ -41,7 +43,7 @@ def search_tutor_postings(selected_subject, search_text):
     cursor = conn.cursor()
 
     query = """
-    SELECT t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, s.name, u.name AS tutor_name
+    SELECT t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, s.name, u.name, t.title AS tutor_name
     FROM tutor_posting t
     JOIN subject s ON t.subject_id = s.id
     JOIN user u ON t.user_id = u.id
@@ -64,6 +66,7 @@ def search_tutor_postings(selected_subject, search_text):
             cv_url=row[4],
             subject_name=row[5],
             tutor_name=row[6],
+            title=row[7],
         )
         for row in rows
     ]
