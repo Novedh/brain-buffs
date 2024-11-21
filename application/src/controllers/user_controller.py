@@ -23,22 +23,27 @@ user_blueprint = Blueprint("user_backend", __name__)
 
 @user_blueprint.route("/register", methods=["POST"])
 def register():
-    name = request.form.get("full_name")
+    # Get user input from the form
+    full_name = request.form.get("full_name")
     email = request.form.get("email")
     password = request.form.get("password")
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    try:
-        user_id = create_user(cursor, name, email, password)
-        user = get_user_by_id(cursor, user_id)
-        conn.commit()
-    except Exception as e:
-        conn.rollback()
-        current_app.logger.error(f"Failed to register user: {e}")
-        return f"Failed to register user: {e}"
-    finally:
-        cursor.close()
-        conn.close()
+    # Create a nwe user in the database
+    with get_db_connection() as conn, conn.cursor() as cursor:
+        try:
+            user_id = create_user(cursor, full_name, email, password)
+            user = get_user_by_id(cursor, user_id)
+            conn.commit()
+        except Exception as e:
+            conn.rollback()
+            current_app.logger.error(f"Failed to register user: {e}")
+            # Fill in the form with the user's input
+            return render_template(
+                "register.html",
+                error=f"Failed to register user: {e}",
+                full_name=full_name,
+                email=email,
+                password=password,
+            )
     # TODO: Store user_id in session
     print(f"User({user_id}) registered successfully!")
     # Redirect if registration is successful
