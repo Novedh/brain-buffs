@@ -7,15 +7,13 @@
 from flask import (
     Blueprint,
     current_app,
-    Flask,
     render_template,
-    abort,
     url_for,
     redirect,
     request,
 )
 
-from models.users import User, create_user, get_user_by_id
+from models.users import create_user
 from config import get_db_connection
 
 user_blueprint = Blueprint("user_backend", __name__)
@@ -31,7 +29,6 @@ def register():
     with get_db_connection() as conn, conn.cursor() as cursor:
         try:
             user_id = create_user(cursor, full_name, email, password)
-            user = get_user_by_id(cursor, user_id)
             conn.commit()
         except Exception as e:
             conn.rollback()
