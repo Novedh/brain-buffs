@@ -22,6 +22,7 @@ from models.tutor_postings import (
     get_tutor_count,
     get_subjects,
 )
+from controllers.user_controller import user_blueprint
 
 frontend = Blueprint("frontend", __name__)
 backend = Blueprint("backend", __name__)
@@ -29,9 +30,11 @@ backend = Blueprint("backend", __name__)
 
 def create_app(config=None):
     app = Flask(__name__)
+    app.config["SECRET_KEY"] = os.urandom(24)
     app.config.from_object(config)
     app.register_blueprint(frontend)
     app.register_blueprint(backend)
+    app.register_blueprint(user_blueprint)
     app.subjects = get_subjects()
 
     @app.context_processor
@@ -149,24 +152,3 @@ def tutor_signup():
     # TODO: Process and save data to the database
 
     return redirect(url_for("frontend.dashboard"))
-
-
-@backend.route("/login", methods=["POST"])
-def login():
-    email = request.form.get("email")
-    password = request.form.get("password")
-
-    # TODO: Verify email and password with database
-    # Redirect to the dashboard if login is successful
-    return redirect(url_for("frontend.dashboard"))
-
-
-@backend.route("/register", methods=["POST"])
-def register():
-    name = request.form.get("full_name")
-    email = request.form.get("email")
-    password = request.form.get("password")
-
-    # TODO: Check for duplicate emails, validate password, dbcrpyt, and save to DB
-
-    return redirect(url_for("frontend.login_form"))
