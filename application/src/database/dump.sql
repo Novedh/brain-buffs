@@ -1,4 +1,4 @@
--- MariaDB dump 10.19  Distrib 10.11.6-MariaDB, for Linux (x86_64)
+-- MariaDB dump 10.19  Distrib 10.11.6-MariaDB, for osx10.18 (arm64)
 --
 -- Host: 13.57.185.95    Database: CSC648
 -- ------------------------------------------------------
@@ -111,17 +111,17 @@ CREATE TABLE `tutor_posting` (
 LOCK TABLES `tutor_posting` WRITE;
 /*!40000 ALTER TABLE `tutor_posting` DISABLE KEYS */;
 INSERT INTO `tutor_posting` VALUES
-(1,1,1,'static/images/user/user1.jpeg','static/file/CV.pdf',648,'',35.50,'new tutor',1,'2024-10-18 08:16:40','2024-10-25 06:59:58'),
-(2,1,2,'static/images/user/user1.jpeg','static/file/CV.pdf',210,'',25.50,'enjoy',1,'2024-10-18 08:36:56','2024-10-25 06:54:46'),
-(3,2,1,'static/images/user/user2.jpg','static/file/CV.pdf',675,'',40.50,'data structures/ MYSQL',1,'2024-10-18 08:43:47','2024-10-25 06:54:46'),
-(4,3,3,'static/images/user/user1.jpeg','static/file/CV.pdf',208,'',24.00,'Grammar for Writing--Multilingual',1,'2024-10-18 09:37:55','2024-10-25 06:54:46'),
-(5,4,1,'static/images/user/user1.jpeg','static/file/CV.pdf',510,'',50.00,'Analysis of Algorithms I',1,'2024-10-18 09:38:59','2024-10-25 06:11:43'),
-(6,5,1,'static/images/user/user1.jpeg','static/file/CV.pdf',615,'',75.00,'UNIX Programming',1,'2024-10-18 09:40:02','2024-10-25 06:11:44'),
-(7,3,2,'static/images/user/user1.jpeg','static/file/CV.pdf',226,'',34.50,'Calculus I ',1,'2024-10-18 09:42:29','2024-10-25 06:11:44'),
-(8,2,4,'static/images/user/user2.jpg','static/file/CV.pdf',230,'',32.00,'Introductory Biology I ',1,'2024-10-18 09:43:59','2024-10-25 06:11:44'),
-(9,5,5,'static/images/user/user1.jpeg','static/file/CV.pdf',350,'',45.00,'Introduction to Entrepreneurship ',1,'2024-10-18 09:44:57','2024-10-25 06:11:44'),
-(10,6,3,'static/images/user/user1.jpeg','static/file/CV.pdf',200,'',10.00,'Elementary Alphabets',1,'2024-10-23 23:03:40','2024-10-25 06:11:44'),
-(11,7,4,'static/images/user/user1.jpeg','static/file/CV.pdf',210,'',1.11,'best bio teacher',1,'2024-10-25 06:13:31','2024-10-25 06:13:31'),
+(1,1,1,'static/images/user/user1.jpeg','static/file/CV.pdf',648,'Welcome to 648',35.50,'new tutor',1,'2024-10-18 08:16:40','2024-11-21 02:11:04'),
+(2,1,2,'static/images/user/user1.jpeg','static/file/CV.pdf',210,'Join my 210 session',25.50,'enjoy',1,'2024-10-18 08:36:56','2024-11-21 02:11:04'),
+(3,2,1,'static/images/user/user2.jpg','static/file/CV.pdf',675,'Data structures is my life!',40.50,'data structures/ MYSQL',1,'2024-10-18 08:43:47','2024-11-21 02:11:04'),
+(4,3,3,'static/images/user/user1.jpeg','static/file/CV.pdf',208,'Lets learn english',24.00,'Grammar for Writing--Multilingual',1,'2024-10-18 09:37:55','2024-11-21 02:11:04'),
+(5,4,1,'static/images/user/user1.jpeg','static/file/CV.pdf',510,'Lets learn algorithms',50.00,'Analysis of Algorithms I',1,'2024-10-18 09:38:59','2024-11-21 02:11:04'),
+(6,5,1,'static/images/user/user1.jpeg','static/file/CV.pdf',615,'Unix is fun!',75.00,'UNIX Programming',1,'2024-10-18 09:40:02','2024-11-21 02:11:04'),
+(7,3,2,'static/images/user/user1.jpeg','static/file/CV.pdf',226,'Calculus is amazing!',34.50,'Calculus I ',1,'2024-10-18 09:42:29','2024-11-21 02:11:04'),
+(8,2,4,'static/images/user/user2.jpg','static/file/CV.pdf',230,'Lets learn Biology!',32.00,'Introductory Biology I ',1,'2024-10-18 09:43:59','2024-11-21 02:11:04'),
+(9,5,5,'static/images/user/user1.jpeg','static/file/CV.pdf',350,'Lets get into Business',45.00,'Introduction to Entrepreneurship ',1,'2024-10-18 09:44:57','2024-11-21 02:11:04'),
+(10,6,3,'static/images/user/user1.jpeg','static/file/CV.pdf',200,'Lets learn alphabets',10.00,'Elementary Alphabets',1,'2024-10-23 23:03:40','2024-11-21 02:11:04'),
+(11,7,4,'static/images/user/user1.jpeg','static/file/CV.pdf',210,'Im the best Bio tutor!',1.11,'best bio teacher',1,'2024-10-25 06:13:31','2024-11-21 02:11:04'),
 (12,7,5,'static/images/user/user1.jpeg','static/file/CV.pdf',111,'',100.00,'greatest business course',1,'2024-10-25 06:14:22','2024-10-30 01:10:01');
 /*!40000 ALTER TABLE `tutor_posting` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -173,4 +173,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-14 15:01:46
+-- Dump completed on 2024-11-21 16:21:21

@@ -36,3 +36,10 @@ def login():
             flash("Invalid email or password", "danger")
 
     return render_template("login.html")
+
+
+@user_blueprint.route("/logout")
+def logout():
+    # Clear the session to log the user out
+    session.clear()
+    return redirect(url_for("frontend.home_page"))
