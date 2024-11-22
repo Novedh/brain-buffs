@@ -30,10 +30,10 @@ def login():
         if user and verify_password(user.password, password):
             session["user_id"] = user.id
             session["username"] = user.name
-            flash("Login successful!", "success")
             return redirect(url_for("frontend.dashboard"))
         else:
-            flash("Invalid email or password", "danger")
+            error_message = "Invalid email or password"
+            return render_template("login.html", error=error_message)
 
     return render_template("login.html")
 
