@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel
+from flask import session
 
 
 class User(BaseModel):
@@ -40,3 +41,9 @@ def verify_password(stored_password: str, provided_password: str) -> bool:
     return bcrypt.checkpw(
         provided_password.encode("utf-8"), stored_password.encode("utf-8")
     )
+
+
+# Checks if the user is currently logged in by verifying the session. Returns True if logged in, False otherwise.
+def is_logged_in():
+
+    return "user_id" in session

@@ -22,6 +22,8 @@ from models.tutor_postings import (
     get_tutor_count,
     get_subjects,
 )
+from models.users import is_logged_in
+
 from controllers.user_controller import user_blueprint
 
 frontend = Blueprint("frontend", __name__)
@@ -128,6 +130,11 @@ def tutor_signup_form():
 
 @frontend.route("/login", methods=["GET"])
 def login_form():
+    message = request.args.get("message")
+    if message == "login_required":
+        return render_template(
+            "login.html", error="You need to log in to access this page."
+        )
     return render_template("login.html")
 
 
@@ -138,6 +145,8 @@ def register_form():
 
 @frontend.route("/dashboard")
 def dashboard():
+    if not is_logged_in():
+        return redirect(url_for("frontend.login_form", message="login_required"))
     return render_template("tutor_dashboard.html")
 
 
