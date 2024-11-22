@@ -2,7 +2,7 @@
 # Filename: users.py
 # Author(s): Devon Huang
 # Created: 2024-11-14
-# Description: This script has a baic header format.
+# Description: This file contains the User class and its methods.
 
 import bcrypt
 from mysql.connector.cursor import MySQLCursor
@@ -23,6 +23,7 @@ class User(BaseModel):
     updated_at: datetime
 
 
+# returns a User class if a vaild email in db is given or nothing if email is not vaild
 def get_user_by_email(cursor: MySQLCursor, email: str) -> Optional[User]:
     query = """
     SELECT * FROM user
@@ -37,6 +38,7 @@ def get_user_by_email(cursor: MySQLCursor, email: str) -> Optional[User]:
     return User(**user_dict)
 
 
+# Checks if password given after encrpytion is the same as the encrpyed password in the db
 def verify_password(stored_password: str, provided_password: str) -> bool:
     return bcrypt.checkpw(
         provided_password.encode("utf-8"), stored_password.encode("utf-8")
@@ -44,6 +46,5 @@ def verify_password(stored_password: str, provided_password: str) -> bool:
 
 
 # Checks if the user is currently logged in by verifying the session. Returns True if logged in, False otherwise.
-def is_logged_in():
-
+def is_logged_in() -> bool:
     return "user_id" in session
