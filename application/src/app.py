@@ -13,6 +13,7 @@ from flask import (
     url_for,
     redirect,
     request,
+    session,
 )
 from collections import namedtuple
 import os
@@ -145,9 +146,11 @@ def register_form():
 
 @frontend.route("/dashboard")
 def dashboard():
-    if not is_logged_in():
-        return redirect(url_for("frontend.login_form", message="login_required"))
-    return render_template("tutor_dashboard.html")
+    # Check if the welcome message exists
+    welcome_message = session.pop(
+        "welcome_message", None
+    )  # Remove message after popping it
+    return render_template("tutor_dashboard.html", welcome_message=welcome_message)
 
 
 @backend.route("/tutor_signup", methods=["POST"])

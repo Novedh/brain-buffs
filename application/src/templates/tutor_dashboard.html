@@ -12,6 +12,11 @@ Description: This file shows the dashboard for users.
   <section class="container py-5">
     <div class="text-center mb-5">
       <h1 class="display-4 fw-normal text-body-emphasis">Dashboard</h1>
+      {% if welcome_message %}
+      <div class="alert alert-success" role="alert">
+        <p>{{ welcome_message }}</p>
+      </div>
+      {% endif %}
       <p class="lead text-muted">Manage your tutoring requests and posts</p>
     </div>
     <!-- Enhanced card with shadow and rounded corners -->

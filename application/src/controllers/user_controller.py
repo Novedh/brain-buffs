@@ -30,6 +30,7 @@ def login():
         if user and verify_password(user.password, password):
             session["user_id"] = user.id
             session["username"] = user.name
+            session["welcome_message"] = f"Welcome back, {user.name}!!!"
             return redirect(url_for("frontend.dashboard"))
         else:
             error_message = "Invalid email or password"
