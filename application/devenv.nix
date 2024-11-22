@@ -10,10 +10,12 @@
       enable = true;
       venv.enable = true;
       venv.requirements = ''
-        flask
-        pytest
-        mysql-connector-python
-        python-dotenv
+          flask
+        	pytest
+        	mysql-connector-python
+        	python-dotenv
+        	bcrypt
+        	pydantic
       '';
     };
   };
