@@ -78,8 +78,8 @@ members = {
 
 @frontend.route("/")
 def home_page():
-    welcome_message = session.pop("welcome_message", None)
-    return render_template("home.html", welcome_message=welcome_message)
+    alert_message = session.pop("alert_message", None)
+    return render_template("home.html", alert_message=alert_message)
 
 
 @frontend.route("/about")
@@ -150,11 +150,9 @@ def dashboard():
     if not is_logged_in():
         return redirect(url_for("frontend.login_form", message="login_required"))
 
-    # Check if the welcome message exists
-    welcome_message = session.pop(
-        "welcome_message", None
-    )  # Remove message after popping it
-    return render_template("tutor_dashboard.html", welcome_message=welcome_message)
+    # Check if the alert message exists & remove message after popping it making it show once
+    alert_message = session.pop("alert_message", None)
+    return render_template("tutor_dashboard.html", alert_message=alert_message)
 
 
 @backend.route("/tutor_signup", methods=["POST"])

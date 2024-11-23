@@ -45,7 +45,7 @@ def register():
             )
     session["user_id"] = user_id
     session["username"] = full_name
-    session["welcome_message"] = f"Thank you for registering, {full_name}!!!"
+    session["alert_message"] = f"Thank you for registering, {full_name}!!!"
     print(f"User({user_id}) registered successfully!")
     # Redirect if registration is successful
     return redirect("/")
@@ -65,7 +65,7 @@ def login():
         if user and verify_password(user.password, password):
             session["user_id"] = user.id
             session["username"] = user.name
-            session["welcome_message"] = f"Welcome back, {user.name}!!!"
+            session["alert_message"] = f"Welcome back, {user.name}!!!"
             return redirect(url_for("frontend.dashboard"))
         else:
             error_message = "Invalid email or password"
@@ -76,6 +76,9 @@ def login():
 
 @user_blueprint.route("/logout")
 def logout():
-    # Clear the session to log the user out
-    session.clear()
+    session["alert_message"] = (
+        "You have been logged out successfully. See you next time!"
+    )
+    session.pop("user_id", None)
+    session.pop("username", None)
     return redirect(url_for("frontend.home_page"))
