@@ -27,7 +27,7 @@ def register():
     full_name = request.form.get("full_name")
     email = request.form.get("email")
     password = request.form.get("password")
-    # Create a nwe user in the database
+    # Create a new user in the database
     with get_db_connection() as conn, conn.cursor() as cursor:
         try:
             user_id = create_user(cursor, full_name, email, password)
@@ -43,7 +43,9 @@ def register():
                 email=email,
                 password=password,
             )
-    # TODO: Store user_id in session
+    session["user_id"] = user_id
+    session["username"] = full_name
+    session["welcome_message"] = f"Thank you for registering, {full_name}!!!"
     print(f"User({user_id}) registered successfully!")
     # Redirect if registration is successful
     return redirect("/")

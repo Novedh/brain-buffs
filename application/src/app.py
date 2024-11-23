@@ -78,7 +78,8 @@ members = {
 
 @frontend.route("/")
 def home_page():
-    return render_template("home.html")
+    welcome_message = session.pop("welcome_message", None)
+    return render_template("home.html", welcome_message=welcome_message)
 
 
 @frontend.route("/about")
