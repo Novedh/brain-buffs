@@ -92,7 +92,6 @@ def about():
 
 @frontend.route("/search", methods=["GET"])
 def search():
-
     selected_subject = request.args.get("subject", "All")
     search_text = request.args.get("search_text", "").strip()
 

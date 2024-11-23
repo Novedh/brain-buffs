@@ -52,15 +52,25 @@ content %}
                       {{ tutor.subject_name }}
                     </p>
                   </div>
+                  {% if session['user_id'] %}
                   <a
                     href="#"
                     class="btn btn-primary px-4"
                     data-bs-toggle="modal"
                     data-bs-target="#bookingRequestModal"
                     data-tutor-name="{{ tutor.tutor_name }}"
+                    data-tutor-posting-id="{{ tutor.tutor_posting_id }}"
                   >
                     Book Session
                   </a>
+                  {% else %}
+                  <!-- redirect to login if the user is not logged in -->
+                  <a
+                    href="{{ url_for('user_backend.login') }}?error=Please%20log%20in%20to%20book%20a%20session"
+                    class="btn btn-primary px-4"
+                    >Book Session</a
+                  >
+                  {% endif %}
                 </div>
 
                 <div class="row g-3">

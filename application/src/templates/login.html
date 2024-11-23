@@ -16,6 +16,8 @@ block content %}
       </h1>
       {% if error %}
       <div class="alert alert-warning">{{ error }}</div>
+      {% endif %} {% if request.args.get('error') %}
+      <div class="alert alert-warning">{{ request.args.get('error') }}</div>
       {% endif %}
       <form action="/login" method="post">
         <div class="mb-3 text-start">
