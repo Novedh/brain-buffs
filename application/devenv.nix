@@ -10,7 +10,7 @@
       enable = true;
       venv.enable = true;
       venv.requirements = ''
-          flask
+        	flask
         	pytest
         	mysql-connector-python
         	python-dotenv
