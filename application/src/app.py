@@ -146,6 +146,9 @@ def register_form():
 
 @frontend.route("/dashboard")
 def dashboard():
+    if not is_logged_in():
+        return redirect(url_for("frontend.login_form", message="login_required"))
+
     # Check if the welcome message exists
     welcome_message = session.pop(
         "welcome_message", None
