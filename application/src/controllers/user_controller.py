@@ -56,22 +56,24 @@ def login():
     email = request.form.get("email")
     password = request.form.get("password")
 
-    # Establish DB connection
-    with get_db_connection() as conn, conn.cursor() as cursor:
-        # Get user by email
-        user = get_user_by_email(cursor, email)
+    try:
+        # Establish DB connection
+        with get_db_connection() as conn, conn.cursor() as cursor:
+            # Get user by email
+            user = get_user_by_email(cursor, email)
 
-        # if user is found and password is correct then login to session
-        if user and verify_password(user.password, password):
-            session["user_id"] = user.id
-            session["username"] = user.name
-            session["alert_message"] = f"Welcome back, {user.name}!!!"
-            return redirect(url_for("frontend.dashboard"))
-        else:
-            error_message = "Invalid email or password"
-            return render_template("login.html", error=error_message)
+            # Verify user credentials
+            if user and verify_password(user.password, password):
+                session["user_id"] = user.id
+                session["username"] = user.name
+                session["alert_message"] = f"Welcome back, {user.name}!!!"
+                return redirect(url_for("frontend.dashboard"))
 
-    return render_template("login.html")
+        raise ValueError("Invalid email or password")
+
+    except Exception as e:
+        current_app.logger.error(f"Login failed: {e}")
+        return render_template("login.html", error=str(e))
 
 
 @user_blueprint.route("/logout")
