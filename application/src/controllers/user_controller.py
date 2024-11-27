@@ -78,9 +78,13 @@ def login():
 
 @user_blueprint.route("/logout")
 def logout():
+    # This would not pass the check even after formated, so im skipping it here
+    # fmt: off
     session["alert_message"] = (
         "You have been logged out successfully. See you next time!"
     )
+    # fmt: on
+
     session.pop("user_id", None)
     session.pop("username", None)
     return redirect(url_for("frontend.home_page"))
