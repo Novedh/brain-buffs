@@ -107,9 +107,13 @@ Description: Base.html for Brain Buff's template and navbar
             <a href="/tutor_signup" class="nav-item nav-link me-3"
               >Become a Tutor</a
             >
-            {% if request.args.get("isAuth") == "True" %}
+            {% if session.get("user_id") %}
             <a href="/dashboard" class="nav-item nav-link">Dashboard</a>
-            <a href="/logout" class="nav-item nav-link">Logout</a>
+            <a
+              href="{{ url_for('user_backend.logout') }}"
+              class="nav-item nav-link"
+              >Logout</a
+            >
             {% else %}
             <a href="/login" class="nav-item nav-link">Login</a>
             <a href="/register" class="nav-item nav-link">Register</a>

@@ -13,6 +13,7 @@ from flask import (
     url_for,
     redirect,
     request,
+    session,
 )
 from collections import namedtuple
 import os
@@ -22,6 +23,8 @@ from models.tutor_postings import (
     get_tutor_count,
     get_subjects,
 )
+from models.users import is_logged_in
+
 from controllers.user_controller import user_blueprint
 
 frontend = Blueprint("frontend", __name__)
@@ -30,6 +33,7 @@ backend = Blueprint("backend", __name__)
 
 def create_app(config=None):
     app = Flask(__name__)
+    app.config["SECRET_KEY"] = os.urandom(24)
     app.config.from_object(config)
     app.register_blueprint(frontend)
     app.register_blueprint(backend)
@@ -74,7 +78,8 @@ members = {
 
 @frontend.route("/")
 def home_page():
-    return render_template("home.html")
+    alert_message = session.pop("alert_message", None)
+    return render_template("home.html", alert_message=alert_message)
 
 
 @frontend.route("/about")
@@ -87,7 +92,6 @@ def about():
 
 @frontend.route("/search", methods=["GET"])
 def search():
-
     selected_subject = request.args.get("subject", "All")
     search_text = request.args.get("search_text", "").strip()
 
@@ -127,6 +131,11 @@ def tutor_signup_form():
 
 @frontend.route("/login", methods=["GET"])
 def login_form():
+    message = request.args.get("message")
+    if message == "login_required":
+        return render_template(
+            "login.html", error="You need to log in to access this page."
+        )
     return render_template("login.html")
 
 
@@ -137,7 +146,12 @@ def register_form():
 
 @frontend.route("/dashboard")
 def dashboard():
-    return render_template("tutor_dashboard.html")
+    if not is_logged_in():
+        return redirect(url_for("frontend.login_form", message="login_required"))
+
+    # Check if the alert message exists & remove message after popping it making it show once
+    alert_message = session.pop("alert_message", None)
+    return render_template("tutor_dashboard.html", alert_message=alert_message)
 
 
 @backend.route("/tutor_signup", methods=["POST"])

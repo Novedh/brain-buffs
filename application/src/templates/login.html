@@ -14,7 +14,11 @@ block content %}
       <h1 class="display-4 fw-normal text-center text-body-emphasis mb-4">
         Login
       </h1>
-
+      {% if error %}
+      <div class="alert alert-warning">{{ error }}</div>
+      {% endif %} {% if request.args.get('error') %}
+      <div class="alert alert-warning">{{ request.args.get('error') }}</div>
+      {% endif %}
       <form action="/login" method="post">
         <div class="mb-3 text-start">
           <label for="email" class="text-start form-label">Email</label>

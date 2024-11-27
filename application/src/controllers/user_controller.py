@@ -1,6 +1,6 @@
 # Class: CSC-648-848 Fall 2024
 # Filename: user_controller.py
-# Author(s): Shun Usami
+# Author(s): Shun Usami, Devon huang
 # Created: 2024-11-20
 # Description: This file contains the routes for user registration and login.
 
@@ -11,10 +11,12 @@ from flask import (
     url_for,
     redirect,
     request,
+    session,
 )
 
-from models.users import create_user
 from config import get_db_connection
+
+from models.users import get_user_by_email, verify_password, create_user
 
 user_blueprint = Blueprint("user_backend", __name__)
 
@@ -25,7 +27,7 @@ def register():
     full_name = request.form.get("full_name")
     email = request.form.get("email")
     password = request.form.get("password")
-    # Create a nwe user in the database
+    # Create a new user in the database
     with get_db_connection() as conn, conn.cursor() as cursor:
         try:
             user_id = create_user(cursor, full_name, email, password)
@@ -41,7 +43,9 @@ def register():
                 email=email,
                 password=password,
             )
-    # TODO: Store user_id in session
+    session["user_id"] = user_id
+    session["username"] = full_name
+    session["alert_message"] = f"Thank you for registering, {full_name}!!!"
     print(f"User({user_id}) registered successfully!")
     # Redirect if registration is successful
     return redirect("/")
@@ -52,6 +56,35 @@ def login():
     email = request.form.get("email")
     password = request.form.get("password")
 
-    # TODO: Verify email and password with database
-    # Redirect to the dashboard if login is successful
-    return redirect(url_for("frontend.dashboard"))
+    try:
+        # Establish DB connection
+        with get_db_connection() as conn, conn.cursor() as cursor:
+            # Get user by email
+            user = get_user_by_email(cursor, email)
+
+            # Verify user credentials
+            if user and verify_password(user.password, password):
+                session["user_id"] = user.id
+                session["username"] = user.name
+                session["alert_message"] = f"Welcome back, {user.name}!!!"
+                return redirect(url_for("frontend.dashboard"))
+
+        raise ValueError("Invalid email or password")
+
+    except Exception as e:
+        current_app.logger.error(f"Login failed: {e}")
+        return render_template("login.html", error=str(e))
+
+
+@user_blueprint.route("/logout")
+def logout():
+    # This would not pass the check even after formated, so im skipping it here
+    # fmt: off
+    session["alert_message"] = (
+        "You have been logged out successfully. See you next time!"
+    )
+    # fmt: on
+
+    session.pop("user_id", None)
+    session.pop("username", None)
+    return redirect(url_for("frontend.home_page"))

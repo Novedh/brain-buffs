@@ -13,6 +13,11 @@ block content %}
       <h1 class="display-4 fw-normal text-body-emphasis">
         Welcome to Brain Buffs
       </h1>
+      {% if alert_message %}
+      <div class="alert alert-success" role="alert">
+        <p>{{ alert_message }}</p>
+      </div>
+      {% endif %}
       <p class="fs-5 text-body-secondary">
         Brain Buffs is a tutoring platform made by SFSU students, for SFSU
         students. Whether you need help with your courses or want to become a
