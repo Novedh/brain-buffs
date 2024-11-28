@@ -5,6 +5,7 @@
 # Description: This file contains all the backend functions for tutor posting.
 
 from config import get_db_connection
+from mysql.connector.cursor import MySQLCursor
 
 
 class TutorPosting:
