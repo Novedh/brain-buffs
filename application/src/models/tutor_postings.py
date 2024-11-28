@@ -80,3 +80,35 @@ def search_tutor_postings(selected_subject, search_text):
 
 def get_tutor_count(selected_subject, search_text):
     return len(search_tutor_postings(selected_subject, search_text))
+
+
+# create new tutor posting into DB
+def create_tutor_posting(
+    cursor: MySQLCursor,
+    course_number: str,
+    pay_rate: float,
+    description: str,
+    profile_picture_url: str,
+    cv_url: str,
+    subject_id: int,
+    user_id: int,
+    title: str,
+) -> int:
+
+    query = """
+    INSERT INTO tutor_posting (course_number, pay_rate, description, profile_picture_url, cv_url, subject_id, user_id, title)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    """
+    params = (
+        course_number,
+        pay_rate,
+        description,
+        profile_picture_url,
+        cv_url,
+        subject_id,
+        user_id,
+        title,
+    )
+    cursor.execute(query, params)
+
+    return cursor.lastrowid  # Return the ID of the new posting
