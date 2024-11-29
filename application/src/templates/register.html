@@ -29,6 +29,8 @@ Description: Register Page for Brain Buff's for new users
             placeholder="Enter Full Name"
             name="full_name"
             required
+            maxlength="40"
+            pattern="[A-Za-z0-9 ]*"
             value="{{ full_name }}"
           />
         </div>
@@ -41,6 +43,7 @@ Description: Register Page for Brain Buff's for new users
             name="email"
             required
             pattern=".+@sfsu\.edu"
+            maxlength="40"
             title="Please enter a valid SFSU email address"
             value="{{ email }}"
           />
