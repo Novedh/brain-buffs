@@ -154,7 +154,7 @@ def dashboard():
 
     # Check if the alert message exists & remove message after popping it making it show once
     alert_message = session.pop("alert_message", None)
-    return render_template("tutor_dashboard.html")
+    return render_template("tutor_dashboard.html", alert_message=alert_message)
 
 
 @backend.route("/tutor_signup", methods=["POST"])
