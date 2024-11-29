@@ -97,7 +97,7 @@ def create_tutor_posting(
 ) -> int:
 
     query = """
-    INSERT INTO tutor_posting (course_number, pay_rate, description, profile_picture_url, cv_url, subject_id, user_id, title)
+    INSERT INTO tutor_posting (class_number, pay_rate, description, profile_picture_url, cv_url, subject_id, user_id, title)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     """
     params = (
@@ -113,3 +113,32 @@ def create_tutor_posting(
     cursor.execute(query, params)
 
     return cursor.lastrowid  # Return the ID of the new posting
+
+
+def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]:
+
+    query = """
+    SELECT t.id, t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, 
+           s.name AS subject_name, u.name AS tutor_name, t.title
+    FROM tutor_posting t
+    JOIN subject s ON t.subject_id = s.id
+    JOIN user u ON t.user_id = u.id
+    WHERE t.user_id = %s
+    """
+    cursor.execute(query, (user_id,))
+    rows = cursor.fetchall()
+
+    # Convert rows to TutorPosting objects
+    return [
+        TutorPosting(
+            class_number=row[0],
+            pay_rate=row[1],
+            description=row[2],
+            profile_picture_url=row[3],
+            cv_url=row[4],
+            subject_name=row[5],
+            tutor_name=row[6],
+            title=row[7],
+        )
+        for row in rows
+    ]
