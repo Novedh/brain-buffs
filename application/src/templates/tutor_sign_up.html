@@ -43,6 +43,7 @@ endblock %} {% block content %}
               type="text"
               class="form-control"
               placeholder="Enter Course # (e.g. 648)"
+              maxlength="10"
               id="course_number"
               name="course_number"
               required
@@ -60,6 +61,8 @@ endblock %} {% block content %}
               type="text"
               class="form-control"
               id="title"
+              maxlength="40"
+              pattern="[A-Za-z0-9 ]*"
               placeholder="Enter a Title"
               name="title"
               required
@@ -79,6 +82,7 @@ endblock %} {% block content %}
               placeholder="Enter a Description"
               name="description"
               rows="3"
+              maxlength="100"
               required
             ></textarea>
           </div>
@@ -96,6 +100,7 @@ endblock %} {% block content %}
               class="form-control"
               placeholder="Enter Pay Rate"
               id="pay_rate"
+              maxlength="10"
               name="pay_rate"
               required
             />
