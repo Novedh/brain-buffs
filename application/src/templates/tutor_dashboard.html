@@ -1,7 +1,7 @@
 <!--
 Class: CSC-648-848 Fall 2024
 Filename: tutor_dashboard.html
-Author(s): Kim Nguyen
+Author(s): Kim Nguyen, Thiha Aung
 Created: 2024-11-14
 Description: This file shows the dashboard for users.
 -->
@@ -64,68 +64,7 @@ Description: This file shows the dashboard for users.
             aria-labelledby="booking-requests-tab"
           >
             <div class="list-group">
-              <!-- First booking request -->
-              <div class="list-group-item border rounded-3 mb-3">
-                <div class="d-flex align-items-start p-2">
-                  <div
-                    class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center flex-shrink-0"
-                    style="width: 48px; height: 48px; min-width: 48px"
-                  >
-                    <span class="fw-bold">S.U</span>
-                  </div>
-                  <div class="ms-3 flex-grow-1">
-                    <div
-                      class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-2"
-                    >
-                      <div>Request to: 'Title'</div>
-                      <span class="badge bg-primary mb-2 mb-sm-0"
-                        >CSC 648 - SWE</span
-                      >
-                      <small class="text-muted">2024-03-06 19:30:00</small>
-                    </div>
-                    <div class="mb-2">
-                      <div class="fw-medium">Shane Umami</div>
-                      <small class="text-muted">shane.umami@sfsu.edu</small>
-                    </div>
-                    <p class="mb-0 border-top pt-2">
-                      Message: Can we schedule a session for CSC 648? This is a
-                      very long message that might wrap to multiple lines but
-                      shouldn't affect the avatar's shape.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Second booking request -->
-              <div class="list-group-item border rounded-3 mb-3">
-                <div class="d-flex align-items-start p-2">
-                  <div
-                    class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center flex-shrink-0"
-                    style="width: 48px; height: 48px; min-width: 48px"
-                  >
-                    <span class="fw-bold">A.T</span>
-                  </div>
-                  <div class="ms-3 flex-grow-1">
-                    <div
-                      class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-2"
-                    >
-                      <div>Request to: 'Title'</div>
-                      <span class="badge bg-primary mb-2 mb-sm-0"
-                        >CSC 850 AI Ethics</span
-                      >
-                      <small class="text-muted">2024-03-06 14:15:00</small>
-                    </div>
-                    <div class="mb-2">
-                      <div class="fw-medium">Addeline Tran</div>
-                      <small class="text-muted">addeline.tran@sfsu.edu</small>
-                    </div>
-                    <p class="mb-0 border-top pt-2">
-                      Message: Available for tutoring next week? I'm looking to
-                      study for the final exam which is on Thursday 11/14.
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <!-- Booking requests can be dynamically added here -->
             </div>
           </div>
 
@@ -141,68 +80,53 @@ Description: This file shows the dashboard for users.
               <div
                 class="d-flex justify-content-between align-items-center mb-4"
               >
-                <h5 class="mb-0 fw-bold">Computer Science</h5>
-                <button class="btn btn-primary">
+                <h5 class="mb-0 fw-bold">Your Tutor Posts</h5>
+                <a
+                  href="{{ url_for('tutor_postings_backend.tutor_signup') }}"
+                  class="btn btn-primary"
+                >
                   <i class="bi bi-plus-circle me-2"></i>Create Post
-                </button>
+                </a>
               </div>
 
               <div class="list-group">
-                <!-- CSC 648 Post -->
+                {% if tutor_postings and tutor_postings|length > 0 %} {% for
+                post in tutor_postings %}
                 <div class="list-group-item border rounded-3 mb-3">
                   <div class="d-flex justify-content-between align-items-start">
                     <div class="flex-grow-1">
-                      <h6 class="mb-2 fw-bold">CSC 648 SWE</h6>
+                      <h6 class="mb-2 fw-bold">{{ post.title }}</h6>
                       <p class="mb-2 text-muted">
-                        Title: Software Engineering principles and best
-                        practices.
+                        Class: {{ post.class_number }}
                       </p>
                       <p class="mb-2 text-muted">
-                        Description: I am a master student in CS program. I have
-                        ton of experiences of tutoring students.
+                        Description: {{ post.description }}
                       </p>
                       <div class="d-flex align-items-center">
                         <span class="badge bg-light text-dark">
-                          <i class="bi bi-currency-dollar me-1"></i>42.00/hr
+                          <i class="bi bi-currency-dollar me-1"></i>{{
+                          post.pay_rate }}/hr
                         </span>
                       </div>
                     </div>
-                    <button
-                      class="btn btn-outline-danger ms-3"
-                      title="Delete this post"
+                    <form
+                      method="POST"
+                      action="{{ url_for('tutor_postings_backend.delete_post', post_id=post.id) }}"
                     >
-                      <i class="bi bi-trash me-2"></i>Delete Post
-                    </button>
+                      <button
+                        class="btn btn-outline-danger ms-3"
+                        title="Delete this post"
+                      >
+                        <i class="bi bi-trash me-2"></i>Delete Post
+                      </button>
+                    </form>
                   </div>
                 </div>
-
-                <!-- CSC 850 Post -->
-                <div class="list-group-item border rounded-3 mb-3">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <div class="flex-grow-1">
-                      <h6 class="mb-2 fw-bold">CSC 850 AI Ethics</h6>
-                      <p class="mb-2 text-muted">
-                        Title: Ethical considerations in AI development and
-                        deployment.
-                      </p>
-                      <p class="mb-2 text-muted">
-                        Description: I am a graduate student, learning AI
-                        development.
-                      </p>
-                      <div class="d-flex align-items-center">
-                        <span class="badge bg-light text-dark">
-                          <i class="bi bi-currency-dollar me-1"></i>42.00/hr
-                        </span>
-                      </div>
-                    </div>
-                    <button
-                      class="btn btn-outline-danger ms-3"
-                      title="Delete this post"
-                    >
-                      <i class="bi bi-trash me-2"></i>Delete Post
-                    </button>
-                  </div>
-                </div>
+                {% endfor %} {% else %}
+                <p class="text-muted">
+                  You haven't created any tutor posts yet.
+                </p>
+                {% endif %}
               </div>
             </div>
           </div>

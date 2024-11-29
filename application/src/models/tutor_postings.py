@@ -1,6 +1,6 @@
 # Class: CSC-648-848 Fall 2024
 # Filename: tutor_postings.py
-# Author(s): Devon Huang
+# Author(s): Devon Huang, Thiha Aung
 # Created: 2024-11-14
 # Description: This file contains all the backend functions for tutor posting.
 
