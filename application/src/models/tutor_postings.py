@@ -115,6 +115,7 @@ def create_tutor_posting(
     return cursor.lastrowid  # Return the ID of the new posting
 
 
+# to return the tutor postings that are owned by given user id
 def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]:
 
     query = """
