@@ -11,6 +11,7 @@ from flask import (
     redirect,
     request,
     url_for,
+    session,
 )
 import os
 from werkzeug.utils import secure_filename
@@ -19,8 +20,8 @@ from config import get_db_connection
 
 tutor_postings_blueprint = Blueprint("tutor_postings_backend", __name__)
 
-UPLOAD_FOLDER_PROFILE_PIC = "static/images"
-UPLOAD_FOLDER_CV = "static/file"
+UPLOAD_FOLDER_PROFILE_PIC = "src/static/images/user"
+UPLOAD_FOLDER_CV = "src/static/file"
 
 # Ensure upload folders exist
 os.makedirs(UPLOAD_FOLDER_PROFILE_PIC, exist_ok=True)
@@ -30,29 +31,14 @@ os.makedirs(UPLOAD_FOLDER_CV, exist_ok=True)
 @tutor_postings_blueprint.route("/tutor_signup", methods=["POST"])
 def tutor_signup():
     subject_id = request.form.get("subject")
-    class_number = request.form.get("class_number")
+    class_number = request.form.get("course_number")
     description = request.form.get("description")
     title = request.form.get("title")
     pay_rate = request.form.get("pay_rate")
-    user_id = request.form.get("user_id")
+    user_id = session.get("user_id")
 
     profile_picture = request.files.get("profile_picture")
     cv_file = request.files.get("cv")
-
-    # Validate inputs
-    if not all(
-        [
-            subject_id,
-            class_number,
-            description,
-            title,
-            pay_rate,
-            user_id,
-            profile_picture,
-            cv_file,
-        ]
-    ):
-        return "All fields are required.", 400
 
     # Save profile picture
     profile_pic_filename = secure_filename(profile_picture.filename)
@@ -71,7 +57,7 @@ def tutor_signup():
         # Insert tutor posting into the database
         posting_id = create_tutor_posting(
             cursor,
-            class_number=class_number,
+            course_number=class_number,
             pay_rate=pay_rate,
             description=description,
             profile_picture_url=profile_pic_path,

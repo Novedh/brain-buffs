@@ -24,7 +24,9 @@ def dashboard():
     user_id = session.get("user_id")
     if not user_id:
         current_app.logger.warning("Unauthorized access attempt to dashboard.")
-        return redirect(url_for("frontend.login"))  # Redirect to login if not logged in
+        return redirect(
+            url_for("frontend.login_form")
+        )  # Redirect to login if not logged in
 
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -45,4 +47,4 @@ def dashboard():
         conn.close()
 
     # Render the dashboard template with the tutor postings
-    return render_template("dashboard.html", tutor_postings=tutor_postings)
+    return render_template("tutor_dashboard.html", tutor_postings=tutor_postings)

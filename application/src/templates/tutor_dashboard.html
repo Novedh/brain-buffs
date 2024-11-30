@@ -109,10 +109,7 @@ Description: This file shows the dashboard for users.
                         </span>
                       </div>
                     </div>
-                    <form
-                      method="POST"
-                      action="{{ url_for('tutor_postings_backend.delete_post', post_id=post.id) }}"
-                    >
+                    <form method="POST">
                       <button
                         class="btn btn-outline-danger ms-3"
                         title="Delete this post"
