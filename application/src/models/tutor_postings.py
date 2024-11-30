@@ -124,7 +124,7 @@ def create_tutor_posting(
 # to return the tutor postings that are owned by given user id
 def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]:
     query = """
-    SELECT t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, 
+    SELECT t.id AS tutor_post_id, t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, 
            s.name AS subject_name, u.name AS tutor_name, t.title
     FROM tutor_posting t
     JOIN subject s ON t.subject_id = s.id
@@ -143,6 +143,7 @@ def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]
         )
 
         tutor_posting = TutorPosting(
+            tutor_post_id=row["tutor_post_id"],
             class_number=row["class_number"],
             pay_rate=pay_rate,
             description=row["description"],
