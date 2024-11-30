@@ -71,9 +71,11 @@ def tutor_signup():
         current_app.logger.info(
             f"Tutor posting created successfully with ID: {posting_id}"
         )
+        # fmt: off
         session["alert_message"] = (
             "Tutor posting created successfully! Please wait up to 24 hours to be approved by Admins."
         )
+        # fmt: on
 
     except Exception as e:
         conn.rollback()

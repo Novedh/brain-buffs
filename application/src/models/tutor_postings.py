@@ -98,7 +98,6 @@ def create_tutor_posting(
     user_id: int,
     title: str,
 ) -> int:
-
     query = """
     INSERT INTO tutor_posting (class_number, pay_rate, description, profile_picture_url, cv_url, subject_id, user_id, title)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
