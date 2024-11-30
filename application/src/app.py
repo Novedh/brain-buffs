@@ -26,6 +26,8 @@ from models.tutor_postings import (
 from models.users import is_logged_in
 
 from controllers.user_controller import user_blueprint
+from controllers.tutor_postings_controller import tutor_postings_blueprint
+from controllers.dashboard_controller import dashboard_blueprint
 
 frontend = Blueprint("frontend", __name__)
 backend = Blueprint("backend", __name__)
@@ -35,9 +37,11 @@ def create_app(config=None):
     app = Flask(__name__)
     app.config["SECRET_KEY"] = os.urandom(24)
     app.config.from_object(config)
+    app.register_blueprint(dashboard_blueprint)
     app.register_blueprint(frontend)
     app.register_blueprint(backend)
     app.register_blueprint(user_blueprint)
+    app.register_blueprint(tutor_postings_blueprint)
     app.subjects = get_subjects()
 
     @app.context_processor
@@ -152,16 +156,3 @@ def dashboard():
     # Check if the alert message exists & remove message after popping it making it show once
     alert_message = session.pop("alert_message", None)
     return render_template("tutor_dashboard.html", alert_message=alert_message)
-
-
-@backend.route("/tutor_signup", methods=["POST"])
-def tutor_signup():
-    subject = request.form.get("subject")
-    course_number = request.form.get("course_number")
-    description = request.form.get("description")
-    pay_rate = request.form.get("pay_rate")
-    profile_picture = request.files.get("profile_picture")
-
-    # TODO: Process and save data to the database
-
-    return redirect(url_for("frontend.dashboard"))

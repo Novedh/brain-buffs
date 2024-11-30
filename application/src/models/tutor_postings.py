@@ -1,10 +1,13 @@
 # Class: CSC-648-848 Fall 2024
 # Filename: tutor_postings.py
-# Author(s): Devon Huang
+# Author(s): Devon Huang, Thiha Aung
 # Created: 2024-11-14
 # Description: This file contains all the backend functions for tutor posting.
 
 from config import get_db_connection
+from mysql.connector.cursor import MySQLCursor
+from typing import List
+from decimal import Decimal
 
 
 class TutorPosting:
@@ -55,6 +58,7 @@ def search_tutor_postings(selected_subject, search_text):
     JOIN user u ON t.user_id = u.id
     WHERE (%s = 'All' OR s.name = %s)
     AND CONCAT(t.description, ' ', t.class_number, ' ', u.name) LIKE %s
+    AND t.approved = 1
     """
     params = (selected_subject, selected_subject, f"%{search_text}%")
     cursor.execute(query, params)
@@ -80,3 +84,70 @@ def search_tutor_postings(selected_subject, search_text):
 
 def get_tutor_count(selected_subject, search_text):
     return len(search_tutor_postings(selected_subject, search_text))
+
+
+# create new tutor posting into DB
+def create_tutor_posting(
+    cursor: MySQLCursor,
+    course_number: str,
+    pay_rate: float,
+    description: str,
+    profile_picture_url: str,
+    cv_url: str,
+    subject_id: int,
+    user_id: int,
+    title: str,
+) -> int:
+
+    query = """
+    INSERT INTO tutor_posting (class_number, pay_rate, description, profile_picture_url, cv_url, subject_id, user_id, title)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    """
+    params = (
+        course_number,
+        pay_rate,
+        description,
+        profile_picture_url,
+        cv_url,
+        subject_id,
+        user_id,
+        title,
+    )
+    cursor.execute(query, params)
+
+    return cursor.lastrowid  # Return the ID of the new posting
+
+
+# to return the tutor postings that are owned by given user id
+def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]:
+    query = """
+    SELECT t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, 
+           s.name AS subject_name, u.name AS tutor_name, t.title
+    FROM tutor_posting t
+    JOIN subject s ON t.subject_id = s.id
+    JOIN user u ON t.user_id = u.id
+    WHERE t.user_id = %s
+    """
+    cursor.execute(query, (user_id,))
+    rows = cursor.fetchall()
+    tutor_postings = []
+    for row in rows:
+        # Convert Decimal to float for pay_rate to avoid issues
+        pay_rate = (
+            float(row["pay_rate"])
+            if isinstance(row["pay_rate"], Decimal)
+            else row["pay_rate"]
+        )
+
+        tutor_posting = TutorPosting(
+            class_number=row["class_number"],
+            pay_rate=pay_rate,
+            description=row["description"],
+            profile_picture_url=row["profile_picture_url"],
+            cv_url=row["cv_url"],
+            subject_name=row["subject_name"],
+            tutor_name=row["tutor_name"],
+            title=row["title"],
+        )
+        tutor_postings.append(tutor_posting)
+    return tutor_postings

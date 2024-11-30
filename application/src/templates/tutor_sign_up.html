@@ -25,7 +25,7 @@ endblock %} {% block content %}
               <option disabled selected value>-- Select a Subject --</option>
               {% for subject in subjects %}
               <!-- prettier-ignore -->
-              <option value="{{ subject.name }}" {% if selected_subject == subject.name %} selected {% endif %}>
+              <option value="{{ subject.id }}" {% if selected_subject == subject.id %} selected {% endif %}>
                   {{ subject.name }}
                 </option>
               {% endfor %}
@@ -120,6 +120,7 @@ endblock %} {% block content %}
               id="cv"
               name="cv"
               accept=".pdf,.doc,.docx"
+              required
             />
           </div>
         </div>
@@ -136,6 +137,7 @@ endblock %} {% block content %}
               id="profile_picture"
               name="profile_picture"
               accept="image/*"
+              required
             />
           </div>
         </div>
