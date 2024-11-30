@@ -62,7 +62,7 @@ def tutor_signup():
             description=description,
             profile_picture_url=profile_pic_path,
             cv_url=cv_path,
-            subject_id=int(subject_id),
+            subject_id=subject_id,
             user_id=int(user_id),
             title=title,
         )
@@ -71,11 +71,16 @@ def tutor_signup():
         current_app.logger.info(
             f"Tutor posting created successfully with ID: {posting_id}"
         )
+        session["alert_message"] = (
+            "Tutor posting created successfully! Please wait up to 24 hours to be approved by Admins."
+        )
 
     except Exception as e:
         conn.rollback()
         current_app.logger.error(f"Failed to create tutor posting: {e}")
-        return f"Failed to create tutor posting: {e}", 500
+
+        session["alert_message"] = f"Failed to create tutor posting: {e}"
+        return redirect(url_for("frontend.dashboard"))
 
     finally:
         cursor.close()
