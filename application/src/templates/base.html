@@ -20,6 +20,21 @@ Description: Base.html for Brain Buff's template and navbar
       crossorigin="anonymous"
     />
 
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-RNSBDWCBJE"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-RNSBDWCBJE");
+    </script>
+
     <!-- Google Font for custom font style -->
     <link
       href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap"
@@ -86,6 +101,8 @@ Description: Base.html for Brain Buff's template and navbar
                 name="search_text"
                 placeholder="Search"
                 aria-label="Search field"
+                maxlength="40"
+                pattern="[A-Za-z0-9 ]*"
                 value="{{ search_text }}"
               />
 
