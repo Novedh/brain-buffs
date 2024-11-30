@@ -1,6 +1,6 @@
 # Class: CSC-648-848 Fall 2024
 # Filename: tutor_postings.py
-# Author(s): Devon Huang
+# Author(s): Devon Huang, Adharsh Thiagarajan
 # Created: 2024-11-14
 # Description: This file contains all the backend functions for tutor posting.
 
@@ -10,6 +10,7 @@ from config import get_db_connection
 class TutorPosting:
     def __init__(
         self,
+        tutor_post_id,
         class_number,
         pay_rate,
         description,
@@ -19,6 +20,7 @@ class TutorPosting:
         tutor_name,
         title,
     ):
+        self.tutor_post_id = tutor_post_id
         self.class_number = class_number
         self.pay_rate = pay_rate
         self.description = description
@@ -49,7 +51,7 @@ def search_tutor_postings(selected_subject, search_text):
     cursor = conn.cursor()
 
     query = """
-    SELECT t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, s.name, u.name, t.title AS tutor_name
+    SELECT t.id AS tutor_post_id,t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, s.name, u.name, t.title AS title
     FROM tutor_posting t
     JOIN subject s ON t.subject_id = s.id
     JOIN user u ON t.user_id = u.id
@@ -65,14 +67,15 @@ def search_tutor_postings(selected_subject, search_text):
     # Convert each row to a TutorPosting object
     return [
         TutorPosting(
-            class_number=row[0],  # Access by index
-            pay_rate=row[1],
-            description=row[2],
-            profile_picture_url=row[3],
-            cv_url=row[4],
-            subject_name=row[5],
-            tutor_name=row[6],
-            title=row[7],
+            tutor_post_id=row[0],
+            class_number=row[1],  # Access by index
+            pay_rate=row[2],
+            description=row[3],
+            profile_picture_url=row[4],
+            cv_url=row[5],
+            subject_name=row[6],
+            tutor_name=row[7],
+            title=row[8],
         )
         for row in rows
     ]
