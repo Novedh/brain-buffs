@@ -37,11 +37,11 @@ def create_app(config=None):
     app = Flask(__name__)
     app.config["SECRET_KEY"] = os.urandom(24)
     app.config.from_object(config)
+    app.register_blueprint(dashboard_blueprint)
     app.register_blueprint(frontend)
     app.register_blueprint(backend)
     app.register_blueprint(user_blueprint)
     app.register_blueprint(tutor_postings_blueprint)
-    app.register_blueprint(dashboard_blueprint)
     app.subjects = get_subjects()
 
     @app.context_processor
