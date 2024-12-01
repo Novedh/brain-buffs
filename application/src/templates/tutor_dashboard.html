@@ -112,7 +112,7 @@ Description: This file shows the dashboard for users.
 
                     <form
                       method="POST"
-                      action="{{ url_for('tutor_postings_backend.delete_tutor_post', post_id=post.tutor_post_id) }}"
+                      action="{{ url_for('tutor_postings_backend.delete_tutor_post', tutor_posting_id=post.tutor_post_id) }}"
                     >
                       <input
                         type="hidden"

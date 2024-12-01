@@ -2,7 +2,7 @@
 # Filename: tutor_postings_controller.py
 # Author(s): Devon Huang, Thiha Aung
 # Created: 2024-11-14
-# Description: This file contains the route to insert tutor posting into db from FE form.
+# Description: This file contains the route to insert and delete tutor posting into db from FE form.
 
 from flask import (
     Blueprint,
@@ -85,8 +85,10 @@ def tutor_signup():
     return redirect(url_for("frontend.dashboard"))
 
 
-@tutor_postings_blueprint.route("/delete_tutor_post/<int:post_id>", methods=["POST"])
-def delete_tutor_post(post_id):
+@tutor_postings_blueprint.route(
+    "/delete_tutor_post/<int:tutor_posting_id>", methods=["POST"]
+)
+def delete_tutor_post(tutor_posting_id):
 
     user_id = session.get("user_id")
     if not user_id:
@@ -98,7 +100,7 @@ def delete_tutor_post(post_id):
 
     try:
         # Attempt to delete the tutor post
-        deleted = delete_tutor_posting(cursor, post_id, user_id)
+        deleted = delete_tutor_posting(cursor, tutor_posting_id, user_id)
         if deleted:
             conn.commit()
             flash("Tutor post deleted successfully.", "success")
