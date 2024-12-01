@@ -29,6 +29,8 @@ from controllers.user_controller import user_blueprint
 from controllers.tutor_postings_controller import tutor_postings_blueprint
 from controllers.dashboard_controller import dashboard_blueprint
 
+from controllers.booking_requests_controller import booking_blueprint
+
 frontend = Blueprint("frontend", __name__)
 backend = Blueprint("backend", __name__)
 
@@ -41,6 +43,7 @@ def create_app(config=None):
     app.register_blueprint(frontend)
     app.register_blueprint(backend)
     app.register_blueprint(user_blueprint)
+    app.register_blueprint(booking_blueprint)
     app.register_blueprint(tutor_postings_blueprint)
     app.subjects = get_subjects()
 
