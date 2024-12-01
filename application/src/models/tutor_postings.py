@@ -54,7 +54,7 @@ def search_tutor_postings(selected_subject, search_text):
     cursor = conn.cursor()
 
     query = """
-    SELECT t.id AS tutor_post_id, t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, s.name, u.name, t.title AS title
+    SELECT t.id AS tutor_post_id,t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, s.name, u.name, t.title AS title
     FROM tutor_posting t
     JOIN subject s ON t.subject_id = s.id
     JOIN user u ON t.user_id = u.id
@@ -124,7 +124,7 @@ def create_tutor_posting(
 # to return the tutor postings that are owned by given user id
 def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]:
     query = """
-    SELECT t.id AS tutor_post_id,  t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, 
+    SELECT t.id AS tutor_post_id, t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, 
            s.name AS subject_name, u.name AS tutor_name, t.title
     FROM tutor_posting t
     JOIN subject s ON t.subject_id = s.id
