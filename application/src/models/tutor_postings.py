@@ -133,6 +133,7 @@ def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]
     """
     cursor.execute(query, (user_id,))
     rows = cursor.fetchall()
+
     tutor_postings = []
     for row in rows:
         # Convert Decimal to float for pay_rate to avoid issues
@@ -155,3 +156,18 @@ def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]
         )
         tutor_postings.append(tutor_posting)
     return tutor_postings
+
+
+# Deletes a tutor posting if the user owns it.
+def delete_tutor_posting(cursor: MySQLCursor, tutor_post_id: int, user_id: int) -> bool:
+
+    query = """
+    DELETE FROM tutor_posting
+    WHERE id = %s AND user_id = %s
+    """
+    params = (tutor_post_id, user_id)
+
+    cursor.execute(query, params)
+
+    # Check if a row was deleted
+    return cursor.rowcount > 0

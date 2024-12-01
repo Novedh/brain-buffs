@@ -2,7 +2,7 @@
 # Filename: tutor_postings_controller.py
 # Author(s): Devon Huang, Thiha Aung
 # Created: 2024-11-14
-# Description: This file contains the route to insert tutor posting into db from FE form.
+# Description: This file contains the route to insert and delete tutor posting into db from FE form.
 
 from flask import (
     Blueprint,
@@ -12,10 +12,11 @@ from flask import (
     request,
     url_for,
     session,
+    flash,
 )
 import os
 from werkzeug.utils import secure_filename
-from models.tutor_postings import create_tutor_posting
+from models.tutor_postings import create_tutor_posting, delete_tutor_posting
 from config import get_db_connection
 
 tutor_postings_blueprint = Blueprint("tutor_postings_backend", __name__)
@@ -76,6 +77,40 @@ def tutor_signup():
         conn.rollback()
         current_app.logger.error(f"Failed to create tutor posting: {e}")
         return f"Failed to create tutor posting: {e}", 500
+
+    finally:
+        cursor.close()
+        conn.close()
+
+    return redirect(url_for("frontend.dashboard"))
+
+
+@tutor_postings_blueprint.route(
+    "/delete_tutor_post/<int:tutor_posting_id>", methods=["POST"]
+)
+def delete_tutor_post(tutor_posting_id):
+
+    user_id = session.get("user_id")
+    if not user_id:
+        flash("You need to be logged in to perform this action.", "warning")
+        return redirect(url_for("frontend.login"))
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        # Attempt to delete the tutor post
+        deleted = delete_tutor_posting(cursor, tutor_posting_id, user_id)
+        if deleted:
+            conn.commit()
+            flash("Tutor post deleted successfully.", "success")
+        else:
+            flash("Failed to delete the tutor post. You may not own it.", "danger")
+
+    except Exception as e:
+        conn.rollback()
+        current_app.logger.error(f"Error deleting tutor post: {e}")
+        flash("An error occurred while deleting the tutor post.", "danger")
 
     finally:
         cursor.close()
