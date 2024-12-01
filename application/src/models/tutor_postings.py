@@ -13,6 +13,7 @@ from decimal import Decimal
 class TutorPosting:
     def __init__(
         self,
+        id,
         class_number,
         pay_rate,
         description,
@@ -22,6 +23,7 @@ class TutorPosting:
         tutor_name,
         title,
     ):
+        self.id = id
         self.class_number = class_number
         self.pay_rate = pay_rate
         self.description = description
@@ -121,7 +123,7 @@ def create_tutor_posting(
 # to return the tutor postings that are owned by given user id
 def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]:
     query = """
-    SELECT t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, 
+    SELECT t.id, t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, 
            s.name AS subject_name, u.name AS tutor_name, t.title
     FROM tutor_posting t
     JOIN subject s ON t.subject_id = s.id
@@ -130,6 +132,7 @@ def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]
     """
     cursor.execute(query, (user_id,))
     rows = cursor.fetchall()
+
     tutor_postings = []
     for row in rows:
         # Convert Decimal to float for pay_rate to avoid issues
@@ -140,6 +143,7 @@ def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]
         )
 
         tutor_posting = TutorPosting(
+            id=row["id"],  # Add this line
             class_number=row["class_number"],
             pay_rate=pay_rate,
             description=row["description"],
@@ -151,3 +155,18 @@ def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]
         )
         tutor_postings.append(tutor_posting)
     return tutor_postings
+
+
+# Deletes a tutor posting if the user owns it.
+def delete_tutor_posting(cursor: MySQLCursor, tutor_post_id: int, user_id: int) -> bool:
+
+    query = """
+    DELETE FROM tutor_posting
+    WHERE id = %s AND user_id = %s
+    """
+    params = (tutor_post_id, user_id)
+
+    cursor.execute(query, params)
+
+    # Check if a row was deleted
+    return cursor.rowcount > 0
