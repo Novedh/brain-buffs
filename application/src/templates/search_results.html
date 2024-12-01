@@ -1,9 +1,10 @@
 <!--
 Class: CSC-648-848 Fall 2024
 Filename: search_results.html
-Author(s): Devon Huang
+Author(s): Devon Huang, Adharsh Thiagarajan
 Created: 2024-11-14
-Description: This file shows the search results from the nav bar search.
+Description: This file shows the search results from the nav bar search. Also creates a booking request when user is
+logged in
 -->
 
 {% extends "base.html" %} {% block title %}Search Results{% endblock %} {% block
@@ -59,7 +60,7 @@ content %}
                     data-bs-toggle="modal"
                     data-bs-target="#bookingRequestModal"
                     data-tutor-name="{{ tutor.tutor_name }}"
-                    data-tutor-posting-id="{{ tutor.tutor_posting_id }}"
+                    data-tutor-post-id="{{ tutor.tutor_post_id }}"
                   >
                     Book Session
                   </a>
@@ -138,7 +139,16 @@ content %}
           ></button>
         </div>
         <div class="modal-body">
-          <form id="bookingRequestForm" action="#" method="POST">
+          <form
+            id="bookingRequestForm"
+            action="{{ url_for('booking.submit_booking_request') }}"
+            method="POST"
+          >
+            <input
+              type="hidden"
+              name="tutor_post_id"
+              value="{{ tutor_post_id }}"
+            />
             <div class="alert alert-primary mb-3">
               Make sure you provide contact information...
             </div>
@@ -197,6 +207,7 @@ Please let me know your available time slots for this week. Thank you!"
     bookingModal.addEventListener("show.bs.modal", function (event) {
       const button = event.relatedTarget;
       const tutorName = button.getAttribute("data-tutor-name");
+      const tutorId = button.getAttribute("data-tutor-post-id");
 
       document.getElementById("tutorName").textContent = tutorName;
       document.getElementById("messageContent").placeholder = `Hi ${tutorName},
@@ -204,17 +215,13 @@ Please let me know your available time slots for this week. Thank you!"
 My name is [User Name] and I would like to schedule a tutoring booking for [Class Number]. I want to prepare for my upcoming exam/assignment. My email is [user@email.com].
 
 Please let me know your available time slots for this week. Thank you!`;
-    });
 
-    // Prevent form submission for now
-    document
-      .getElementById("bookingRequestForm")
-      .addEventListener("submit", function (e) {
-        e.preventDefault();
-        alert("Booking request submitted! (Demo only)");
-        var modal = bootstrap.Modal.getInstance(bookingModal);
-        modal.hide();
-      });
+      // Update hidden field for tutor_id
+      const tutorIdField = document.querySelector(
+        "#bookingRequestForm input[name='tutor_post_id']",
+      );
+      tutorIdField.value = tutorId;
+    });
   });
 </script>
 {% endblock %}
