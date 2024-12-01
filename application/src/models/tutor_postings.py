@@ -13,7 +13,7 @@ from decimal import Decimal
 class TutorPosting:
     def __init__(
         self,
-        id,
+        tutor_post_id,
         class_number,
         pay_rate,
         description,
@@ -23,7 +23,7 @@ class TutorPosting:
         tutor_name,
         title,
     ):
-        self.id = id
+        self.tutor_post_id = tutor_post_id
         self.class_number = class_number
         self.pay_rate = pay_rate
         self.description = description
@@ -54,7 +54,7 @@ def search_tutor_postings(selected_subject, search_text):
     cursor = conn.cursor()
 
     query = """
-    SELECT t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, s.name, u.name, t.title AS tutor_name
+    SELECT t.id AS tutor_post_id, t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, s.name, u.name, t.title AS title
     FROM tutor_posting t
     JOIN subject s ON t.subject_id = s.id
     JOIN user u ON t.user_id = u.id
@@ -71,14 +71,15 @@ def search_tutor_postings(selected_subject, search_text):
     # Convert each row to a TutorPosting object
     return [
         TutorPosting(
-            class_number=row[0],  # Access by index
-            pay_rate=row[1],
-            description=row[2],
-            profile_picture_url=row[3],
-            cv_url=row[4],
-            subject_name=row[5],
-            tutor_name=row[6],
-            title=row[7],
+            tutor_post_id=row[0],
+            class_number=row[1],  # Access by index
+            pay_rate=row[2],
+            description=row[3],
+            profile_picture_url=row[4],
+            cv_url=row[5],
+            subject_name=row[6],
+            tutor_name=row[7],
+            title=row[8],
         )
         for row in rows
     ]
@@ -123,7 +124,7 @@ def create_tutor_posting(
 # to return the tutor postings that are owned by given user id
 def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]:
     query = """
-    SELECT t.id, t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, 
+    SELECT t.id AS tutor_post_id,  t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, 
            s.name AS subject_name, u.name AS tutor_name, t.title
     FROM tutor_posting t
     JOIN subject s ON t.subject_id = s.id
@@ -143,7 +144,7 @@ def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]
         )
 
         tutor_posting = TutorPosting(
-            id=row["id"],  # Add this line
+            tutor_post_id=row["tutor_post_id"],
             class_number=row["class_number"],
             pay_rate=pay_rate,
             description=row["description"],
