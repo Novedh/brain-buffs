@@ -12,10 +12,10 @@ from flask import (
     request,
     url_for,
     session,
-    flash,
 )
 import os
 from werkzeug.utils import secure_filename
+from models.users import is_logged_in
 from models.tutor_postings import create_tutor_posting, delete_tutor_posting
 from config import get_db_connection
 
@@ -98,9 +98,8 @@ def tutor_signup():
 def delete_tutor_post(tutor_posting_id):
 
     user_id = session.get("user_id")
-    if not user_id:
-        flash("You need to be logged in to perform this action.", "warning")
-        return redirect(url_for("frontend.login"))
+    if not is_logged_in():
+        return redirect(url_for("frontend.login_form", message="login_required"))
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -110,14 +109,14 @@ def delete_tutor_post(tutor_posting_id):
         deleted = delete_tutor_posting(cursor, tutor_posting_id, user_id)
         if deleted:
             conn.commit()
-            flash("Tutor post deleted successfully.", "success")
+            session["alert_message"] = f"Sucessfully deleted tutor posting!"
         else:
-            flash("Failed to delete the tutor post. You may not own it.", "danger")
+            session["alert_message"] = f"failed to delete tutor posting."
 
     except Exception as e:
         conn.rollback()
         current_app.logger.error(f"Error deleting tutor post: {e}")
-        flash("An error occurred while deleting the tutor post.", "danger")
+        session["alert_message"] = f"Failed to delete tutor posting: {e}"
 
     finally:
         cursor.close()
