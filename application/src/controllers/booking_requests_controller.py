@@ -13,6 +13,7 @@ from flask import (
     redirect,
     request,
     session,
+    flash,
 )
 
 from config import get_db_connection
@@ -40,7 +41,7 @@ def submit_booking_request():
                 cursor, int(tutor_post_id), int(sender_id), description
             )
             conn.commit()
-            session["alert_message"] = f"Booking request submitted successfully!!!!"
+            flash("Booking request submitted successfully!!!!", "success")
             return redirect(url_for("frontend.dashboard"))
 
     except Exception as e:

@@ -38,18 +38,15 @@ def dashboard():
 
     except Exception as e:
         current_app.logger.error(f"Failed to load tutor postings: {e}")
-        session["alert_message"] = f"Failed to load tutor postings: {e}"
+        flash(f"Failed to load tutor postings: {e}", "danger")
         return redirect(url_for("frontend.home_page"))
 
     finally:
         cursor.close()
         conn.close()
 
-    alert_message = session.pop("alert_message", None)
-
     # Render the dashboard template with the tutor postings
     return render_template(
         "tutor_dashboard.html",
         tutor_postings=tutor_postings,
-        alert_message=alert_message,
     )

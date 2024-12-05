@@ -12,6 +12,7 @@ from flask import (
     redirect,
     request,
     session,
+    flash,
 )
 
 from config import get_db_connection
@@ -45,7 +46,7 @@ def register():
             )
     session["user_id"] = user_id
     session["username"] = full_name
-    session["alert_message"] = f"Thank you for registering, {full_name}!!!"
+    flash(f"Thank you for registering, {full_name}!", "success")
     print(f"User({user_id}) registered successfully!")
     # Redirect if registration is successful
     return redirect("/")
@@ -66,7 +67,7 @@ def login():
             if user and verify_password(user.password, password):
                 session["user_id"] = user.id
                 session["username"] = user.name
-                session["alert_message"] = f"Welcome back, {user.name}!!!"
+                flash(f"Welcome back, {user.name}!", "success")
                 return redirect(url_for("frontend.dashboard"))
 
         raise ValueError("Invalid email or password")
@@ -79,12 +80,7 @@ def login():
 @user_blueprint.route("/logout")
 def logout():
     # This would not pass the check even after formated, so im skipping it here
-    # fmt: off
-    session["alert_message"] = (
-        "You have been logged out successfully. See you next time!"
-    )
-    # fmt: on
-
+    flash("You have been logged out successfully. See you next time!", "info")
     session.pop("user_id", None)
     session.pop("username", None)
     return redirect(url_for("frontend.home_page"))

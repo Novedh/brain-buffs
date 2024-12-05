@@ -12,6 +12,7 @@ from flask import (
     request,
     url_for,
     session,
+    flash,
 )
 import os
 from werkzeug.utils import secure_filename
@@ -72,17 +73,16 @@ def tutor_signup():
         current_app.logger.info(
             f"Tutor posting created successfully with ID: {posting_id}"
         )
-        # fmt: off
-        session["alert_message"] = (
-            "Tutor posting created successfully! Please wait up to 24 hours to be approved by Admins."
+        flash(
+            "Tutor posting created successfully! Please wait up to 24 hours to be approved by Admins.",
+            "success",
         )
-        # fmt: on
 
     except Exception as e:
         conn.rollback()
         current_app.logger.error(f"Failed to create tutor posting: {e}")
 
-        session["alert_message"] = f"Failed to create tutor posting: {e}"
+        flash(f"Failed to create tutor posting: {e}", "danger")
         return redirect(url_for("frontend.dashboard"))
 
     finally:
@@ -109,14 +109,14 @@ def delete_tutor_post(tutor_posting_id):
         deleted = delete_tutor_posting(cursor, tutor_posting_id, user_id)
         if deleted:
             conn.commit()
-            session["alert_message"] = f"Sucessfully deleted tutor posting!"
+            flash("Successfully deleted tutor posting!", "success")
         else:
-            session["alert_message"] = f"failed to delete tutor posting."
+            flash("Failed to delete tutor posting.", "danger")
 
     except Exception as e:
         conn.rollback()
         current_app.logger.error(f"Error deleting tutor post: {e}")
-        session["alert_message"] = f"Failed to delete tutor posting: {e}"
+        flash(f"Failed to delete tutor posting: {e}", "danger")
 
     finally:
         cursor.close()
