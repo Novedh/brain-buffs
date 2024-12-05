@@ -14,6 +14,7 @@ from flask import (
 )
 from models.tutor_postings import list_tutor_postings
 from config import get_db_connection
+from models.users import is_logged_in
 
 dashboard_blueprint = Blueprint("dashboard_backend", __name__)
 
@@ -22,11 +23,8 @@ dashboard_blueprint = Blueprint("dashboard_backend", __name__)
 def dashboard():
     # Check if the user is logged in by verifying the session
     user_id = session.get("user_id")
-    if not user_id:
-        current_app.logger.warning("Unauthorized access attempt to dashboard.")
-        return redirect(
-            url_for("frontend.login_form")
-        )  # Redirect to login if not logged in
+    if not is_logged_in():
+        return redirect(url_for("frontend.login_form", message="login_required"))
 
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -40,11 +38,15 @@ def dashboard():
 
     except Exception as e:
         current_app.logger.error(f"Failed to load tutor postings: {e}")
-        return f"Failed to load tutor postings: {e}", 500
+        flash(f"Failed to load tutor postings: {e}", "danger")
+        return redirect(url_for("frontend.home_page"))
 
     finally:
         cursor.close()
         conn.close()
 
     # Render the dashboard template with the tutor postings
-    return render_template("tutor_dashboard.html", tutor_postings=tutor_postings)
+    return render_template(
+        "tutor_dashboard.html",
+        tutor_postings=tutor_postings,
+    )

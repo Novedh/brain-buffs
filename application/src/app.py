@@ -13,7 +13,6 @@ from flask import (
     url_for,
     redirect,
     request,
-    session,
 )
 from collections import namedtuple
 import os
@@ -85,8 +84,7 @@ members = {
 
 @frontend.route("/")
 def home_page():
-    alert_message = session.pop("alert_message", None)
-    return render_template("home.html", alert_message=alert_message)
+    return render_template("home.html")
 
 
 @frontend.route("/about")
@@ -157,5 +155,4 @@ def dashboard():
         return redirect(url_for("frontend.login_form", message="login_required"))
 
     # Check if the alert message exists & remove message after popping it making it show once
-    alert_message = session.pop("alert_message", None)
-    return render_template("tutor_dashboard.html", alert_message=alert_message)
+    return render_template("tutor_dashboard.html")
