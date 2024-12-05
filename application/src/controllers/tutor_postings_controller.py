@@ -17,17 +17,16 @@ from flask import (
 import os
 from werkzeug.utils import secure_filename
 from models.users import is_logged_in
-from models.tutor_postings import create_tutor_posting, delete_tutor_posting
+from models.tutor_postings import (
+    create_tutor_posting,
+    delete_tutor_posting,
+    save_profile_picture,
+    save_cv,
+    update_tutor_posting_file_paths,
+)
 from config import get_db_connection
 
 tutor_postings_blueprint = Blueprint("tutor_postings_backend", __name__)
-
-UPLOAD_FOLDER_PROFILE_PIC = "src/static/images/user"
-UPLOAD_FOLDER_CV = "src/static/file"
-
-# Ensure upload folders exist
-os.makedirs(UPLOAD_FOLDER_PROFILE_PIC, exist_ok=True)
-os.makedirs(UPLOAD_FOLDER_CV, exist_ok=True)
 
 
 @tutor_postings_blueprint.route("/tutor_signup", methods=["POST"])
@@ -42,32 +41,27 @@ def tutor_signup():
     profile_picture = request.files.get("profile_picture")
     cv_file = request.files.get("cv")
 
-    # Save profile picture
-    profile_pic_filename = secure_filename(profile_picture.filename)
-    profile_pic_path = os.path.join(UPLOAD_FOLDER_PROFILE_PIC, profile_pic_filename)
-    profile_picture.save(profile_pic_path)
-
-    # Save CV
-    cv_filename = secure_filename(cv_file.filename)
-    cv_path = os.path.join(UPLOAD_FOLDER_CV, cv_filename)
-    cv_file.save(cv_path)
-
     conn = get_db_connection()
     cursor = conn.cursor()
 
     try:
-        # Insert tutor posting into the database
+        # Insert tutor posting into the database, put a placeholder for urls because we dont knwo the post id until after
         posting_id = create_tutor_posting(
             cursor,
             course_number=class_number,
             pay_rate=pay_rate,
             description=description,
-            profile_picture_url=profile_pic_path,
-            cv_url=cv_path,
+            profile_picture_url="",
+            cv_url="",
             subject_id=subject_id,
             user_id=int(user_id),
             title=title,
         )
+        profile_pic_path = save_profile_picture(profile_picture, posting_id, user_id)
+        cv_path = save_cv(cv_file, posting_id, user_id)
+
+        # Update the database with the correct file paths using the model method
+        update_tutor_posting_file_paths(cursor, posting_id, profile_pic_path, cv_path)
 
         conn.commit()
         current_app.logger.info(

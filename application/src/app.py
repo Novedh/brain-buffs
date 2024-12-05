@@ -13,6 +13,7 @@ from flask import (
     url_for,
     redirect,
     request,
+    send_from_directory,
 )
 from collections import namedtuple
 import os
@@ -32,6 +33,10 @@ from controllers.booking_requests_controller import booking_blueprint
 
 frontend = Blueprint("frontend", __name__)
 backend = Blueprint("backend", __name__)
+
+UPLOADS_FOLDER = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "uploads")
+)
 
 
 def create_app(config=None):
@@ -156,3 +161,8 @@ def dashboard():
 
     # Check if the alert message exists & remove message after popping it making it show once
     return render_template("tutor_dashboard.html")
+
+
+@frontend.route("/uploads/<path:filename>")
+def serve_uploaded_file(filename):
+    return send_from_directory(UPLOADS_FOLDER, filename)
