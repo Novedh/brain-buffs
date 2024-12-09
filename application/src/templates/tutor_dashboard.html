@@ -77,28 +77,27 @@ Description: This file shows the dashboard for users.
             aria-labelledby="received-requests-tab"
           >
             <div class="list-group">
-              {% if received_requests %}
-                {% for request in received_requests %}
-                <div class="list-group-item border rounded-3 mb-3">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <div class="flex-grow-1">
-                      <h6 class="mb-2 fw-bold">
-                        Request from: {{ request.subject_name }}-{{ request.tutor_class_number }}
-                      </h6>
-                      <p class="mb-2 text-muted">
-                        From Student: {{ request.student_name }}
-                      </p>
-                      <p class="mb-2">{{ request.description }}</p>
-                      <small class="text-muted">
-                        <i class="bi bi-clock me-1"></i>
-                        {{ request.created_at.strftime('%Y-%m-%d %H:%M') }}
-                      </small>
-                    </div>
+              {% if received_requests %} {% for request in received_requests %}
+              <div class="list-group-item border rounded-3 mb-3">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div class="flex-grow-1">
+                    <h6 class="mb-2 fw-bold">
+                      Request from: {{ request.subject_name }}-{{
+                      request.tutor_class_number }}
+                    </h6>
+                    <p class="mb-2 text-muted">
+                      From Student: {{ request.student_name }}
+                    </p>
+                    <p class="mb-2">{{ request.description }}</p>
+                    <small class="text-muted">
+                      <i class="bi bi-clock me-1"></i>
+                      {{ request.created_at.strftime('%Y-%m-%d %H:%M') }}
+                    </small>
                   </div>
                 </div>
-                {% endfor %}
-              {% else %}
-                <p class="text-muted">No received booking requests found.</p>
+              </div>
+              {% endfor %} {% else %}
+              <p class="text-muted">No received booking requests found.</p>
               {% endif %}
             </div>
           </div>
@@ -111,28 +110,25 @@ Description: This file shows the dashboard for users.
             aria-labelledby="sent-requests-tab"
           >
             <div class="list-group">
-              {% if sent_requests %}
-                {% for request in sent_requests %}
-                <div class="list-group-item border rounded-3 mb-3">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <div class="flex-grow-1">
-                      <h6 class="mb-2 fw-bold">
-                        {{ request.posting_title }}
-                      </h6>
-                      <p class="mb-2 text-muted">
-                        To Tutor: {{ request.tutor_name }} | {{ request.subject_name }}-{{ request.class_number }}
-                      </p>
-                      <p class="mb-2">{{ request.description }}</p>
-                      <small class="text-muted">
-                        <i class="bi bi-clock me-1"></i>
-                        {{ request.created_at.strftime('%Y-%m-%d %H:%M') }}
-                      </small>
-                    </div>
+              {% if sent_requests %} {% for request in sent_requests %}
+              <div class="list-group-item border rounded-3 mb-3">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div class="flex-grow-1">
+                    <h6 class="mb-2 fw-bold">{{ request.posting_title }}</h6>
+                    <p class="mb-2 text-muted">
+                      To Tutor: {{ request.tutor_name }} | {{
+                      request.subject_name }}-{{ request.class_number }}
+                    </p>
+                    <p class="mb-2">{{ request.description }}</p>
+                    <small class="text-muted">
+                      <i class="bi bi-clock me-1"></i>
+                      {{ request.created_at.strftime('%Y-%m-%d %H:%M') }}
+                    </small>
                   </div>
                 </div>
-                {% endfor %}
-              {% else %}
-                <p class="text-muted">No sent booking requests found.</p>
+              </div>
+              {% endfor %} {% else %}
+              <p class="text-muted">No sent booking requests found.</p>
               {% endif %}
             </div>
           </div>
