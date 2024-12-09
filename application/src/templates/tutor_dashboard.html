@@ -64,7 +64,11 @@ Description: This file shows the dashboard for users.
             aria-labelledby="booking-requests-tab"
           >
             <!-- Sub-tabs for Received and Sent Requests -->
-            <ul class="nav nav-pills mb-4" id="booking-requests-subtabs" role="tablist">
+            <ul
+              class="nav nav-pills mb-4"
+              id="booking-requests-subtabs"
+              role="tablist"
+            >
               <li class="nav-item" role="presentation">
                 <button
                   class="nav-link active"
@@ -106,28 +110,30 @@ Description: This file shows the dashboard for users.
                 aria-labelledby="received-requests-tab"
               >
                 <div class="list-group">
-                  {% if received_requests %}
-                    {% for request in received_requests %}
-                    <div class="list-group-item border rounded-3 mb-3">
-                      <div class="d-flex justify-content-between align-items-start">
-                        <div class="flex-grow-1">
-                          <h6 class="mb-2 fw-bold">
-                            Request from: {{ request.subject_name }}-{{ request.tutor_class_number }}
-                          </h6>
-                          <p class="mb-2 text-muted">
-                            From Student: {{ request.student_name }}
-                          </p>
-                          <p class="mb-2">{{ request.description }}</p>
-                          <small class="text-muted">
-                            <i class="bi bi-clock me-1"></i>
-                            {{ request.created_at.strftime('%Y-%m-%d %H:%M') }}
-                          </small>
-                        </div>
+                  {% if received_requests %} {% for request in received_requests
+                  %}
+                  <div class="list-group-item border rounded-3 mb-3">
+                    <div
+                      class="d-flex justify-content-between align-items-start"
+                    >
+                      <div class="flex-grow-1">
+                        <h6 class="mb-2 fw-bold">
+                          Request from: {{ request.subject_name }}-{{
+                          request.tutor_class_number }}
+                        </h6>
+                        <p class="mb-2 text-muted">
+                          From Student: {{ request.student_name }}
+                        </p>
+                        <p class="mb-2">{{ request.description }}</p>
+                        <small class="text-muted">
+                          <i class="bi bi-clock me-1"></i>
+                          {{ request.created_at.strftime('%Y-%m-%d %H:%M') }}
+                        </small>
                       </div>
                     </div>
-                    {% endfor %}
-                  {% else %}
-                    <p class="text-muted">No received booking requests found.</p>
+                  </div>
+                  {% endfor %} {% else %}
+                  <p class="text-muted">No received booking requests found.</p>
                   {% endif %}
                 </div>
               </div>
@@ -140,28 +146,29 @@ Description: This file shows the dashboard for users.
                 aria-labelledby="sent-requests-tab"
               >
                 <div class="list-group">
-                  {% if sent_requests %}
-                    {% for request in sent_requests %}
-                    <div class="list-group-item border rounded-3 mb-3">
-                      <div class="d-flex justify-content-between align-items-start">
-                        <div class="flex-grow-1">
-                          <h6 class="mb-2 fw-bold">
-                            {{ request.posting_title }}
-                          </h6>
-                          <p class="mb-2 text-muted">
-                            To Tutor: {{ request.tutor_name }} | {{ request.subject_name }}-{{ request.class_number }}
-                          </p>
-                          <p class="mb-2">{{ request.description }}</p>
-                          <small class="text-muted">
-                            <i class="bi bi-clock me-1"></i>
-                            {{ request.created_at.strftime('%Y-%m-%d %H:%M') }}
-                          </small>
-                        </div>
+                  {% if sent_requests %} {% for request in sent_requests %}
+                  <div class="list-group-item border rounded-3 mb-3">
+                    <div
+                      class="d-flex justify-content-between align-items-start"
+                    >
+                      <div class="flex-grow-1">
+                        <h6 class="mb-2 fw-bold">
+                          {{ request.posting_title }}
+                        </h6>
+                        <p class="mb-2 text-muted">
+                          To Tutor: {{ request.tutor_name }} | {{
+                          request.subject_name }}-{{ request.class_number }}
+                        </p>
+                        <p class="mb-2">{{ request.description }}</p>
+                        <small class="text-muted">
+                          <i class="bi bi-clock me-1"></i>
+                          {{ request.created_at.strftime('%Y-%m-%d %H:%M') }}
+                        </small>
                       </div>
                     </div>
-                    {% endfor %}
-                  {% else %}
-                    <p class="text-muted">No sent booking requests found.</p>
+                  </div>
+                  {% endfor %} {% else %}
+                  <p class="text-muted">No sent booking requests found.</p>
                   {% endif %}
                 </div>
               </div>
@@ -177,7 +184,9 @@ Description: This file shows the dashboard for users.
           >
             <div class="mb-4">
               <!-- Header with Create Post button -->
-              <div class="d-flex justify-content-between align-items-center mb-4">
+              <div
+                class="d-flex justify-content-between align-items-center mb-4"
+              >
                 <h5 class="mb-0 fw-bold">Your Tutor Posts</h5>
                 <a
                   href="{{ url_for('tutor_postings_backend.tutor_signup') }}"
@@ -188,47 +197,48 @@ Description: This file shows the dashboard for users.
               </div>
 
               <div class="list-group">
-                {% if tutor_postings and tutor_postings|length > 0 %}
-                  {% for post in tutor_postings %}
-                  <div class="list-group-item border rounded-3 mb-3">
-                    <div class="d-flex justify-content-between align-items-start">
-                      <div class="flex-grow-1">
-                        <h6 class="mb-2 fw-bold">{{ post.title }}</h6>
-                        <p class="mb-2 text-muted">
-                          Class: {{ post.class_number }}
-                        </p>
-                        <p class="mb-2 text-muted">
-                          Description: {{ post.description }}
-                        </p>
-                        <div class="d-flex align-items-center">
-                          <span class="badge bg-light text-dark">
-                            <i class="bi bi-currency-dollar me-1"></i>
-                            {{ post.pay_rate }}/hr
-                          </span>
-                        </div>
+                {% if tutor_postings and tutor_postings|length > 0 %} {% for
+                post in tutor_postings %}
+                <div class="list-group-item border rounded-3 mb-3">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                      <h6 class="mb-2 fw-bold">{{ post.title }}</h6>
+                      <p class="mb-2 text-muted">
+                        Class: {{ post.class_number }}
+                      </p>
+                      <p class="mb-2 text-muted">
+                        Description: {{ post.description }}
+                      </p>
+                      <div class="d-flex align-items-center">
+                        <span class="badge bg-light text-dark">
+                          <i class="bi bi-currency-dollar me-1"></i>
+                          {{ post.pay_rate }}/hr
+                        </span>
                       </div>
-
-                      <form
-                        method="POST"
-                        action="{{ url_for('tutor_postings_backend.delete_tutor_post', tutor_posting_id=post.tutor_post_id) }}"
-                      >
-                        <input
-                          type="hidden"
-                          name="tutor_posting_id"
-                          value="{{ post.id }}"
-                        />
-                        <button
-                          class="btn btn-outline-danger ms-3"
-                          title="Delete this post"
-                        >
-                          <i class="bi bi-trash me-2"></i>Delete Post
-                        </button>
-                      </form>
                     </div>
+
+                    <form
+                      method="POST"
+                      action="{{ url_for('tutor_postings_backend.delete_tutor_post', tutor_posting_id=post.tutor_post_id) }}"
+                    >
+                      <input
+                        type="hidden"
+                        name="tutor_posting_id"
+                        value="{{ post.id }}"
+                      />
+                      <button
+                        class="btn btn-outline-danger ms-3"
+                        title="Delete this post"
+                      >
+                        <i class="bi bi-trash me-2"></i>Delete Post
+                      </button>
+                    </form>
                   </div>
-                  {% endfor %}
-                {% else %}
-                  <p class="text-muted">You haven't created any tutor posts yet.</p>
+                </div>
+                {% endfor %} {% else %}
+                <p class="text-muted">
+                  You haven't created any tutor posts yet.
+                </p>
                 {% endif %}
               </div>
             </div>
