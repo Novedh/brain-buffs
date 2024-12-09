@@ -11,8 +11,13 @@ from flask import (
     render_template,
     redirect,
     url_for,
+    flash,
 )
 from models.tutor_postings import list_tutor_postings
+from models.booking_requests import (
+    list_received_booking_requests,
+    list_sent_booking_requests,
+)
 from config import get_db_connection
 from models.users import is_logged_in
 
@@ -36,17 +41,30 @@ def dashboard():
             f"Loaded {len(tutor_postings)} tutor postings for user ID {user_id}."
         )
 
+        # Fetch both received and sent booking requests
+        received_requests = list_received_booking_requests(cursor, user_id)
+        current_app.logger.info(
+            f"Loaded {len(received_requests)} received booking requests for user ID {user_id}."
+        )
+
+        sent_requests = list_sent_booking_requests(cursor, user_id)
+        current_app.logger.info(
+            f"Loaded {len(sent_requests)} sent booking requests for user ID {user_id}."
+        )
+
     except Exception as e:
-        current_app.logger.error(f"Failed to load tutor postings: {e}")
-        flash(f"Failed to load tutor postings: {e}", "danger")
+        current_app.logger.error(f"Failed to load dashboard data: {e}")
+        flash(f"Failed to load dashboard data: {e}", "danger")
         return redirect(url_for("frontend.home_page"))
 
     finally:
         cursor.close()
         conn.close()
 
-    # Render the dashboard template with the tutor postings
+    # Render the dashboard template with all data
     return render_template(
         "tutor_dashboard.html",
         tutor_postings=tutor_postings,
+        received_requests=received_requests,
+        sent_requests=sent_requests,
     )
