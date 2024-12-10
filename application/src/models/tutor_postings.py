@@ -4,10 +4,22 @@
 # Created: 2024-11-14
 # Description: This file contains all the backend functions for tutor posting.
 
+import os
+from werkzeug.utils import secure_filename
+from werkzeug.datastructures import FileStorage
 from config import get_db_connection
 from mysql.connector.cursor import MySQLCursor
+from datetime import datetime
 from typing import List
 from decimal import Decimal
+
+UPLOAD_FOLDER_PROFILE_PIC = "uploads/profile_pics"
+UPLOAD_FOLDER_CV = "uploads/CV_Files"
+
+os.makedirs(UPLOAD_FOLDER_PROFILE_PIC, exist_ok=True)
+os.makedirs(UPLOAD_FOLDER_CV, exist_ok=True)
+
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "pdf", "docx"}
 
 
 class TutorPosting:
@@ -170,3 +182,45 @@ def delete_tutor_posting(cursor: MySQLCursor, tutor_post_id: int, user_id: int) 
 
     # Check if a row was deleted
     return cursor.rowcount > 0
+
+
+# Checks if a file has an allowed extension
+def allowed_file(filename: str) -> bool:
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+# save file with timestamp and post id
+def save_file(
+    file: FileStorage, folder: str, tutor_post_id: int, user_id: int, file_type: str
+) -> str:
+    if file and allowed_file(file.filename):
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        extension = file.filename.rsplit(".", 1)[1].lower()
+        filename = f"{user_id}_{tutor_post_id}_{file_type}_{timestamp}.{extension}"
+        file_path = os.path.join(folder, filename)
+        file.save(file_path)
+        return file_path
+    raise ValueError(f"Invalid {file_type} format.")
+
+
+def save_profile_picture(file: FileStorage, tutor_post_id: int, user_id: int) -> str:
+    return save_file(
+        file, UPLOAD_FOLDER_PROFILE_PIC, tutor_post_id, user_id, "profile_pic"
+    )
+
+
+def save_cv(file: FileStorage, tutor_post_id: int, user_id: int) -> str:
+    return save_file(file, UPLOAD_FOLDER_CV, tutor_post_id, user_id, "cv")
+
+
+# Updates the profile picture and CV file paths for a tutor posting in the database.
+def update_tutor_posting_file_paths(
+    cursor: MySQLCursor, tutor_post_id: int, profile_pic_path: str, cv_path: str
+) -> None:
+    query = """
+    UPDATE tutor_posting
+    SET profile_picture_url = %s, cv_url = %s
+    WHERE id = %s
+    """
+    params = (profile_pic_path, cv_path, tutor_post_id)
+    cursor.execute(query, params)
