@@ -45,7 +45,7 @@ def tutor_signup():
     cursor = conn.cursor()
 
     try:
-        # Insert tutor posting into the database, put a placeholder for urls because we dont knwo the post id until after
+        # Insert tutor posting into the database, put a placeholder for urls because we dont know the post id until after
         posting_id = create_tutor_posting(
             cursor,
             course_number=class_number,

@@ -6,6 +6,7 @@
 
 import os
 from werkzeug.utils import secure_filename
+from werkzeug.datastructures import FileStorage
 from config import get_db_connection
 from mysql.connector.cursor import MySQLCursor
 from datetime import datetime
@@ -190,7 +191,7 @@ def allowed_file(filename: str) -> bool:
 
 # save file with timestamp and post id
 def save_file(
-    file, folder: str, tutor_post_id: int, user_id: int, file_type: str
+    file: FileStorage, folder: str, tutor_post_id: int, user_id: int, file_type: str
 ) -> str:
     if file and allowed_file(file.filename):
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
@@ -202,13 +203,13 @@ def save_file(
     raise ValueError(f"Invalid {file_type} format.")
 
 
-def save_profile_picture(file, tutor_post_id: int, user_id: int) -> str:
+def save_profile_picture(file: FileStorage, tutor_post_id: int, user_id: int) -> str:
     return save_file(
         file, UPLOAD_FOLDER_PROFILE_PIC, tutor_post_id, user_id, "profile_pic"
     )
 
 
-def save_cv(file, tutor_post_id: int, user_id: int) -> str:
+def save_cv(file: FileStorage, tutor_post_id: int, user_id: int) -> str:
     return save_file(file, UPLOAD_FOLDER_CV, tutor_post_id, user_id, "cv")
 
 

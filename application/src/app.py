@@ -34,9 +34,7 @@ from controllers.booking_requests_controller import booking_blueprint
 frontend = Blueprint("frontend", __name__)
 backend = Blueprint("backend", __name__)
 
-UPLOADS_FOLDER = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "uploads")
-)
+UPLOADS_FOLDER = "../uploads"
 
 
 def create_app(config=None):
