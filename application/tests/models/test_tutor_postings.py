@@ -2,7 +2,7 @@
 # Filename: test_tutor_postings.py
 # Author(s): Devon Huang
 # Created: 2024-11-14
-# Description: This tests the search functionalities.
+# Description: This file contains tests for models/tutor_postings.py
 # test tutor_postings.py
 
 import pytest
