@@ -81,7 +81,5 @@ def login():
 def logout():
     if "user_id" in session:
         flash("You have been logged out successfully. See you next time!", "info")
-        session.pop("user_id", None)
-        session.pop("username", None)
-        return redirect("/")
+        session.clear()
     return redirect("/")
