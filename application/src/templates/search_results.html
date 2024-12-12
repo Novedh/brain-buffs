@@ -61,6 +61,9 @@ content %}
                     data-bs-target="#bookingRequestModal"
                     data-tutor-name="{{ tutor.tutor_name }}"
                     data-tutor-post-id="{{ tutor.tutor_post_id }}"
+                    data-class-number="{{ tutor.class_number }}"
+                    data-user-name="{{ session['user_name'] if 'user_name' in session else '' }}"
+                    data-user-email="{{ session['user_email'] if 'user_email' in session else '' }}"
                   >
                     Book Session
                   </a>
@@ -156,30 +159,20 @@ content %}
               name="tutor_post_id"
               value="{{ tutor_post_id }}"
             />
-            <div class="alert alert-primary mb-3">
-              Make sure you provide contact information...
-            </div>
-
-            <div class="form-group">
-              <label for="messageContent" class="form-label visually-hidden">
-                Message Content
-              </label>
+            <div class="form-group mt-3">
+              <!-- will prefill the message in the script -->
               <textarea
                 class="form-control"
                 id="messageContent"
                 name="message"
-                rows="6"
-                placeholder="Hi [Tutor Name],
-
-My name is [User Name] and I would like to schedule a tutoring booking for [Class Number]. I want to prepare for my upcoming exam/assignment. My email is [user@email.com].
-
-Please let me know your available time slots for this week. Thank you!"
+                rows="4"
+                maxlength="500"
+                required
               ></textarea>
               <small class="text-text-secondary d-block text-end mt-1">
                 <span id="charCount">0</span>/500
               </small>
             </div>
-
             <div class="text-center mt-3">
               <button type="submit" class="btn btn-primary px-4">
                 Submit Request
@@ -190,45 +183,62 @@ Please let me know your available time slots for this week. Thank you!"
       </div>
     </div>
   </div>
-</main>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const textarea = document.getElementById("messageContent");
-    const charCount = document.getElementById("charCount");
-    const maxLength = 500;
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const bookingModal = document.getElementById("bookingRequestModal");
+      const bookingForm = document.getElementById("bookingRequestForm");
+      const messageContent = document.getElementById("messageContent");
+      const charCount = document.getElementById("charCount");
+      const maxChars = 500;
 
-    // Character counter
-    textarea.addEventListener("input", function () {
-      const currentLength = this.value.length;
-      charCount.textContent = currentLength;
-
-      if (currentLength > maxLength) {
-        this.value = this.value.substring(0, maxLength);
-        charCount.textContent = maxLength;
+      // Function to update character count
+      function updateCharCount() {
+        const currentLength = messageContent.value.length;
+        charCount.textContent = currentLength;
       }
+
+      // When modal is shown
+      bookingModal.addEventListener("show.bs.modal", function (event) {
+        const button = event.relatedTarget;
+        const tutorName = button.getAttribute("data-tutor-name");
+        const tutorId = button.getAttribute("data-tutor-post-id");
+        const classNumber = button.getAttribute("data-class-number");
+        const userName = button.getAttribute("data-user-name") || "User";
+        const userEmail =
+          button.getAttribute("data-user-email") || "user@email.com";
+
+        document.getElementById("tutorName").textContent = tutorName;
+
+        const messageTemplate = `
+      Hi ${tutorName},
+      My name is ${userName} and I would like to schedule a tutoring booking for ${classNumber}. 
+      I want to prepare for my upcoming exam/assignment.
+      My email is ${userEmail}.
+    `;
+        const formattedMessage = messageTemplate.trim().replace(/\s+/g, " ");
+
+        messageContent.value = formattedMessage;
+
+        const tutorIdField = bookingForm.querySelector(
+          "input[name='tutor_post_id']",
+        );
+        tutorIdField.value = tutorId;
+
+        // Update character count with prefilled message
+        updateCharCount();
+      });
+
+      // Update character count on input
+      messageContent.addEventListener("input", updateCharCount);
+
+      messageContent.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+        }
+      });
     });
+  </script>
 
-    // Update modal with tutor information
-    const bookingModal = document.getElementById("bookingRequestModal");
-    bookingModal.addEventListener("show.bs.modal", function (event) {
-      const button = event.relatedTarget;
-      const tutorName = button.getAttribute("data-tutor-name");
-      const tutorId = button.getAttribute("data-tutor-post-id");
-
-      document.getElementById("tutorName").textContent = tutorName;
-      document.getElementById("messageContent").placeholder = `Hi ${tutorName},
-
-My name is [User Name] and I would like to schedule a tutoring booking for [Class Number]. I want to prepare for my upcoming exam/assignment. My email is [user@email.com].
-
-Please let me know your available time slots for this week. Thank you!`;
-
-      // Update hidden field for tutor_id
-      const tutorIdField = document.querySelector(
-        "#bookingRequestForm input[name='tutor_post_id']",
-      );
-      tutorIdField.value = tutorId;
-    });
-  });
-</script>
-{% endblock %}
+  {% endblock %}
+</main>

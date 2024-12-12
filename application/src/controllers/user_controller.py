@@ -46,6 +46,7 @@ def register():
             )
     session["user_id"] = user_id
     session["username"] = full_name
+    session["user_email"] = email
     flash(f"Thank you for registering, {full_name}!", "success")
     print(f"User({user_id}) registered successfully!")
     # Redirect if registration is successful
@@ -67,6 +68,7 @@ def login():
             if user and verify_password(user.password, password):
                 session["user_id"] = user.id
                 session["username"] = user.name
+                session["user_email"] = user.email
                 flash(f"Welcome back, {user.name}!", "success")
                 return redirect(url_for("frontend.dashboard"))
 
