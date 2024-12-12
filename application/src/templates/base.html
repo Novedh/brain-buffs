@@ -189,8 +189,10 @@ Description: Base.html for Brain Buff's template and navbar
               <li>
                 <a href="/tutor_signup" class="text-white">Become a Tutor</a>
               </li>
+              {% if session.get("user_id") %} {% else %}
               <li><a href="/login" class="text-white">Login</a></li>
               <li><a href="/register" class="text-white">Register</a></li>
+              {% endif %}
             </ul>
           </div>
 
