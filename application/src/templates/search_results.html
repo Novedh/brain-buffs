@@ -159,6 +159,7 @@ content %}
                 id="messageContent"
                 name="message"
                 rows="4"
+                maxlength="500"
                 required
               ></textarea>
               <small class="text-text-secondary d-block text-end mt-1">
@@ -180,6 +181,15 @@ content %}
     document.addEventListener("DOMContentLoaded", function () {
       const bookingModal = document.getElementById("bookingRequestModal");
       const bookingForm = document.getElementById("bookingRequestForm");
+      const messageContent = document.getElementById("messageContent");
+      const charCount = document.getElementById("charCount");
+      const maxChars = 500;
+
+      // Function to update character count
+      function updateCharCount() {
+        const currentLength = messageContent.value.length;
+        charCount.textContent = currentLength;
+      }
 
       // When modal is shown
       bookingModal.addEventListener("show.bs.modal", function (event) {
@@ -201,21 +211,19 @@ content %}
     `;
         const formattedMessage = messageTemplate.trim().replace(/\s+/g, " ");
 
-        const messageContent = document.getElementById("messageContent");
         messageContent.value = formattedMessage;
 
         const tutorIdField = bookingForm.querySelector(
           "input[name='tutor_post_id']",
         );
         tutorIdField.value = tutorId;
+
+        // Update character count with prefilled message
+        updateCharCount();
       });
 
-      // When form is submitted
-      bookingForm.addEventListener("submit", function (event) {
-        const messageContent = document
-          .getElementById("messageContent")
-          .value.trim();
-      });
+      // Update character count on input
+      messageContent.addEventListener("input", updateCharCount);
     });
   </script>
 
