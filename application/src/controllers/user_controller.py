@@ -46,6 +46,7 @@ def register():
             )
     session["user_id"] = user_id
     session["username"] = full_name
+    session["user_email"] = email
     flash(f"Thank you for registering, {full_name}!", "success")
     print(f"User({user_id}) registered successfully!")
     # Redirect if registration is successful
@@ -67,6 +68,7 @@ def login():
             if user and verify_password(user.password, password):
                 session["user_id"] = user.id
                 session["username"] = user.name
+                session["user_email"] = user.email
                 flash(f"Welcome back, {user.name}!", "success")
                 return redirect(url_for("frontend.dashboard"))
 
@@ -81,6 +83,5 @@ def login():
 def logout():
     # This would not pass the check even after formated, so im skipping it here
     flash("You have been logged out successfully. See you next time!", "info")
-    session.pop("user_id", None)
-    session.pop("username", None)
+    session.clear()
     return redirect(url_for("frontend.home_page"))
