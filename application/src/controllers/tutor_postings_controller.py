@@ -23,10 +23,12 @@ from models.tutor_postings import (
     delete_tutor_posting,
     save_profile_picture,
     save_cv,
-    update_tutor_posting_file_paths,
     is_valid_subject,
     search_tutor_postings,
     get_tutor_count,
+    update_tutor_posting_CV_path,
+    update_tutor_posting_pic_path,
+    allowed_file,
 )
 from config import get_db_connection
 
@@ -55,17 +57,26 @@ def tutor_signup():
             course_number=class_number,
             pay_rate=pay_rate,
             description=description,
-            profile_picture_url="",
-            cv_url="",
+            profile_picture_url=None,
+            cv_url=None,
             subject_id=subject_id,
             user_id=int(user_id),
             title=title,
         )
-        profile_pic_path = save_profile_picture(profile_picture, posting_id, user_id)
-        cv_path = save_cv(cv_file, posting_id, user_id)
+        # save and update the database with the correct file paths using the model method if not null
+        if profile_picture:
+            if not allowed_file(profile_picture.filename):
+                raise ValueError("Invalid profile_pic format.")
+            profile_pic_path = save_profile_picture(
+                profile_picture, posting_id, user_id
+            )
+            update_tutor_posting_pic_path(cursor, posting_id, profile_pic_path)
 
-        # Update the database with the correct file paths using the model method
-        update_tutor_posting_file_paths(cursor, posting_id, profile_pic_path, cv_path)
+        if cv_file:
+            if not allowed_file(cv_file.filename):
+                raise ValueError("Invalid CV format.")
+            cv_path = save_cv(cv_file, posting_id, user_id)
+            update_tutor_posting_CV_path(cursor, posting_id, cv_path)
 
         conn.commit()
         current_app.logger.info(
@@ -76,13 +87,19 @@ def tutor_signup():
             "success",
         )
 
+    except ValueError as ve:
+        conn.rollback()
+        current_app.logger.error(f"Failed to create tutor posting: {ve}")
+
+        flash(f"Failed to create tutor posting: {ve}", "danger")
+        return redirect(url_for("frontend.dashboard")), 400
+
     except Exception as e:
         conn.rollback()
         current_app.logger.error(f"Failed to create tutor posting: {e}")
 
         flash(f"Failed to create tutor posting: {e}", "danger")
         return redirect("/tutor_signup")
-
     finally:
         cursor.close()
         conn.close()

@@ -91,13 +91,20 @@ content %}
                         >${{ tutor.pay_rate }} per hour</span
                       >
                     </p>
-                    <a
-                      href="{{ tutor.cv_url }}"
-                      target="_blank"
-                      class="btn btn-outline-primary btn-sm"
-                    >
-                      View CV
-                    </a>
+                    <p class="mb-2">
+                      <span class="text-muted">CV:</span><br />
+                      {% if tutor.cv_url %}
+                      <a
+                        href="{{ tutor.cv_url }}"
+                        target="_blank"
+                        class="btn btn-outline-primary btn-sm"
+                      >
+                        View CV
+                      </a>
+                      {% else %}
+                      <span class="fw-medium">{{ "No CV available." }}</span>
+                      {% endif %}
+                    </p>
                   </div>
 
                   <!-- Right Column - Description -->

@@ -57,37 +57,10 @@ $ pytest
 ```
 
 ## How to deploy:
-
-
-1. SSH into server
-
-    `ssh -i path/to/your_key ubuntu@{Server URL or IP}`
-
-2. navigate to application directory
-
-   `cd csc648-fa24-03-team01/application/`
-
-3. Pull the main branch
-
-    `git pull origin main`
-
-4. Identify the running python server process if running
-
-    `ps aux | grep "python app.py"`
-
-    * note the PID of the process if exist
-
-5. Stop the python server process if exist
-
-    `kill {PID of process}`
-
-6. Enter virtual enviroment
-
-    `source ~/projectenv/bin/activate`
-
-7. Run the server in background 
-
-    `flask run &`
+Simply SSH into the remote server, and execute the deploy script.
+```bash
+ssh -i path/to/your_key ubuntu@{Server URL or IP} < deploy.sh
+```
 
 
 # What is devenv

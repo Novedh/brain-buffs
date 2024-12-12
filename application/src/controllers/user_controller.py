@@ -78,10 +78,9 @@ def login():
 
 @user_blueprint.route("/logout")
 def logout():
-    # This would not pass the check even after formated, so im skipping it here
-    flash("You have been logged out successfully. See you next time!", "info")
-    session.pop("user_id", None)
-    session.pop("username", None)
+    if "user_id" in session:
+        flash("You have been logged out successfully. See you next time!", "info")
+        session.clear()
     return redirect("/")
 
 
