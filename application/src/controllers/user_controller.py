@@ -17,7 +17,7 @@ from flask import (
 
 from config import get_db_connection
 
-from models.users import get_user_by_email, verify_password, create_user
+from models.users import get_user_by_email, verify_password, create_user, is_logged_in
 
 user_blueprint = Blueprint("user_backend", __name__)
 
@@ -79,8 +79,9 @@ def login():
 
 @user_blueprint.route("/logout")
 def logout():
-    # This would not pass the check even after formated, so im skipping it here
-    flash("You have been logged out successfully. See you next time!", "info")
-    session.pop("user_id", None)
-    session.pop("username", None)
-    return redirect(url_for("frontend.home_page"))
+    if "user_id" in session:
+        flash("You have been logged out successfully. See you next time!", "info")
+        session.pop("user_id", None)
+        session.pop("username", None)
+        return redirect("/")
+    return redirect("/")
