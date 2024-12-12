@@ -22,7 +22,9 @@ from models.tutor_postings import (
     delete_tutor_posting,
     save_profile_picture,
     save_cv,
-    update_tutor_posting_file_paths,
+    update_tutor_posting_CV_path,
+    update_tutor_posting_pic_path,
+    allowed_file,
 )
 from config import get_db_connection
 
@@ -51,17 +53,26 @@ def tutor_signup():
             course_number=class_number,
             pay_rate=pay_rate,
             description=description,
-            profile_picture_url="",
-            cv_url="",
+            profile_picture_url=None,
+            cv_url=None,
             subject_id=subject_id,
             user_id=int(user_id),
             title=title,
         )
-        profile_pic_path = save_profile_picture(profile_picture, posting_id, user_id)
-        cv_path = save_cv(cv_file, posting_id, user_id)
+        # save and update the database with the correct file paths using the model method if not null
+        if profile_picture and allowed_file(profile_picture.filename):
+            profile_pic_path = save_profile_picture(
+                profile_picture, posting_id, user_id
+            )
+            update_tutor_posting_pic_path(cursor, posting_id, profile_pic_path)
+        elif profile_picture:
+            raise ValueError("Invalid profile_pic format.")
 
-        # Update the database with the correct file paths using the model method
-        update_tutor_posting_file_paths(cursor, posting_id, profile_pic_path, cv_path)
+        if cv_file and allowed_file(cv_file.filename):
+            cv_path = save_cv(cv_file, posting_id, user_id)
+            update_tutor_posting_CV_path(cursor, posting_id, cv_path)
+        elif cv_file:
+            raise ValueError("Invalid CV format.")
 
         conn.commit()
         current_app.logger.info(
