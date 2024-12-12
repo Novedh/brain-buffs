@@ -60,19 +60,19 @@ def tutor_signup():
             title=title,
         )
         # save and update the database with the correct file paths using the model method if not null
-        if profile_picture and allowed_file(profile_picture.filename):
+        if profile_picture:
+            if not allowed_file(profile_picture.filename):
+                raise ValueError("Invalid profile_pic format.")
             profile_pic_path = save_profile_picture(
                 profile_picture, posting_id, user_id
             )
             update_tutor_posting_pic_path(cursor, posting_id, profile_pic_path)
-        elif profile_picture:
-            raise ValueError("Invalid profile_pic format.")
 
-        if cv_file and allowed_file(cv_file.filename):
+        if cv_file:
+            if not allowed_file(cv_file.filename):
+                raise ValueError("Invalid CV format.")
             cv_path = save_cv(cv_file, posting_id, user_id)
             update_tutor_posting_CV_path(cursor, posting_id, cv_path)
-        elif cv_file:
-            raise ValueError("Invalid CV format.")
 
         conn.commit()
         current_app.logger.info(
