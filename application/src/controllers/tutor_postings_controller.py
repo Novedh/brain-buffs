@@ -142,6 +142,8 @@ def delete_tutor_post(tutor_posting_id):
 
 @tutor_postings_blueprint.route("/tutor_signup", methods=["GET"])
 def tutor_signup_form():
+    if not is_logged_in():
+        return redirect(url_for("user_backend.login_form", message="login_required"))
     return render_template("tutor_sign_up.html")
 
 

@@ -55,12 +55,6 @@ def test_root_redirect(client):
     assert response.status_code == 200
 
 
-def test_tutor_signup_page(client):
-    """Test that the tutor signup page loads successfully."""
-    response = client.get("/tutor_signup")
-    assert response.status_code == 200
-
-
 def test_redirect_to_login_when_not_logged_in(client):
     """Test that routes redirect to the login page when not logged in."""
     routes = ["/dashboard"]
