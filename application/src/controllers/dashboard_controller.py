@@ -55,7 +55,7 @@ def dashboard():
     except Exception as e:
         current_app.logger.error(f"Failed to load dashboard data: {e}")
         flash(f"Failed to load dashboard data: {e}", "danger")
-        return redirect(url_for("frontend.home_page"))
+        return redirect("/")
 
     finally:
         cursor.close()

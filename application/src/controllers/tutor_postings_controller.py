@@ -81,13 +81,13 @@ def tutor_signup():
         current_app.logger.error(f"Failed to create tutor posting: {e}")
 
         flash(f"Failed to create tutor posting: {e}", "danger")
-        return redirect(url_for("frontend.dashboard"))
+        return redirect("/tutor_signup")
 
     finally:
         cursor.close()
         conn.close()
 
-    return redirect(url_for("frontend.dashboard"))
+    return redirect("/dashboard")
 
 
 @tutor_postings_blueprint.route(
@@ -120,7 +120,7 @@ def delete_tutor_post(tutor_posting_id):
         cursor.close()
         conn.close()
 
-    return redirect(url_for("frontend.dashboard"))
+    return redirect("/dashboard")
 
 
 @tutor_postings_blueprint.route("/tutor_signup", methods=["GET"])

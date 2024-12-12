@@ -42,7 +42,7 @@ def submit_booking_request():
             )
             conn.commit()
             flash("Booking request submitted successfully!!!!", "success")
-            return redirect(url_for("frontend.dashboard"))
+            return redirect("/dashboard")
 
     except Exception as e:
         current_app.logger.error(f"booking request failed: {e}")
