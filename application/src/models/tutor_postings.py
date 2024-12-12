@@ -186,6 +186,8 @@ def delete_tutor_posting(cursor: MySQLCursor, tutor_post_id: int, user_id: int) 
 
 # Checks if a file has an allowed extension
 def allowed_file(filename: str) -> bool:
+    if filename is None:
+        return True
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
@@ -214,13 +216,25 @@ def save_cv(file: FileStorage, tutor_post_id: int, user_id: int) -> str:
 
 
 # Updates the profile picture and CV file paths for a tutor posting in the database.
-def update_tutor_posting_file_paths(
-    cursor: MySQLCursor, tutor_post_id: int, profile_pic_path: str, cv_path: str
+def update_tutor_posting_pic_path(
+    cursor: MySQLCursor, tutor_post_id: int, profile_pic_path: str
 ) -> None:
     query = """
     UPDATE tutor_posting
-    SET profile_picture_url = %s, cv_url = %s
+    SET profile_picture_url = %s
     WHERE id = %s
     """
-    params = (profile_pic_path, cv_path, tutor_post_id)
+    params = (profile_pic_path, tutor_post_id)
+    cursor.execute(query, params)
+
+
+def update_tutor_posting_CV_path(
+    cursor: MySQLCursor, tutor_post_id: int, cv_path: str
+) -> None:
+    query = """
+    UPDATE tutor_posting
+    SET  cv_url = %s
+    WHERE id = %s
+    """
+    params = (cv_path, tutor_post_id)
     cursor.execute(query, params)
