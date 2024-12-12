@@ -8,6 +8,7 @@
 
 import pytest
 from app import create_app
+from flask import session
 
 
 @pytest.fixture(scope="module")
@@ -15,6 +16,13 @@ def client():
     app = create_app()
     with app.test_client() as client:
         yield client
+
+
+@pytest.fixture(scope="module")
+def login(client):
+    """Fixture to log in a user."""
+    with client.session_transaction() as sess:
+        sess["user_id"] = 1
 
 
 def test_about_page(client):
@@ -51,3 +59,11 @@ def test_tutor_signup_page(client):
     """Test that the tutor signup page loads successfully."""
     response = client.get("/tutor_signup")
     assert response.status_code == 200
+
+
+def test_routes_logged_in(client, login):
+    """Test that all routes return 200 status code when logged in."""
+    routes = ["/", "/search", "/about", "/tutor_signup", "/dashboard"]
+    for route in routes:
+        response = client.get(route)
+        assert response.status_code == 200, f"Failed on route: {route}"
