@@ -51,3 +51,53 @@ def test_tutor_signup_page(client):
     """Test that the tutor signup page loads successfully."""
     response = client.get("/tutor_signup")
     assert response.status_code == 200
+
+
+def test_search_page(client):
+    """Test that the search page loads successfully."""
+    response = client.get("/search")
+    assert response.status_code == 200
+
+
+def test_login_page(client):
+    """Test that the login page loads successfully."""
+    response = client.get("/login")
+    assert response.status_code == 200
+
+
+def test_register_page(client):
+    """Test that the register page loads successfully."""
+    response = client.get("/register")
+    assert response.status_code == 200
+
+
+# Test dashboard page requires login
+def test_dashboard_page_requires_login(client):
+    """Test that the dashboard page requires login."""
+    response = client.get("/dashboard")
+    assert response.status_code == 302
+    assert response.headers["Location"] == "/login?message=login_required"
+    # TODO: Once we implement the `Redirect to the last page after login` feature, we should update the test case below.
+    # assert response.headers["Location"] == "/login?next=%2Fdashboard"
+
+
+def test_logout_page_by_guest(client):
+    """Test that the logout page by guest returns 302 status code."""
+    response = client.get("/logout")
+    assert response.status_code == 302
+    assert response.headers["Location"] == "/"
+
+
+# TODO: Ask professor about this test case, is it OK to simply redirect guest to login page? Or should we implement lazy registration?
+# def test_tutor_signup_page_by_guest(client):
+#     """Test that the tutor signup page by guest returns 302 status code."""
+#     response = client.get("/tutor_signup")
+#     assert response.status_code == 302
+#     assert response.headers["Location"] == "/login?next=%2Ftutor_signup"
+
+
+# TODO: Add test for authenticated user
+# def test_dashboard_page_by_authenticated_user(client):
+# def test_login_page_by_authenticated_user(client):
+# def test_register_page_by_authenticated_user(client):
+# def test_logout_page_by_authenticated_user(client):
