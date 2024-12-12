@@ -29,7 +29,7 @@ def dashboard():
     # Check if the user is logged in by verifying the session
     user_id = session.get("user_id")
     if not is_logged_in():
-        return redirect(url_for("frontend.login_form", message="login_required"))
+        return redirect(url_for("user_backend.login_form", message="login_required"))
 
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)

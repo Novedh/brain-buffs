@@ -13,6 +13,7 @@ from flask import (
     url_for,
     session,
     flash,
+    abort,
 )
 import os
 from werkzeug.utils import secure_filename
@@ -23,6 +24,9 @@ from models.tutor_postings import (
     save_profile_picture,
     save_cv,
     update_tutor_posting_file_paths,
+    is_valid_subject,
+    search_tutor_postings,
+    get_tutor_count,
 )
 from config import get_db_connection
 
@@ -93,7 +97,7 @@ def delete_tutor_post(tutor_posting_id):
 
     user_id = session.get("user_id")
     if not is_logged_in():
-        return redirect(url_for("frontend.login_form", message="login_required"))
+        return redirect(url_for("user_backend.login_form", message="login_required"))
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -117,3 +121,30 @@ def delete_tutor_post(tutor_posting_id):
         conn.close()
 
     return redirect(url_for("frontend.dashboard"))
+
+
+@tutor_postings_blueprint.route("/tutor_signup", methods=["GET"])
+def tutor_signup_form():
+    return render_template("tutor_sign_up.html")
+
+
+@tutor_postings_blueprint.route("/search", methods=["GET"])
+def search():
+    selected_subject = request.args.get("subject", "All")
+    search_text = request.args.get("search_text", "").strip()
+
+    # Validate the selected subject (from models/tutor_postings)
+    if not is_valid_subject(selected_subject, current_app.subjects):
+        abort(400)
+
+    # Get tutor postings and count (from models/tutor_postings)
+    tutor_postings = search_tutor_postings(selected_subject, search_text)
+    results_count = get_tutor_count(selected_subject, search_text)
+
+    return render_template(
+        "search_results.html",
+        tutor_postings=tutor_postings,
+        selected_subject=selected_subject,
+        search_text=search_text,
+        results_count=results_count,
+    )

@@ -8,7 +8,6 @@ from flask import (
     Blueprint,
     current_app,
     render_template,
-    url_for,
     redirect,
     request,
     session,
@@ -68,7 +67,7 @@ def login():
                 session["user_id"] = user.id
                 session["username"] = user.name
                 flash(f"Welcome back, {user.name}!", "success")
-                return redirect(url_for("frontend.dashboard"))
+                return redirect("/dashboard")
 
         raise ValueError("Invalid email or password")
 
@@ -83,4 +82,19 @@ def logout():
     flash("You have been logged out successfully. See you next time!", "info")
     session.pop("user_id", None)
     session.pop("username", None)
-    return redirect(url_for("frontend.home_page"))
+    return redirect("/")
+
+
+@user_blueprint.route("/login", methods=["GET"])
+def login_form():
+    message = request.args.get("message")
+    if message == "login_required":
+        return render_template(
+            "login.html", error="You need to log in to access this page."
+        )
+    return render_template("login.html")
+
+
+@user_blueprint.route("/register", methods=["GET"])
+def register_form():
+    return render_template("register.html")

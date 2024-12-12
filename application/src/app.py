@@ -17,9 +17,7 @@ from controllers.tutor_postings_controller import tutor_postings_blueprint
 from controllers.dashboard_controller import dashboard_blueprint
 from controllers.booking_requests_controller import booking_blueprint
 from controllers.frontend_controller import frontend_blueprint
-
-
-UPLOADS_FOLDER = "../uploads"
+from controllers.upload_controller import upload_blueprint
 
 
 def create_app(config=None):
@@ -31,6 +29,7 @@ def create_app(config=None):
     app.register_blueprint(user_blueprint)
     app.register_blueprint(booking_blueprint)
     app.register_blueprint(tutor_postings_blueprint)
+    app.register_blueprint(upload_blueprint)
     app.subjects = get_subjects()
 
     @app.context_processor
