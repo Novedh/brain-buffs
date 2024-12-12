@@ -29,7 +29,7 @@ def dashboard():
     # Check if the user is logged in by verifying the session
     user_id = session.get("user_id")
     if not is_logged_in():
-        return redirect(url_for("frontend.login_form", message="login_required"))
+        return redirect(url_for("user_backend.login_form", message="login_required"))
 
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -55,7 +55,7 @@ def dashboard():
     except Exception as e:
         current_app.logger.error(f"Failed to load dashboard data: {e}")
         flash(f"Failed to load dashboard data: {e}", "danger")
-        return redirect(url_for("frontend.home_page"))
+        return redirect("/")
 
     finally:
         cursor.close()
