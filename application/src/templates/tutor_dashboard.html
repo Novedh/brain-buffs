@@ -1,7 +1,7 @@
 <!--
 Class: CSC-648-848 Fall 2024
 Filename: tutor_dashboard.html
-Author(s): Kim Nguyen, Thiha Aung
+Author(s): Kim Nguyen, Thiha Aung, Devon Huang
 Created: 2024-11-14
 Description: This file shows the dashboard for users.
 -->
@@ -58,8 +58,115 @@ Description: This file shows the dashboard for users.
             role="tabpanel"
             aria-labelledby="booking-requests-tab"
           >
-            <div class="list-group">
-              <!-- Booking requests can be dynamically added here -->
+            <!-- Sub-tabs for Received and Sent Requests -->
+            <ul
+              class="nav nav-pills mb-4"
+              id="booking-requests-subtabs"
+              role="tablist"
+            >
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link active"
+                  id="received-requests-tab"
+                  data-bs-toggle="pill"
+                  data-bs-target="#received-requests"
+                  type="button"
+                  role="tab"
+                  aria-controls="received-requests"
+                  aria-selected="true"
+                >
+                  <i class="bi bi-inbox me-2"></i>
+                  Received Requests
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link"
+                  id="sent-requests-tab"
+                  data-bs-toggle="pill"
+                  data-bs-target="#sent-requests"
+                  type="button"
+                  role="tab"
+                  aria-controls="sent-requests"
+                  aria-selected="false"
+                >
+                  <i class="bi bi-send me-2"></i>
+                  Sent Requests
+                </button>
+              </li>
+            </ul>
+
+            <div class="tab-content" id="booking-requests-content">
+              <!-- Received Requests Sub-tab -->
+              <div
+                class="tab-pane fade show active"
+                id="received-requests"
+                role="tabpanel"
+                aria-labelledby="received-requests-tab"
+              >
+                <div class="list-group">
+                  {% if received_requests %} {% for request in received_requests
+                  %}
+                  <div class="list-group-item border rounded-3 mb-3">
+                    <div
+                      class="d-flex justify-content-between align-items-start"
+                    >
+                      <div class="flex-grow-1">
+                        <h6 class="mb-2 fw-bold">
+                          Request from: {{ request.subject_name }}-{{
+                          request.tutor_class_number }}
+                        </h6>
+                        <p class="mb-2 text-muted">
+                          From Student: {{ request.student_name }}
+                        </p>
+                        <p class="mb-2">{{ request.description }}</p>
+                        <small class="text-muted">
+                          <i class="bi bi-clock me-1"></i>
+                          {{ request.created_at.strftime('%Y-%m-%d %H:%M') }}
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %} {% else %}
+                  <p class="text-muted">No received booking requests found.</p>
+                  {% endif %}
+                </div>
+              </div>
+
+              <!-- Sent Requests Sub-tab -->
+              <div
+                class="tab-pane fade"
+                id="sent-requests"
+                role="tabpanel"
+                aria-labelledby="sent-requests-tab"
+              >
+                <div class="list-group">
+                  {% if sent_requests %} {% for request in sent_requests %}
+                  <div class="list-group-item border rounded-3 mb-3">
+                    <div
+                      class="d-flex justify-content-between align-items-start"
+                    >
+                      <div class="flex-grow-1">
+                        <h6 class="mb-2 fw-bold">
+                          {{ request.posting_title }}
+                        </h6>
+                        <p class="mb-2 text-muted">
+                          To Tutor: {{ request.tutor_name }} | {{
+                          request.subject_name }}-{{ request.class_number }}
+                        </p>
+                        <p class="mb-2">{{ request.description }}</p>
+                        <small class="text-muted">
+                          <i class="bi bi-clock me-1"></i>
+                          {{ request.created_at.strftime('%Y-%m-%d %H:%M') }}
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %} {% else %}
+                  <p class="text-muted">No sent booking requests found.</p>
+                  {% endif %}
+                </div>
+              </div>
             </div>
           </div>
 
@@ -99,8 +206,8 @@ Description: This file shows the dashboard for users.
                       </p>
                       <div class="d-flex align-items-center">
                         <span class="badge bg-light text-dark">
-                          <i class="bi bi-currency-dollar me-1"></i>{{
-                          post.pay_rate }}/hr
+                          <i class="bi bi-currency-dollar me-1"></i>
+                          {{ post.pay_rate }}/hr
                         </span>
                       </div>
                     </div>
@@ -114,7 +221,6 @@ Description: This file shows the dashboard for users.
                         name="tutor_posting_id"
                         value="{{ post.id }}"
                       />
-
                       <button
                         class="btn btn-outline-danger ms-3"
                         title="Delete this post"
