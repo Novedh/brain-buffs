@@ -153,7 +153,7 @@ content %}
               value="{{ tutor_post_id }}"
             />
             <div class="form-group mt-3">
-              <!-- Prefilled message directly in the textarea -->
+              <!-- will prefill the message in the script -->
               <textarea
                 class="form-control"
                 id="messageContent"
@@ -181,7 +181,7 @@ content %}
       const bookingForm = document.getElementById("bookingRequestForm");
 
       bookingModal.addEventListener("show.bs.modal", function (event) {
-        const button = event.relatedTarget; // Button that triggered the modal
+        const button = event.relatedTarget;
         const tutorName = button.getAttribute("data-tutor-name");
         const tutorId = button.getAttribute("data-tutor-post-id");
         const classNumber = button.getAttribute("data-class-number");
@@ -210,9 +210,6 @@ content %}
           "input[name='tutor_post_id']",
         );
         tutorIdField.value = tutorId;
-
-        // Store the template for later use (optional)
-        bookingForm.dataset.messageTemplate = formattedMessage;
       });
 
       bookingForm.addEventListener("submit", function (event) {
