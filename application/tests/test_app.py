@@ -67,3 +67,16 @@ def test_routes_logged_in(client, login):
     for route in routes:
         response = client.get(route)
         assert response.status_code == 200, f"Failed on route: {route}"
+
+
+def test_redirect_to_login_when_not_logged_in(client):
+    """Test that protected routes redirect to the login page when not logged in."""
+    routes = ["/dashboard", "/logout"]
+
+    for route in routes:
+        response = client.get(route, follow_redirects=False)
+        # Check if the status code is a redirect (302)
+        assert response.status_code == 302, f"Route {route} did not redirect"
+        assert (
+            response.headers["Location"] == "/login"
+        ), f"Route {route} did not redirect to /login"
