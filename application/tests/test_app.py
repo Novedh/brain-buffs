@@ -78,5 +78,5 @@ def test_redirect_to_login_when_not_logged_in(client):
         # Check if the status code is a redirect (302)
         assert response.status_code == 302, f"Route {route} did not redirect"
         assert (
-            response.headers["Location"] == "/login"
+            response.headers["Location"] == "/login?message=login_required"
         ), f"Route {route} did not redirect to /login"
