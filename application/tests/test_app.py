@@ -62,7 +62,7 @@ def test_tutor_signup_page(client):
 
 
 def test_redirect_to_login_when_not_logged_in(client):
-    """Test that protected routes redirect to the login page when not logged in."""
+    """Test that routes redirect to the login page when not logged in."""
     routes = ["/dashboard"]
 
     for route in routes:
@@ -74,12 +74,32 @@ def test_redirect_to_login_when_not_logged_in(client):
         ), f"Route {route} did not redirect to /login"
 
 
+def test_redirect_to_root_when_not_logged_in(client):
+    """Test that routes redirect to the root page when not logged in."""
+    routes = ["/logout"]
+
+    for route in routes:
+        response = client.get(route, follow_redirects=False)
+        assert response.status_code == 302, f"Route {route} did not redirect"
+        assert (
+            response.headers["Location"] == "/"
+        ), f"Route {route} did not redirect to /"
+
+
 # logged in testing after this line
 
 
-def test_routes_logged_in(client, login):
-    """Test that all routes return 200 status code when logged in."""
+def test_routes_when_logged_in(client, login):
+    """Test that routes return 200 status code when logged in."""
     routes = ["/", "/search", "/about", "/tutor_signup", "/dashboard"]
     for route in routes:
         response = client.get(route)
         assert response.status_code == 200, f"Failed on route: {route}"
+
+
+def test_routes_redirect_when_logged_in(client, login):
+    """Test that routes return 302 status code when logged in."""
+    routes = ["/register", "/login"]
+    for route in routes:
+        response = client.get(route)
+        assert response.status_code == 302, f"Failed on route: {route}"
