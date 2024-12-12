@@ -139,6 +139,8 @@ def tutor_signup_form():
 
 @frontend.route("/login", methods=["GET"])
 def login_form():
+    if is_logged_in():
+        return redirect("/")
     message = request.args.get("message")
     if message == "login_required":
         return render_template(
@@ -149,6 +151,8 @@ def login_form():
 
 @frontend.route("/register", methods=["GET"])
 def register_form():
+    if is_logged_in():
+        return redirect("/")
     return render_template("register.html")
 
 
