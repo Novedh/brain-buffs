@@ -17,7 +17,7 @@ from flask import (
 
 from config import get_db_connection
 
-from models.users import get_user_by_email, verify_password, create_user, is_logged_in
+from models.users import get_user_by_email, verify_password, create_user
 
 user_blueprint = Blueprint("user_backend", __name__)
 
