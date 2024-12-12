@@ -184,6 +184,7 @@ content %}
       const bookingForm = document.getElementById("bookingRequestForm");
       const messageError = document.getElementById("messageError");
 
+      // When modal is shown
       bookingModal.addEventListener("show.bs.modal", function (event) {
         const button = event.relatedTarget;
         const tutorName = button.getAttribute("data-tutor-name");
@@ -210,8 +211,12 @@ content %}
           "input[name='tutor_post_id']",
         );
         tutorIdField.value = tutorId;
+
+        // Hide the error message when the modal is reopened
+        messageError.style.display = "none";
       });
 
+      // When form is submitted
       bookingForm.addEventListener("submit", function (event) {
         const messageContent = document
           .getElementById("messageContent")
@@ -219,9 +224,9 @@ content %}
 
         if (messageContent === "") {
           event.preventDefault();
-          messageError.style.display = "block";
+          messageError.style.display = "block"; // Show error message
         } else {
-          messageError.style.display = "none";
+          messageError.style.display = "none"; // Hide error message if message is provided
         }
       });
     });
