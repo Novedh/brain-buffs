@@ -30,7 +30,7 @@ def submit_booking_request():
         if not is_logged_in():
             return redirect(url_for("frontend.login_form", message="login_required"))
         tutor_post_id = request.form.get("tutor_post_id")
-        description = request.form.get("final_message")
+        description = request.form.get("message")
         sender_id = session["user_id"]
 
     try:
