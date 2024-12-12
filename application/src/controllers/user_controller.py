@@ -16,7 +16,7 @@ from flask import (
 
 from config import get_db_connection
 
-from models.users import get_user_by_email, verify_password, create_user
+from models.users import get_user_by_email, verify_password, create_user, is_logged_in
 
 user_blueprint = Blueprint("user_backend", __name__)
 
@@ -45,6 +45,7 @@ def register():
             )
     session["user_id"] = user_id
     session["username"] = full_name
+    session["user_email"] = email
     flash(f"Thank you for registering, {full_name}!", "success")
     print(f"User({user_id}) registered successfully!")
     # Redirect if registration is successful
@@ -66,6 +67,7 @@ def login():
             if user and verify_password(user.password, password):
                 session["user_id"] = user.id
                 session["username"] = user.name
+                session["user_email"] = user.email
                 flash(f"Welcome back, {user.name}!", "success")
                 return redirect("/dashboard")
 
@@ -86,6 +88,8 @@ def logout():
 
 @user_blueprint.route("/login", methods=["GET"])
 def login_form():
+    if is_logged_in():
+        return redirect("/")
     message = request.args.get("message")
     if message == "login_required":
         return render_template(
@@ -96,4 +100,6 @@ def login_form():
 
 @user_blueprint.route("/register", methods=["GET"])
 def register_form():
+    if is_logged_in():
+        return redirect("/")
     return render_template("register.html")
