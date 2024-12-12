@@ -83,12 +83,19 @@ def tutor_signup():
             "success",
         )
 
+    except ValueError as ve:
+        conn.rollback()
+        current_app.logger.error(f"Failed to create tutor posting: {ve}")
+
+        flash(f"Failed to create tutor posting: {ve}", "danger")
+        return redirect(url_for("frontend.dashboard")), 400
+
     except Exception as e:
         conn.rollback()
         current_app.logger.error(f"Failed to create tutor posting: {e}")
 
         flash(f"Failed to create tutor posting: {e}", "danger")
-        return redirect(url_for("frontend.dashboard"))
+        return redirect(url_for("frontend.dashboard")), 500
 
     finally:
         cursor.close()
