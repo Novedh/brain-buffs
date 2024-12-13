@@ -81,8 +81,8 @@ def login():
 @user_blueprint.route("/logout")
 def logout():
     if "user_id" in session:
-        flash("You have been logged out successfully. See you next time!", "info")
         session.clear()
+        flash("You have been logged out successfully. See you next time!", "info")
     return redirect("/")
 
 
