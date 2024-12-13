@@ -62,7 +62,7 @@ content %}
                     data-tutor-name="{{ tutor.tutor_name }}"
                     data-tutor-post-id="{{ tutor.tutor_post_id }}"
                     data-class-number="{{ tutor.class_number }}"
-                    data-user-name="{{ session['user_name'] if 'user_name' in session else '' }}"
+                    data-user-name="{{ session['username'] if 'username' in session else '' }}"
                     data-user-email="{{ session['user_email'] if 'user_email' in session else '' }}"
                   >
                     Book Session
@@ -204,7 +204,7 @@ content %}
         const tutorName = button.getAttribute("data-tutor-name");
         const tutorId = button.getAttribute("data-tutor-post-id");
         const classNumber = button.getAttribute("data-class-number");
-        const userName = button.getAttribute("data-user-name") || "User";
+        const userName = button.getAttribute("data-user-name");
         const userEmail =
           button.getAttribute("data-user-email") || "user@email.com";
 
