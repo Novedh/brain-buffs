@@ -82,7 +82,7 @@ endblock %} {% block content %}
               placeholder="Enter a Description"
               name="description"
               rows="3"
-              maxlength="100"
+              maxlength="500"
               required
             ></textarea>
           </div>
@@ -100,7 +100,8 @@ endblock %} {% block content %}
               class="form-control"
               placeholder="Enter Pay Rate"
               id="pay_rate"
-              maxlength="4"
+              max="9999.99"
+              min="0"
               name="pay_rate"
               required
             />
