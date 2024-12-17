@@ -157,10 +157,18 @@ def search():
     # Validate the selected subject (from models/tutor_postings)
     if not is_valid_subject(selected_subject, current_app.subjects):
         abort(400)
-
     # Get tutor postings and count (from models/tutor_postings)
-    tutor_postings = search_tutor_postings(selected_subject, search_text)
-    results_count = get_tutor_count(selected_subject, search_text)
+    try:
+        # Get tutor postings and count from the database using the cursor
+        with get_db_connection() as conn, conn.cursor() as cursor:
+            tutor_postings = search_tutor_postings(
+                cursor, selected_subject, search_text
+            )
+            results_count = get_tutor_count(cursor, selected_subject, search_text)
+    except Exception as e:
+        current_app.logger.error(f"Error during search: {e}")
+        flash(f"Failed to load search result data: {e}", "danger")
+        return redirect(url_for("frontend.home_page"))
 
     return render_template(
         "search_results.html",

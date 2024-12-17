@@ -34,7 +34,7 @@ def create_app(config=None):
                 app.subjects = get_subjects(cursor)
     except Exception as e:
         current_app.logger.error(f"Failed to get subjects: {e}")
-        app.subjects = []
+        raise e
 
     @app.context_processor
     def inject_subjects():

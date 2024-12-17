@@ -46,9 +46,7 @@ class TutorPosting:
         self.title = title
 
 
-def search_tutor_postings(selected_subject, search_text):
-    conn = get_db_connection()
-    cursor = conn.cursor()
+def search_tutor_postings(cursor: MySQLCursor, selected_subject, search_text):
 
     query = """
     SELECT t.id AS tutor_post_id,t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, s.name, u.name, t.title AS title
@@ -62,8 +60,6 @@ def search_tutor_postings(selected_subject, search_text):
     params = (selected_subject, selected_subject, f"%{search_text}%")
     cursor.execute(query, params)
     rows = cursor.fetchall()
-    cursor.close()
-    conn.close()
 
     # Convert each row to a TutorPosting object
     return [
@@ -82,8 +78,8 @@ def search_tutor_postings(selected_subject, search_text):
     ]
 
 
-def get_tutor_count(selected_subject, search_text):
-    return len(search_tutor_postings(selected_subject, search_text))
+def get_tutor_count(cursor: MySQLCursor, selected_subject, search_text):
+    return len(search_tutor_postings(cursor, selected_subject, search_text))
 
 
 # create new tutor posting into DB
