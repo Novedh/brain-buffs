@@ -34,6 +34,7 @@ class TutorPosting:
         subject_name,
         tutor_name,
         title,
+        approved,
     ):
         self.tutor_post_id = tutor_post_id
         self.class_number = class_number
@@ -44,6 +45,7 @@ class TutorPosting:
         self.subject_name = subject_name
         self.tutor_name = tutor_name
         self.title = title
+        self.approved = approved
 
 
 def get_subjects():
@@ -66,7 +68,7 @@ def search_tutor_postings(selected_subject, search_text):
     cursor = conn.cursor()
 
     query = """
-    SELECT t.id AS tutor_post_id,t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, s.name, u.name, t.title AS title
+    SELECT t.id AS tutor_post_id,t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, s.name, u.name, t.title AS title, t.approved
     FROM tutor_posting t
     JOIN subject s ON t.subject_id = s.id
     JOIN user u ON t.user_id = u.id
@@ -92,6 +94,7 @@ def search_tutor_postings(selected_subject, search_text):
             subject_name=row[6],
             tutor_name=row[7],
             title=row[8],
+            approved=row[9],
         )
         for row in rows
     ]
@@ -136,7 +139,7 @@ def create_tutor_posting(
 def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]:
     query = """
     SELECT t.id AS tutor_post_id, t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, 
-           s.name AS subject_name, u.name AS tutor_name, t.title
+           s.name AS subject_name, u.name AS tutor_name, t.title, t.approved
     FROM tutor_posting t
     JOIN subject s ON t.subject_id = s.id
     JOIN user u ON t.user_id = u.id
@@ -164,6 +167,7 @@ def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]
             subject_name=row["subject_name"],
             tutor_name=row["tutor_name"],
             title=row["title"],
+            approved=row["approved"],
         )
         tutor_postings.append(tutor_posting)
     return tutor_postings
