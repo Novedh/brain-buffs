@@ -72,68 +72,93 @@ Description: Base.html for Brain Buff's template and navbar
           <!-- Brand logo linking back to the homepage -->
           <a href="/" class="navbar-brand fw-bold">Brain Buffs</a>
 
-          <!-- Conditional rendering for the search form (only displayed if not on the homepage) -->
-          {% if request.path != '/home' %}
-          <form
-            class="d-flex mx-auto flex-grow-1"
-            action="/search"
-            method="get"
-            style="max-width: 600px"
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
           >
-            <!-- Search input field with dropdown options for different subjects -->
-            <div class="input-group">
-              <!-- Dropdown for selecting specific subjects -->
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div
+            class="collapse navbar-collapse flex-grow-1"
+            id="navbarSupportedContent"
+          >
+            <div class="flex-grow-1"></div>
+            <!-- Spacer to push the search bar to the right -->
+            <!-- Conditional rendering for the search form (only displayed if not on the homepage) -->
+            {% if request.path != '/home' %}
+            <form
+              class="d-flex flex-grow-1"
+              action="/search"
+              method="get"
+              style="max-width: 600px"
+            >
+              <!-- Search input field with dropdown options for different subjects -->
+              <div class="input-group">
+                <!-- Dropdown for selecting specific subjects -->
 
-              <select name="subject" class="form-select">
-                <option value="All">All Subjects</option>
-                {% for subject in subjects %}
-                <!-- prettier-ignore -->
-                <option value="{{ subject.name }}" {% if selected_subject == subject.name %} selected {% endif %}>
+                <select name="subject" class="form-select">
+                  <option value="All">All Subjects</option>
+                  {% for subject in subjects %}
+                  <!-- prettier-ignore -->
+                  <option value="{{ subject.name }}" {% if selected_subject == subject.name %} selected {% endif %}>
                     {{ subject.name }}
                   </option>
-                {% endfor %}
-              </select>
+                  {% endfor %}
+                </select>
 
-              <!-- Input for search text with a placeholder variable for customized hint text -->
-              <input
-                type="text"
-                class="form-control"
-                name="search_text"
-                placeholder="Search"
-                aria-label="Search field"
-                maxlength="40"
-                pattern="[A-Za-z0-9 ]*"
-                value="{{ search_text }}"
-              />
-
-              <!-- Search button with an image icon -->
-              <button class="btn btn-outline-primary bg-primary" type="submit">
-                <img
-                  src="{{ url_for('static', filename='images/Search.png') }}"
-                  alt="Search"
-                  width="16"
-                  height="16"
+                <!-- Input for search text with a placeholder variable for customized hint text -->
+                <input
+                  type="text"
+                  class="form-control"
+                  name="search_text"
+                  placeholder="Search"
+                  aria-label="Search field"
+                  maxlength="40"
+                  pattern="[A-Za-z0-9 ]*"
+                  value="{{ search_text }}"
                 />
-              </button>
-            </div>
-          </form>
-          {% endif %}
 
-          <!-- Navbar links for navigation, like signing up as a tutor, login, and registration -->
-          <div class="navbar-nav">
-            <a href="/tutor_signup" class="nav-item nav-link">Become a Tutor</a>
-            {% if session.get("user_id") %}
-            <a href="/dashboard" class="nav-item nav-link">Dashboard</a>
-            <a
-              href="{{ url_for('user_backend.logout') }}"
-              class="nav-item nav-link"
-              >Logout</a
-            >
-            {% else %}
-            <a href="/login" class="nav-item nav-link">Login</a>
-            <a href="/register" class="nav-item nav-link">Register</a>
+                <!-- Search button with an image icon -->
+                <button
+                  class="btn btn-outline-primary bg-primary"
+                  type="submit"
+                >
+                  <img
+                    src="{{ url_for('static', filename='images/Search.png') }}"
+                    alt="Search"
+                    width="16"
+                    height="16"
+                  />
+                </button>
+              </div>
+            </form>
             {% endif %}
-            <a href="/about" class="nav-item nav-link">About</a>
+            <div class="flex-grow-1"></div>
+            <!-- Spacer to push the search bar to the right -->
+
+            <!-- Navbar links for navigation, like signing up as a tutor, login, and registration -->
+            <div class="navbar-nav">
+              <a href="/about" class="nav-item nav-link">About</a>
+              <a href="/tutor_signup" class="nav-item nav-link"
+                >Become a Tutor</a
+              >
+              {% if session.get("user_id") %}
+              <a href="/dashboard" class="nav-item nav-link">Dashboard</a>
+              <a
+                href="{{ url_for('user_backend.logout') }}"
+                class="nav-item nav-link"
+                >Logout</a
+              >
+              {% else %}
+              <a href="/login" class="nav-item nav-link">Login</a>
+              <a href="/register" class="nav-item nav-link">Register</a>
+              {% endif %}
+            </div>
           </div>
         </div>
       </nav>
@@ -167,7 +192,7 @@ Description: Base.html for Brain Buff's template and navbar
     {% block content %}{% endblock %}
 
     <!-- Footer section with informational links and contact details -->
-    <footer class="bg-dark text-white py-4 mt-auto">
+    <footer class="bg-dark text-white py-4 mt-4">
       <div class="container">
         <div class="row">
           <div class="col-md-4">
