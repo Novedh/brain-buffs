@@ -8,7 +8,7 @@ import os
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 from config import get_db_connection
-from mysql.connector.cursor import MySQLCursor
+from mysql.connector.cursor import MySQLCursor, MySQLCursorDict
 from datetime import datetime
 from typing import List
 from decimal import Decimal
@@ -114,7 +114,7 @@ def create_tutor_posting(
 
 
 # to return the tutor postings that are owned by given user id
-def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]:
+def list_tutor_postings(cursor: MySQLCursorDict, user_id: int) -> list[TutorPosting]:
     query = """
     SELECT t.id AS tutor_post_id, t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, 
            s.name AS subject_name, u.name AS tutor_name, t.title
