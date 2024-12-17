@@ -6,7 +6,7 @@
 from datetime import datetime
 
 
-from mysql.connector.cursor import MySQLCursor
+from mysql.connector.cursor import MySQLCursor, MySQLCursorDict
 from pydantic import BaseModel
 
 
@@ -34,7 +34,7 @@ def create_booking_request(
     return booking_request_id
 
 
-def list_received_booking_requests(cursor: MySQLCursor, user_id: int) -> list:
+def list_received_booking_requests(cursor: MySQLCursorDict, user_id: int) -> list:
     """List all booking requests received by a tutor.
 
     Args:
@@ -66,7 +66,7 @@ def list_received_booking_requests(cursor: MySQLCursor, user_id: int) -> list:
     return cursor.fetchall()
 
 
-def list_sent_booking_requests(cursor: MySQLCursor, user_id: int) -> list:
+def list_sent_booking_requests(cursor: MySQLCursorDict, user_id: int) -> list:
     """List all booking requests sent by a student.
 
     Args:

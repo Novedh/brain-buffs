@@ -31,35 +31,29 @@ def dashboard():
     if not is_logged_in():
         return redirect(url_for("user_backend.login_form", message="login_required"))
 
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-
     try:
-        # Fetch all tutor postings for the in-session user
-        tutor_postings = list_tutor_postings(cursor, user_id)
-        current_app.logger.info(
-            f"Loaded {len(tutor_postings)} tutor postings for user ID {user_id}."
-        )
+        with get_db_connection() as conn, conn.cursor(dictionary=True) as cursor:
+            # Fetch all tutor postings for the in-session user
+            tutor_postings = list_tutor_postings(cursor, user_id)
+            current_app.logger.info(
+                f"Loaded {len(tutor_postings)} tutor postings for user ID {user_id}."
+            )
 
-        # Fetch both received and sent booking requests
-        received_requests = list_received_booking_requests(cursor, user_id)
-        current_app.logger.info(
-            f"Loaded {len(received_requests)} received booking requests for user ID {user_id}."
-        )
+            # Fetch both received and sent booking requests
+            received_requests = list_received_booking_requests(cursor, user_id)
+            current_app.logger.info(
+                f"Loaded {len(received_requests)} received booking requests for user ID {user_id}."
+            )
 
-        sent_requests = list_sent_booking_requests(cursor, user_id)
-        current_app.logger.info(
-            f"Loaded {len(sent_requests)} sent booking requests for user ID {user_id}."
-        )
+            sent_requests = list_sent_booking_requests(cursor, user_id)
+            current_app.logger.info(
+                f"Loaded {len(sent_requests)} sent booking requests for user ID {user_id}."
+            )
 
     except Exception as e:
         current_app.logger.error(f"Failed to load dashboard data: {e}")
         flash(f"Failed to load dashboard data: {e}", "danger")
         return redirect("/")
-
-    finally:
-        cursor.close()
-        conn.close()
 
     # Render the dashboard template with all data
     return render_template(

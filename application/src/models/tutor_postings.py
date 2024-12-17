@@ -8,7 +8,7 @@ import os
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 from config import get_db_connection
-from mysql.connector.cursor import MySQLCursor
+from mysql.connector.cursor import MySQLCursor, MySQLCursorDict
 from datetime import datetime
 from typing import List
 from decimal import Decimal
@@ -48,24 +48,7 @@ class TutorPosting:
         self.approved = approved
 
 
-def get_subjects():
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT id, name FROM subject")
-    subjects = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    return subjects
-
-
-def is_valid_subject(selected_subject, subjects):
-    valid_subjects = [subject["name"] for subject in subjects]
-    return selected_subject == "All" or selected_subject in valid_subjects
-
-
-def search_tutor_postings(selected_subject, search_text):
-    conn = get_db_connection()
-    cursor = conn.cursor()
+def search_tutor_postings(cursor: MySQLCursor, selected_subject: str, search_text: str):
 
     query = """
     SELECT t.id AS tutor_post_id,t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, s.name, u.name, t.title AS title, t.approved
@@ -79,8 +62,6 @@ def search_tutor_postings(selected_subject, search_text):
     params = (selected_subject, selected_subject, f"%{search_text}%")
     cursor.execute(query, params)
     rows = cursor.fetchall()
-    cursor.close()
-    conn.close()
 
     # Convert each row to a TutorPosting object
     return [
@@ -100,8 +81,8 @@ def search_tutor_postings(selected_subject, search_text):
     ]
 
 
-def get_tutor_count(selected_subject, search_text):
-    return len(search_tutor_postings(selected_subject, search_text))
+def get_tutor_count(cursor: MySQLCursor, selected_subject: str, search_text: str):
+    return len(search_tutor_postings(cursor, selected_subject, search_text))
 
 
 # create new tutor posting into DB
@@ -136,7 +117,7 @@ def create_tutor_posting(
 
 
 # to return the tutor postings that are owned by given user id
-def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]:
+def list_tutor_postings(cursor: MySQLCursorDict, user_id: int) -> list[TutorPosting]:
     query = """
     SELECT t.id AS tutor_post_id, t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, 
            s.name AS subject_name, u.name AS tutor_name, t.title, t.approved
