@@ -15,6 +15,7 @@ from flask import (
     flash,
     abort,
 )
+
 import os
 from werkzeug.utils import secure_filename
 from models.users import is_logged_in
@@ -23,13 +24,14 @@ from models.tutor_postings import (
     delete_tutor_posting,
     save_profile_picture,
     save_cv,
-    is_valid_subject,
     search_tutor_postings,
     get_tutor_count,
     update_tutor_posting_CV_path,
     update_tutor_posting_pic_path,
     allowed_file,
 )
+from models.subjects import is_valid_subject
+
 from config import get_db_connection
 
 tutor_postings_blueprint = Blueprint("tutor_postings_backend", __name__)

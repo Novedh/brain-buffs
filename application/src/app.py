@@ -4,12 +4,10 @@
 # Created: 2024-11-14
 # Description: This file is the main application that contains all the routes for the website.
 
-from flask import (
-    Flask,
-)
+from flask import Flask, current_app
 import os
-
-from models.tutor_postings import (
+from config import get_db_connection
+from models.subjects import (
     get_subjects,
 )
 from controllers.user_controller import user_blueprint
@@ -30,7 +28,13 @@ def create_app(config=None):
     app.register_blueprint(booking_blueprint)
     app.register_blueprint(tutor_postings_blueprint)
     app.register_blueprint(upload_blueprint)
-    app.subjects = get_subjects()
+    try:
+        with get_db_connection() as conn:
+            with conn.cursor() as cursor:
+                app.subjects = get_subjects(cursor)
+    except Exception as e:
+        current_app.logger.error(f"Failed to get subjects: {e}")
+        app.subjects = []
 
     @app.context_processor
     def inject_subjects():

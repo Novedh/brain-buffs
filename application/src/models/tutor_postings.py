@@ -46,21 +46,6 @@ class TutorPosting:
         self.title = title
 
 
-def get_subjects():
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT id, name FROM subject")
-    subjects = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    return subjects
-
-
-def is_valid_subject(selected_subject, subjects):
-    valid_subjects = [subject["name"] for subject in subjects]
-    return selected_subject == "All" or selected_subject in valid_subjects
-
-
 def search_tutor_postings(selected_subject, search_text):
     conn = get_db_connection()
     cursor = conn.cursor()
