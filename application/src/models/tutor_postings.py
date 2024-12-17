@@ -46,7 +46,7 @@ class TutorPosting:
         self.title = title
 
 
-def search_tutor_postings(cursor: MySQLCursor, selected_subject, search_text):
+def search_tutor_postings(cursor: MySQLCursor, selected_subject: str, search_text: str):
 
     query = """
     SELECT t.id AS tutor_post_id,t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, s.name, u.name, t.title AS title
@@ -78,7 +78,7 @@ def search_tutor_postings(cursor: MySQLCursor, selected_subject, search_text):
     ]
 
 
-def get_tutor_count(cursor: MySQLCursor, selected_subject, search_text):
+def get_tutor_count(cursor: MySQLCursor, selected_subject: str, search_text: str):
     return len(search_tutor_postings(cursor, selected_subject, search_text))
 
 

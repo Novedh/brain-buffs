@@ -14,7 +14,7 @@ from typing import List
 from decimal import Decimal
 
 
-def get_subjects(cursor):
+def get_subjects(cursor: MySQLCursor):
     cursor.execute("SELECT id, name FROM subject")
     subjects = cursor.fetchall()
     # Convert the result to a list of dictionaries
@@ -22,6 +22,6 @@ def get_subjects(cursor):
     return subjects_list
 
 
-def is_valid_subject(selected_subject, subjects):
+def is_valid_subject(selected_subject: str, subjects: str):
     valid_subjects = [subject["name"] for subject in subjects]
     return selected_subject == "All" or selected_subject in valid_subjects
