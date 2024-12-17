@@ -29,7 +29,7 @@ content %}
                 <img
                   src="{{ tutor.profile_picture_url }}"
                   alt="{{ tutor.tutor_name }}"
-                  class="img-fluid rounded"
+                  class="img-fluid rounded mb-4"
                   style="width: 180px; height: 180px; object-fit: cover"
                 />
                 {% else %}
@@ -81,12 +81,12 @@ content %}
                   <!-- Left Column Info -->
                   <div class="col-md-4">
                     <p class="mb-2">
-                      <span class="text-muted">Title:</span><br />
-                      <span class="fw-medium">{{ tutor.title }}</span>
-                    </p>
-                    <p class="mb-2">
                       <span class="text-muted">Class Number:</span><br />
                       <span class="fw-medium">{{ tutor.class_number }}</span>
+                    </p>
+                    <p class="mb-2">
+                      <span class="text-muted">Title:</span><br />
+                      <span class="fw-medium">{{ tutor.title }}</span>
                     </p>
                     <p class="mb-2">
                       <span class="text-muted">Rate:</span><br />
@@ -111,7 +111,7 @@ content %}
                   </div>
 
                   <!-- Right Column - Description -->
-                  <div class="col-md-8">
+                  <div class="col-md-4">
                     <p class="mb-2">
                       <span class="text-muted">About:</span><br />
                       <span>{{ tutor.description }}</span>
