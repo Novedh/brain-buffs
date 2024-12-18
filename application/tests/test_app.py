@@ -55,9 +55,34 @@ def test_root_redirect(client):
     assert response.status_code == 200
 
 
+def test_tutor_signup_page(client):
+    """Test that the tutor signup page loads successfully."""
+    response = client.get("/tutor_signup")
+    assert response.status_code == 302
+    assert response.headers["Location"] == "/login?message=login_required"
+
+
+def test_search_page(client):
+    """Test that the search page loads successfully."""
+    response = client.get("/search")
+    assert response.status_code == 200
+
+
+def test_login_page(client):
+    """Test that the login page loads successfully."""
+    response = client.get("/login")
+    assert response.status_code == 200
+
+
+def test_register_page(client):
+    """Test that the register page loads successfully."""
+    response = client.get("/register")
+    assert response.status_code == 200
+
+
 def test_redirect_to_login_when_not_logged_in(client):
     """Test that routes redirect to the login page when not logged in."""
-    routes = ["/dashboard"]
+    routes = ["/dashboard", "/tutor_signup"]
 
     for route in routes:
         response = client.get(route, follow_redirects=False)
@@ -81,8 +106,6 @@ def test_redirect_to_root_when_not_logged_in(client):
 
 
 # logged in testing after this line
-
-
 def test_routes_when_logged_in(client, login):
     """Test that routes return 200 status code when logged in."""
     routes = ["/", "/search", "/about", "/tutor_signup", "/dashboard"]
