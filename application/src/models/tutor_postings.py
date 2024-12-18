@@ -58,6 +58,7 @@ def search_tutor_postings(cursor: MySQLCursor, selected_subject: str, search_tex
     WHERE (%s = 'All' OR s.name = %s)
     AND CONCAT(t.description, ' ', t.class_number, ' ', u.name) LIKE %s
     AND t.approved = 1
+    ORDER BY t.id DESC
     """
     params = (selected_subject, selected_subject, f"%{search_text}%")
     cursor.execute(query, params)

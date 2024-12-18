@@ -40,7 +40,9 @@ endblock %} {% block content %}
           </label>
           <div class="col">
             <input
-              type="text"
+              type="number"
+              max="999"
+              min="100"
               class="form-control"
               placeholder="Enter Course # (e.g. 648)"
               maxlength="10"
@@ -61,7 +63,7 @@ endblock %} {% block content %}
               type="text"
               class="form-control"
               id="title"
-              maxlength="40"
+              maxlength="255"
               pattern="[A-Za-z0-9 ]*"
               placeholder="Enter a Title"
               name="title"
