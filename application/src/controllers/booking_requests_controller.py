@@ -33,19 +33,9 @@ def submit_booking_request():
         description = request.form.get("message")
         sender_id = session["user_id"]
 
-    try:
+    with get_db_connection() as conn, conn.cursor() as cursor:
 
-        with get_db_connection() as conn, conn.cursor() as cursor:
-
-            booking_request_id = create_booking_request(
-                cursor, int(tutor_post_id), int(sender_id), description
-            )
-            conn.commit()
-            flash("Booking request submitted successfully!!!!", "success")
-            return redirect(url_for("frontend.dashboard"))
-
-    except Exception as e:
-        current_app.logger.error(f"booking request failed: {e}")
-    finally:
-        cursor.close()
-        conn.close()
+        create_booking_request(cursor, int(tutor_post_id), int(sender_id), description)
+        conn.commit()
+        flash("Booking request submitted successfully!!!!", "success")
+        return redirect("/dashboard")

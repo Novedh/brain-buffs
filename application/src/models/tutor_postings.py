@@ -8,7 +8,7 @@ import os
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 from config import get_db_connection
-from mysql.connector.cursor import MySQLCursor
+from mysql.connector.cursor import MySQLCursor, MySQLCursorDict
 from datetime import datetime
 from typing import List
 from decimal import Decimal
@@ -34,6 +34,7 @@ class TutorPosting:
         subject_name,
         tutor_name,
         title,
+        approved,
     ):
         self.tutor_post_id = tutor_post_id
         self.class_number = class_number
@@ -44,41 +45,24 @@ class TutorPosting:
         self.subject_name = subject_name
         self.tutor_name = tutor_name
         self.title = title
+        self.approved = approved
 
 
-def get_subjects():
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT id, name FROM subject")
-    subjects = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    return subjects
-
-
-def is_valid_subject(selected_subject, subjects):
-    valid_subjects = [subject["name"] for subject in subjects]
-    return selected_subject == "All" or selected_subject in valid_subjects
-
-
-def search_tutor_postings(selected_subject, search_text):
-    conn = get_db_connection()
-    cursor = conn.cursor()
+def search_tutor_postings(cursor: MySQLCursor, selected_subject: str, search_text: str):
 
     query = """
-    SELECT t.id AS tutor_post_id,t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, s.name, u.name, t.title AS title
+    SELECT t.id AS tutor_post_id,t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, s.name, u.name, t.title AS title, t.approved
     FROM tutor_posting t
     JOIN subject s ON t.subject_id = s.id
     JOIN user u ON t.user_id = u.id
     WHERE (%s = 'All' OR s.name = %s)
     AND CONCAT(t.description, ' ', t.class_number, ' ', u.name) LIKE %s
     AND t.approved = 1
+    ORDER BY t.id DESC
     """
     params = (selected_subject, selected_subject, f"%{search_text}%")
     cursor.execute(query, params)
     rows = cursor.fetchall()
-    cursor.close()
-    conn.close()
 
     # Convert each row to a TutorPosting object
     return [
@@ -92,13 +76,14 @@ def search_tutor_postings(selected_subject, search_text):
             subject_name=row[6],
             tutor_name=row[7],
             title=row[8],
+            approved=row[9],
         )
         for row in rows
     ]
 
 
-def get_tutor_count(selected_subject, search_text):
-    return len(search_tutor_postings(selected_subject, search_text))
+def get_tutor_count(cursor: MySQLCursor, selected_subject: str, search_text: str):
+    return len(search_tutor_postings(cursor, selected_subject, search_text))
 
 
 # create new tutor posting into DB
@@ -133,10 +118,10 @@ def create_tutor_posting(
 
 
 # to return the tutor postings that are owned by given user id
-def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]:
+def list_tutor_postings(cursor: MySQLCursorDict, user_id: int) -> list[TutorPosting]:
     query = """
     SELECT t.id AS tutor_post_id, t.class_number, t.pay_rate, t.description, t.profile_picture_url, t.cv_url, 
-           s.name AS subject_name, u.name AS tutor_name, t.title
+           s.name AS subject_name, u.name AS tutor_name, t.title, t.approved
     FROM tutor_posting t
     JOIN subject s ON t.subject_id = s.id
     JOIN user u ON t.user_id = u.id
@@ -164,6 +149,7 @@ def list_tutor_postings(cursor: MySQLCursor, user_id: int) -> list[TutorPosting]
             subject_name=row["subject_name"],
             tutor_name=row["tutor_name"],
             title=row["title"],
+            approved=row["approved"],
         )
         tutor_postings.append(tutor_posting)
     return tutor_postings
@@ -186,6 +172,8 @@ def delete_tutor_posting(cursor: MySQLCursor, tutor_post_id: int, user_id: int) 
 
 # Checks if a file has an allowed extension
 def allowed_file(filename: str) -> bool:
+    if filename is None:
+        return True
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
@@ -214,13 +202,25 @@ def save_cv(file: FileStorage, tutor_post_id: int, user_id: int) -> str:
 
 
 # Updates the profile picture and CV file paths for a tutor posting in the database.
-def update_tutor_posting_file_paths(
-    cursor: MySQLCursor, tutor_post_id: int, profile_pic_path: str, cv_path: str
+def update_tutor_posting_pic_path(
+    cursor: MySQLCursor, tutor_post_id: int, profile_pic_path: str
 ) -> None:
     query = """
     UPDATE tutor_posting
-    SET profile_picture_url = %s, cv_url = %s
+    SET profile_picture_url = %s
     WHERE id = %s
     """
-    params = (profile_pic_path, cv_path, tutor_post_id)
+    params = (profile_pic_path, tutor_post_id)
+    cursor.execute(query, params)
+
+
+def update_tutor_posting_CV_path(
+    cursor: MySQLCursor, tutor_post_id: int, cv_path: str
+) -> None:
+    query = """
+    UPDATE tutor_posting
+    SET  cv_url = %s
+    WHERE id = %s
+    """
+    params = (cv_path, tutor_post_id)
     cursor.execute(query, params)

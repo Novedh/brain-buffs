@@ -8,7 +8,6 @@ from flask import (
     Blueprint,
     current_app,
     render_template,
-    url_for,
     redirect,
     request,
     session,
@@ -17,7 +16,7 @@ from flask import (
 
 from config import get_db_connection
 
-from models.users import get_user_by_email, verify_password, create_user
+from models.users import get_user_by_email, verify_password, create_user, is_logged_in
 
 user_blueprint = Blueprint("user_backend", __name__)
 
@@ -46,6 +45,7 @@ def register():
             )
     session["user_id"] = user_id
     session["username"] = full_name
+    session["user_email"] = email
     flash(f"Thank you for registering, {full_name}!", "success")
     print(f"User({user_id}) registered successfully!")
     # Redirect if registration is successful
@@ -67,8 +67,9 @@ def login():
             if user and verify_password(user.password, password):
                 session["user_id"] = user.id
                 session["username"] = user.name
+                session["user_email"] = user.email
                 flash(f"Welcome back, {user.name}!", "success")
-                return redirect(url_for("frontend.dashboard"))
+                return redirect("/dashboard")
 
         raise ValueError("Invalid email or password")
 
@@ -79,8 +80,26 @@ def login():
 
 @user_blueprint.route("/logout")
 def logout():
-    # This would not pass the check even after formated, so im skipping it here
-    flash("You have been logged out successfully. See you next time!", "info")
-    session.pop("user_id", None)
-    session.pop("username", None)
-    return redirect(url_for("frontend.home_page"))
+    if "user_id" in session:
+        session.clear()
+        flash("You have been logged out successfully. See you next time!", "info")
+    return redirect("/")
+
+
+@user_blueprint.route("/login", methods=["GET"])
+def login_form():
+    if is_logged_in():
+        return redirect("/")
+    message = request.args.get("message")
+    if message == "login_required":
+        return render_template(
+            "login.html", error="You need to log in to access this page."
+        )
+    return render_template("login.html")
+
+
+@user_blueprint.route("/register", methods=["GET"])
+def register_form():
+    if is_logged_in():
+        return redirect("/")
+    return render_template("register.html")
