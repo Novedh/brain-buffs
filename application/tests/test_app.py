@@ -80,39 +80,9 @@ def test_register_page(client):
     assert response.status_code == 200
 
 
-# Test dashboard page requires login
-def test_dashboard_page_requires_login(client):
-    """Test that the dashboard page requires login."""
-    response = client.get("/dashboard")
-    assert response.status_code == 302
-    assert response.headers["Location"] == "/login?message=login_required"
-    # TODO: Once we implement the `Redirect to the last page after login` feature, we should update the test case below.
-    # assert response.headers["Location"] == "/login?next=%2Fdashboard"
-
-
-def test_logout_page_by_guest(client):
-    """Test that the logout page by guest returns 302 status code."""
-    response = client.get("/logout")
-    assert response.status_code == 302
-    assert response.headers["Location"] == "/"
-
-
-# TODO: Ask professor about this test case, is it OK to simply redirect guest to login page? Or should we implement lazy registration?
-# def test_tutor_signup_page_by_guest(client):
-#     """Test that the tutor signup page by guest returns 302 status code."""
-#     response = client.get("/tutor_signup")
-#     assert response.status_code == 302
-#     assert response.headers["Location"] == "/login?next=%2Ftutor_signup"
-
-
-# TODO: Add test for authenticated user
-# def test_dashboard_page_by_authenticated_user(client):
-# def test_login_page_by_authenticated_user(client):
-# def test_register_page_by_authenticated_user(client):
-# def test_logout_page_by_authenticated_user(client):
 def test_redirect_to_login_when_not_logged_in(client):
     """Test that routes redirect to the login page when not logged in."""
-    routes = ["/dashboard"]
+    routes = ["/dashboard", "/tutor_signup"]
 
     for route in routes:
         response = client.get(route, follow_redirects=False)
@@ -136,8 +106,6 @@ def test_redirect_to_root_when_not_logged_in(client):
 
 
 # logged in testing after this line
-
-
 def test_routes_when_logged_in(client, login):
     """Test that routes return 200 status code when logged in."""
     routes = ["/", "/search", "/about", "/tutor_signup", "/dashboard"]
